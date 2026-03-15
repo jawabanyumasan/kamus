@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus Lengkap Indonesia - Jawa Kuno (Kawi)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8f5ed; }
+        .traditional-font { font-family: 'Cinzel', serif; }
+        .card-entry { transition: all 0.2s ease; border-left: 4px solid transparent; }
+        .card-entry:hover { border-left-color: #b45309; background-color: #fff; transform: translateX(5px); }
+        .sticky-search { position: sticky; top: 0; z-index: 50; background: rgba(248, 245, 237, 0.95); backdrop-filter: blur(8px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-800 pb-12">
+
+    <div id="app" class="max-w-3xl mx-auto px-4">
+        <!-- Header -->
+        <header class="py-10 text-center">
+            <h1 class="traditional-font text-3xl md:text-5xl font-bold text-amber-900 mb-2">Kamus Jawa Kuno</h1>
+            <p class="text-amber-700 text-sm md:text-base font-medium tracking-widest uppercase">Digitalized By Wahyudi</p>
+            <div class="h-1 w-32 bg-amber-600 mx-auto mt-6 rounded-full opacity-50"></div>
+        </header>
+
+        <!-- Search Section -->
+        <div class="sticky-search py-4 mb-6">
+            <div class="bg-white rounded-2xl shadow-xl border border-amber-100 p-2">
+                <div class="flex flex-col md:flex-row gap-2">
+                    <div class="relative flex-grow">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-amber-400"></i>
+                        <input type="text" id="searchInput" oninput="debounceSearch()" 
+                            placeholder="Cari lema Indonesia atau Kawi..." 
+                            class="w-full pl-12 pr-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-amber-500 outline-none text-lg">
+                    </div>
+                    <button onclick="toggleMode()" id="modeBtn" class="bg-amber-800 text-white px-6 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-amber-900 transition-colors min-w-[200px]">
+                        <span id="modeLabel">Indo → Kawi</span>
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="stats" class="mt-3 px-4 text-xs font-bold text-amber-600 uppercase tracking-tighter flex justify-between">
+                <span id="countDisplay">Memproses database lema...</span>
+                <span id="alphabetNav">A-Z</span>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="results" class="space-y-3">
+            <!-- Loader -->
+            <div class="space-y-4 animate-pulse">
+                <div class="h-24 bg-white rounded-2xl border border-amber-100"></div>
+                <div class="h-24 bg-white rounded-2xl border border-amber-100"></div>
+                <div class="h-24 bg-white rounded-2xl border border-amber-100"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Database diperluas secara signifikan berdasarkan isi kamus Indonesia-Jawa Kuno
+        const dictionaryData = [
+            { i: "abadi", k: "lanā; langgeng", d: "tidak abadi: kşara", s: "A" },
+            { i: "abdi", k: "balawarga; panakawan; parepat; paricara; sewaka; swabhrtya", d: "Abdi perempuan: paricāraka", s: "A" },
+            { i: "ada", k: "asti; wwanten; wwara; (w)waya", d: "keadaan: awasthā; lwir", s: "A" },
+            { i: "adat", k: "caritra; dhrta; krama; śila", s: "A" },
+            { i: "adik", k: "anuju; ari; rari", s: "A" },
+            { i: "adil", k: "dharmâtma; dharmaśila; dharnika; kénoh; rēju", d: "keadilan: dharmayukti", s: "A" },
+            { i: "adu", k: "padu; geseh; ayun; tanggul", s: "A" },
+            { i: "agama", k: "dharma; agama", d: "golongan Wisnu: Wesnawapaksa", s: "A" },
+            { i: "air", k: "ambu(h); apah; bāñu; dūh; jahni; jala; tirtha; toya; udaka", d: "air suci: waratirtha; air mata: bāşpa", s: "A" },
+            { i: "ajar", k: "ajar; upadeśa; warah", d: "pengajaran: prawacana", s: "A" },
+            { i: "ajal", k: "antaka; lalis; lina; mati; pralina", s: "A" },
+            { i: "akal", k: "buddhi; cetana; medha; sandhi; upaya", s: "A" },
+            { i: "akar", k: "mula; oyot; syandana", s: "A" },
+            { i: "alam", k: "loka; mandala; rat", d: "alam semesta: Brahmanda; rěta", s: "A" },
+            { i: "alangkah", k: "ahayū; ambu; ngho; nora", s: "A" },
+            { i: "alas", k: "dasar; lěpih; pawayan", s: "A" },
+            { i: "alat", k: "bhūşana; upakarana", s: "A" },
+            { i: "aliran", k: "arus; mili; srotas", s: "A" },
+            { i: "aman", k: "nirbhaya; śanta; thāni", s: "A" },
+            { i: "amat", k: "dahat; dyam; lwěp; lěwih", s: "A" },
+            { i: "ampun", k: "anugraha; kşama; sapura", s: "A" },
+            { i: "anak", k: "apatya; atmaja; bála(ka); jāta; santāna; śiśu; wěka; wija; yoga", d: "anak laki-laki: nanda; suta; tanaya", s: "A" },
+            { i: "ancam", k: "takut; tēmam; gěsěng", s: "A" },
+            { i: "andika", k: "jěng; kuta; natha", s: "A" },
+            { i: "aneh", k: "ascarya; adbhuta; len", s: "A" },
+            { i: "angan", k: "citta; manah; samkalpa", s: "A" },
+            { i: "angga", k: "awak; raga; śarira", s: "A" },
+            { i: "anggota", k: "angga; awayawa", s: "A" },
+            { i: "angin", k: "anila; bāyu; māruta; pawana; samira", d: "angin ribut: prabañcana", s: "A" },
+            { i: "angkasa", k: "ākāśa; ambara; antarikşa; gagana", s: "A" },
+            { i: "angkuh", k: "drpta; garwita; mada", s: "A" },
+            { i: "aniaya", k: "anyaya; duskrta; upadrawa", s: "A" },
+            { i: "api", k: "agni; (a)nala; apuy; bahni; dahana; jwalana; pāwāka", d: "api besar: mahanala", s: "A" },
+            { i: "apung", k: "ambāwang; kambang; kělěm", s: "A" },
+            { i: "arah", k: "deśa; dik; marga", s: "A" },
+            { i: "arak", k: "ari-ari; madya; waruni", s: "A" },
+            { i: "asam", k: "amla; kěcut", s: "A" },
+            { i: "asap", k: "dhūma; kuskus", s: "A" },
+            { i: "asing", k: "bahir; len; paradewa; paratantra", s: "A" },
+            { i: "asrama", k: "āśrama; patapan", s: "A" },
+            { i: "asuh", k: "among; momong; pawat", s: "A" },
+            { i: "atas", k: "agra; luhur; munggu; mungseng", s: "A" },
+            { i: "atur", k: "krama; mranata; nitya", s: "A" },
+            { i: "awas", k: "awas; prayatna; satya", s: "A" },
+            { i: "ayah", k: "bapa; janaka; pita; rama", s: "A" },
+            { i: "ayam", k: "itik; kukkuta", s: "A" },
+            { i: "ayun", k: "ambayun; goyang; osing", s: "A" },
+            { i: "baca", k: "aca; maca; mra; waśit", s: "B" },
+            { i: "badan", k: "angga; raga; śarira; tanu; wak", s: "B" },
+            { i: "bagai", k: "kadya; kadi; lir; saksat; tulyā", s: "B" },
+            { i: "bagi", k: "bhaga; dum; mrayojana", s: "B" },
+            { i: "bagus", k: "adi; abhirama; ayu; śobha", s: "B" },
+            { i: "bahagia", k: "bhadra; bhage; bhagya; laksmiwati; mukti; nohan", d: "kebahagiaan: abhyudaya; ananda", s: "B" },
+            { i: "bahaya", k: "bhaya; baya; upadrawa", s: "B" },
+            { i: "bahasa", k: "bhāşā; śabda; wāk", s: "B" },
+            { i: "bahu", k: "pundak; skandha", s: "B" },
+            { i: "baik", k: "ajeng; arjya; dharmeşti; dharmika; gunawan; hita; kalyana", d: "terbaik: adhi; uttama", s: "B" },
+            { i: "bait", k: "pada; śloka", s: "B" },
+            { i: "baja", k: "bajra; malela; waja", s: "B" },
+            { i: "bakal", k: "calon; dadi; sedya", s: "B" },
+            { i: "bakar", k: "basmi; dahana; tunu", s: "B" },
+            { i: "bakti", k: "bhakti; sewa; sewaka", s: "B" },
+            { i: "balas", k: "saur; wales; pratikara", s: "B" },
+            { i: "balatentara", k: "bala; tantra; wadwa", s: "B" },
+            { i: "bangga", k: "darpa; garwa; mada", s: "B" },
+            { i: "bangsa", k: "gotra; jāta; kula; wangśa", s: "B" },
+            { i: "bangun", k: "tangi; jaga; nyāsa", s: "B" },
+            { i: "bangunan", k: "bandha; nyāsa; wandha; wastu; yasa", d: "bangunan agung: prasāda", s: "B" },
+            { i: "banjir", k: "banjir; rob; bahula", s: "B" },
+            { i: "bantai", k: "pejah; prěmat; rěmpak", s: "B" },
+            { i: "banteng", k: "andaka; go; wrşabha", s: "B" },
+            { i: "bantu", k: "bantu; sraya; tulung", s: "B" },
+            { i: "banyak", k: "akeh; bahu; bahula; lwir", s: "B" },
+            { i: "barang", k: "drwya; wastu", s: "B" },
+            { i: "barat", k: "paścime; kulwan", s: "B" },
+            { i: "baris", k: "jajar; lari; tata", s: "B" },
+            { i: "baru", k: "anyar; nawa", s: "B" },
+            { i: "basah", k: "nyěm; teles; udaka", s: "B" },
+            { i: "batas", k: "hingga; paryan; sima", s: "B" },
+            { i: "batu", k: "aśma; seladri; upala; watu; (w)iştaka", d: "batu permata: mani; sosoca", s: "B" },
+            { i: "bau", k: "gandha; mambu", s: "B" },
+            { i: "bawa", k: "bhāra; gawa; wat", s: "B" },
+            { i: "bawah", k: "adhah; jhandah; sor", s: "B" },
+            { i: "bayang", k: "chāyā; maya; wawayang", s: "B" },
+            { i: "bayar", k: "saur; tawur", s: "B" },
+            { i: "bayi", k: "śiśu; bālak", s: "B" },
+            { i: "bebas", k: "anāśrita; asambādhā; mokta; muktā; mukti; nirmukta", d: "pembebasan: apawarga; muksa", s: "B" },
+            { i: "beban", k: "bhāra; bot; munggu", s: "B" },
+            { i: "beberapa", k: "pirang; sawaya", s: "B" },
+            { i: "bedah", k: "bedah; sěmpal", s: "B" },
+            { i: "bedanya", k: "anya; bheda; len", s: "B" },
+            { i: "begitu", k: "mangkana; samangkana", s: "B" },
+            { i: "bekas", k: "tapak; lari; tilas", s: "B" },
+            { i: "belah", k: "pěcah; sěmpal", s: "B" },
+            { i: "belajar", k: "abhyasa; ajar; śikşa", s: "B" },
+            { i: "belakang", k: "burat; pungkur; wuri", s: "B" },
+            { i: "belas", k: "wělas; kārulya", s: "B" },
+            { i: "belati", k: "kadga; kŗs", s: "B" },
+            { i: "beli", k: "tuku; panuku", s: "B" },
+            { i: "beliau", k: "sira; sang; sira", s: "B" },
+            { i: "belok", k: "simpang; sěmbal", s: "B" },
+            { i: "belum", k: "durung", s: "B" },
+            { i: "benar", k: "paramartha; rju; sat; satya; (sa)yukti; tuhu", d: "kebenaran: tattwa; tatwa", s: "B" },
+            { i: "benci", k: "dweşa; sengit", s: "B" },
+            { i: "benda", k: "dravya; wastu", s: "B" },
+            { i: "bendera", k: "dhwaja; patāka; tunggul", s: "B" },
+            { i: "bentuk", k: "ākāra; rūpa; warna", s: "B" },
+            { i: "berani", k: "agal; darpa; dhairya; dhira; suramanta; wira; wirya", s: "B" },
+            { i: "beras", k: "tandas; beras", s: "B" },
+            { i: "berat", k: "bhāra; bot; gurwa", s: "B" },
+            { i: "berhenti", k: "měněng; lereh; stambha", s: "B" },
+            { i: "beritahu", k: "uadyani; warah", s: "B" },
+            { i: "berkat", k: "anugraha; waśita", s: "B" },
+            { i: "bersih", k: "nirmala; śuci; śuddha", s: "B" },
+            { i: "besar", k: "bahula; mahā; nisala; udāra; uttangga; wipulā", d: "besar jiwa: mahatmya", s: "B" },
+            { i: "besi", k: "loha; wěsi", s: "B" },
+            { i: "besok", k: "benjang", s: "B" },
+            { i: "betina", k: "stri", s: "B" },
+            { i: "betul", k: "yukti; tuhu", s: "B" },
+            { i: "biar", k: "pajarnaka; uadi", s: "B" },
+            { i: "biara", k: "āśrama; wihāra", s: "B" },
+            { i: "biasa", k: "nītya; sāmānya", s: "B" },
+            { i: "biawak", k: "salira", s: "B" },
+            { i: "bibir", k: "oştha; lambay", s: "B" },
+            { i: "bicara", k: "ucapan; ucap; wadana; wāg; wāk; wāņi; wicāra", s: "B" },
+            { i: "bidadari", k: "apsarī; dewatā; widyādharī", s: "B" },
+            { i: "bijak", k: "nipuna; prajña; widagdha", s: "B" },
+            { i: "biji", k: "bīja; wija", s: "B" },
+            { i: "binasa", k: "paralīna; lěbur; rusak", s: "B" },
+            { i: "binatang", k: "paśu; mrgā; satwa", s: "B" },
+            { i: "bingung", k: "brānta; moha; wimūḍha", s: "B" },
+            { i: "bintang", k: "anakşatra; lintang; nakşatra; tarā; tāraka; wintang", s: "B" },
+            { i: "biru", k: "nīla", s: "B" },
+            { i: "bisa", k: "wasita; sakti; wěnang", s: "B" },
+            { i: "bisikan", k: "japa; mantra; upāṃśu", s: "B" },
+            { i: "bisnis", k: "wyāpāra", s: "B" },
+            { i: "bodoh", k: "duşprajña; jada; mūd(h)a; wibuddhi", s: "B" },
+            { i: "buah", k: "phala; sale; woh; wwah", s: "B" },
+            { i: "buang", k: "buwang; tilar", s: "B" },
+            { i: "buat", k: "kŗti; yasa", s: "B" },
+            { i: "buaya", k: "bujangga; makara", s: "B" },
+            { i: "budi", k: "buddhi; cetana; manasa", d: "budi luhur: mahabodhi", s: "B" },
+            { i: "buka", k: "mungkab; buka", s: "B" },
+            { i: "bukan", k: "tan; nora; dudu", s: "B" },
+            { i: "bukit", k: "adri; giri; wukir", s: "B" },
+            { i: "buku", k: "pustaka; naskah", s: "B" },
+            { i: "bulan", k: "bindu; candra; indu; śaśāngka; śasi; wulan", s: "B" },
+            { i: "bumi", k: "anda; bhūmi; dharani; jagat; madhyapada; prěthiwi; siti", s: "B" },
+            { i: "bunga", k: "kembang; kusuma; mālini; palawa; puspa; sēkar", s: "B" },
+            { i: "bunuh", k: "pějah; patěy; mara", s: "B" },
+            { i: "bunyi", k: "śabda; dhwani; uni", s: "B" },
+            { i: "buruk", k: "dur; papa; pūtika", s: "B" },
+            { i: "burung", k: "kaga; khaga; manuk; pakşi; wihaga", s: "B" },
+            { i: "busur", k: "cāpa; dhanuh", s: "B" },
+            { i: "buta", k: "andhaka; wuta", s: "B" },
+            { i: "cahaya", k: "bhānu; dīpta; jyoti; kānti; prabhā; raśmi; ruci; teja", s: "C" },
+            { i: "cakap", k: "nipuna; widagdha", s: "C" },
+            { i: "cakrawala", k: "cakrawāla", s: "C" },
+            { i: "campur", k: "campur; misra", s: "C" },
+            { i: "candi", k: "caitya; dharma; prāsāda", s: "C" },
+            { i: "cantik", k: "dahayu; kalyāņa; listu; rahayu; śobhā; sundara", s: "C" },
+            { i: "cara", k: "krama; mārga; upāya", s: "C" },
+            { i: "catat", k: "likhita; tulis", s: "C" },
+            { i: "cela", k: "nindā; upawāda", s: "C" },
+            { i: "celaka", k: "durggama; upadrawa; pāpa", s: "C" },
+            { i: "cepat", k: "śīghra; laghu; kawis", s: "C" },
+            { i: "cerdas", k: "jhani; laghawa; prajňa", d: "kecerdasan: cetana", s: "C" },
+            { i: "cerita", k: "carita; kathā", s: "C" },
+            { i: "cinta", k: "asih; dama; lulut; madana; prema; smara; trěșņa", s: "C" },
+            { i: "cipta", k: "sŗṣṭi; yasa", s: "C" },
+            { i: "cucu", k: "pautra; putu", s: "C" },
+            { i: "cuci", k: "śauca; umbah", s: "C" },
+            { i: "cukup", k: "paryāpta; cukup", s: "C" },
+            { i: "cuma", k: "kěwala; hěnya", s: "C" },
+            { i: "curi", k: "maling; steya", s: "C" },
+            { i: "dada", k: "hṛdaya; jajā", s: "D" },
+            { i: "daerah", k: "maṇḍala; deśa", s: "D" },
+            { i: "dagang", k: "waṇig", s: "D" },
+            { i: "daging", k: "māṃsa", s: "D" },
+            { i: "dahaga", k: "tṛṣā", s: "D" },
+            { i: "dahulu", k: "pūrwa; ngūni", s: "D" },
+            { i: "dalam", k: "jhandah; n jěm", s: "D" },
+            { i: "damai", k: "śānti; śānta", s: "D" },
+            { i: "danau", k: "danu; rānu", s: "D" },
+            { i: "darah", k: "rah; rudhira; ludira", s: "D" },
+            { i: "darat", k: "sthala", s: "D" },
+            { i: "datang", k: "āgama; datang; prāpta", s: "D" },
+            { i: "datar", k: "sama", s: "D" },
+            { i: "daun", k: "dala; parṇa; patra", s: "D" },
+            { i: "daya", k: "śakti; upāya", s: "D" },
+            { i: "debu", k: "rajas; rěnu", s: "D" },
+            { i: "dekat", k: "antikā; samīpa", s: "D" },
+            { i: "delapan", k: "aşţa", s: "D" },
+            { i: "dendam", k: "droha", s: "D" },
+            { i: "dengan", k: "dening; lawan; saha", s: "D" },
+            { i: "dengar", k: "śruta; rěngö", s: "D" },
+            { i: "depan", k: "agrapada; ngarep", s: "D" },
+            { i: "derita", k: "duḥkha; saŋsāra", s: "D" },
+            { i: "desa", k: "deśa; thāni", s: "D" },
+            { i: "dewa", k: "dewa; sura; hyang", s: "D" },
+            { i: "dewasa", k: "yūwan", s: "D" },
+            { i: "dewi", k: "dewī; surī", s: "D" },
+            { i: "di", k: "i; ring", s: "D" },
+            { i: "diam", k: "mauna; měněng", s: "D" },
+            { i: "didik", k: "śikşa", s: "D" },
+            { i: "dingin", k: "śīta; tistis", s: "D" },
+            { i: "diri", k: "swatantra; awak; śarīra", s: "D" },
+            { i: "doa", k: "stuti; pūjā", s: "D" },
+            { i: "dosa", k: "pāpa; doṣa", s: "D" },
+            { i: "dua", k: "dwi; rwa", s: "D" },
+            { i: "duduk", k: "nişīdha; lungguh", s: "D" },
+            { i: "duka", k: "duḥkha; śoka", s: "D" },
+            { i: "dunia", k: "bhuwana; jagat; loka; rat", d: "tiga dunia: triloka", s: "D" },
+            { i: "duri", k: "kaṇţaka", s: "D" },
+            { i: "dusta", k: "anṛta; mithyā", s: "D" },
+            { i: "emas", k: "kanaka; kañcana; más; rukma; suwarņa", s: "E" },
+            { i: "empat", k: "catur; pat", s: "E" },
+            { i: "enam", k: "şaḍ; něm", s: "E" },
+            { i: "engkau", k: "ko; kita; kamu", s: "E" },
+            { i: "fajar", k: "aruṇa", s: "F" },
+            { i: "fikir", k: "manah; citta", s: "F" },
+            { i: "gajah", k: "danti; dwirada; haliman; hası; ibha; kuñjara; liman", s: "G" },
+            { i: "gagah", k: "dhīra; wīra", s: "G" },
+            { i: "gaib", k: "māyā; sūkṣma", s: "G" },
+            { i: "ganti", k: "silih; ganti", s: "G" },
+            { i: "garis", k: "rekhā", s: "G" },
+            { i: "gelap", k: "tamas; pětěng", s: "G" },
+            { i: "gelas", k: "caşaka", s: "G" },
+            { i: "gempa", k: "prakampa", s: "G" },
+            { i: "gerak", k: "ceṣṭā; obah", s: "G" },
+            { i: "getar", k: "kampa", s: "G" },
+            { i: "gila", k: "unmatta", s: "G" },
+            { i: "guntur", k: "garjita; guruh", s: "G" },
+            { i: "gunung", k: "acala; adri; arga; giri; mahidhara; parwata; wukir", s: "G" },
+            { i: "guru", k: "adhyapaka; guru; upadhyaya", d: "guru besar: mahaguru", s: "G" },
+            { i: "habis", k: "telas; śūnya", s: "H" },
+            { i: "hadiah", k: "dakṣiṇā; dāna", s: "H" },
+            { i: "halangan", k: "vighna", s: "H" },
+            { i: "hamba", k: "dāsa; pāduka", s: "H" },
+            { i: "hampir", k: "antikā", s: "H" },
+            { i: "hancur", k: "lebur; pralīna", s: "H" },
+            { i: "handal", k: "sakti", s: "H" },
+            { i: "hangat", k: "uṣṇa", s: "H" },
+            { i: "hanya", k: "kěwala", s: "H" },
+            { i: "hari", k: "dina; diwa", s: "H" },
+            { i: "harum", k: "gandha", s: "H" },
+            { i: "harta", k: "dhana; dravya", s: "H" },
+            { i: "hati", k: "amběk; cita; hrědaya; manah; mānasa; twas; werdaya", s: "H" },
+            { i: "haus", k: "tṛṣā", s: "H" },
+            { i: "hebat", k: "atyanta", s: "H" },
+            { i: "hewan", k: "paśu; satwa", s: "H" },
+            { i: "hias", k: "bhūṣaṇa", s: "H" },
+            { i: "hidung", k: "nāsikā", s: "H" },
+            { i: "hidup", k: "amṛta; ayuh; āyus; jiwana; jiwita", s: "H" },
+            { i: "hijau", k: "harita", s: "H" },
+            { i: "hilang", k: "lina; tilar", s: "H" },
+            { i: "hina", k: "nīca; kapa-kapa", s: "H" },
+            { i: "hormat", k: "abhiwada; añjali; namas; praśraya", d: "penghormatan: arcana", s: "H" },
+            { i: "hujan", k: "warṣa; udan", s: "H" },
+            { i: "hukum", k: "daṇḍa; dharma", s: "H" },
+            { i: "hutan", k: "alas; aranya; janggala; kānana; wana", s: "H" },
+            { i: "hutang", k: "ṛṇa", s: "H" },
+            { i: "ibu", k: "ina; inang; indung; mātā; rena", s: "I" },
+            { i: "ikan", k: "matsya; iwak", s: "I" },
+            { i: "ikat", k: "bandha", s: "I" },
+            { i: "ikut", k: "anuju; milu", s: "I" },
+            { i: "ilmu", k: "śāstra; widyā", s: "I" },
+            { i: "indah", k: "abhinawa; apeni; arja; hayu; langen; ramya", s: "I" },
+            { i: "ingat", k: "smṛti; eling", s: "I" },
+            { i: "ingin", k: "icchā; kāmā", s: "I" },
+            { i: "iri", k: "īrṣyā", s: "I" },
+            { i: "isi", k: "sāra", s: "I" },
+            { i: "istana", k: "abhyantara; rajadani; rājyadhani; pura; rājya", s: "I" },
+            { i: "istri", k: "bhāryā; dāra; patni; rabi; somah; stri; wini", s: "I" },
+            { i: "isyarat", k: "saṃjñā", s: "I" },
+            { i: "jadi", k: "jāta; dadi", s: "J" },
+            { i: "jaga", k: "rakşa; jaga", s: "J" },
+            { i: "jahat", k: "duşta; dur; pāpa", s: "J" },
+            { i: "jalan", k: "mārga; hawan", s: "J" },
+            { i: "jamuan", k: "bhojana", s: "J" },
+            { i: "janji", k: "samaya; pratijñā", s: "J" },
+            { i: "jantan", k: "puṃs; jalu", s: "J" },
+            { i: "jauh", k: "dūra", s: "J" },
+            { i: "jaya", k: "jaya; wijaya", d: "kejayaan: digjawijaya", s: "J" },
+            { i: "jelas", k: "spaṣṭa; awas", s: "J" },
+            { i: "jelek", k: "durupa", s: "J" },
+            { i: "jendela", k: "gavākṣa", s: "J" },
+            { i: "jika", k: "yan; yadyapin", s: "J" },
+            { i: "jiwa", k: "antarâtma; ātma; citta; jiwa; prāna", s: "J" },
+            { i: "jujur", k: "ārjava; rju", s: "J" },
+            { i: "jurang", k: "dari; guhā", s: "J" },
+            { i: "kabar", k: "wṛtta", s: "K" },
+            { i: "kaca", k: "darpaṇa", s: "K" },
+            { i: "kaki", k: "pāda; suku", s: "K" },
+            { i: "kalah", k: "parājaya; kasor", s: "K" },
+            { i: "kalau", k: "yan", s: "K" },
+            { i: "kali", k: "vāra", s: "K" },
+            { i: "kamu", k: "ko; kita", s: "K" },
+            { i: "kanan", k: "dakṣiṇa", s: "K" },
+            { i: "kapal", k: "prawa; bahitra", s: "K" },
+            { i: "karena", k: "nimitta; apan", s: "K" },
+            { i: "karya", k: "kşti", d: "karya seni: yasa", s: "K" },
+            { i: "kasihan", k: "karuṇā; darsana", s: "K" },
+            { i: "kata", k: "śabda; wāk; waśita", s: "K" },
+            { i: "kawan", k: "mitra; sakha", s: "K" },
+            { i: "kaya", k: "samrěddhi; saśriya", d: "kekayaan: aiswarya", s: "K" },
+            { i: "kayu", k: "dāru; kāşţha", s: "K" },
+            { i: "kebun", k: "udyāna", s: "K" },
+            { i: "kecil", k: "alpa; kṣudra; alit", s: "K" },
+            { i: "keluarga", k: "kula; wangśa", s: "K" },
+            { i: "kembali", k: "walik; muwah", s: "K" },
+            { i: "kemudian", k: "atha; tulyā", s: "K" },
+            { i: "kenal", k: "jñāna", s: "K" },
+            { i: "kepala", k: "agra; kapāla; mastaka; mūrdha; sirsa", s: "K" },
+            { i: "kera", k: "kapi; wanara", s: "K" },
+            { i: "kereta", k: "ratha", s: "K" },
+            { i: "keris", k: "duhung; kadga; tuhuk", s: "K" },
+            { i: "kerja", k: "karya; kṛtya", s: "K" },
+            { i: "kertas", k: "patra", s: "K" },
+            { i: "kekuatan", k: "bala; śakti; wirya", s: "K" },
+            { i: "khianat", k: "droha", s: "K" },
+            { i: "khusus", k: "wiśeṣa", s: "K" },
+            { i: "kiri", k: "vāma", s: "K" },
+            { i: "kirim", k: "pawat; dūta", s: "K" },
+            { i: "kita", k: "kami", s: "K" },
+            { i: "kolam", k: "puşkariṇī; telaga", s: "K" },
+            { i: "kosong", k: "śūnya; hapa", s: "K" },
+            { i: "kota", k: "pura; nagara", s: "K" },
+            { i: "kuat", k: "balawan; dhrta; drdha; rosa; śakti; santosa; sāra", s: "K" },
+            { i: "kubur", k: "śmaśāna", s: "K" },
+            { i: "kuda", k: "turangga; aśwa", s: "K" },
+            { i: "kuning", k: "pīta; jenar", s: "K" },
+            { i: "kurang", k: "alpa", s: "K" },
+            { i: "kursi", k: "pīṭha", s: "K" },
+            { i: "kulit", k: "twak", s: "K" },
+            { i: "kupu-kupu", k: "tulyā", s: "K" },
+            { i: "labu", k: "alābu", s: "L" },
+            { i: "ladang", k: "kşetra", s: "L" },
+            { i: "lagu", k: "gīta", s: "L" },
+            { i: "lahir", k: "jāta", s: "L" },
+            { i: "laki-laki", k: "puruşa; jalu", s: "L" },
+            { i: "laksana", k: "tulyā; lir", s: "L" },
+            { i: "lama", k: "pūra; lawas", s: "L" },
+            { i: "lambat", k: "manda", s: "L" },
+            { i: "lampu", k: "dīpa", s: "L" },
+            { i: "langit", k: "ākāśa; ambara; byoma; gagana; wiyat", s: "L" },
+            { i: "lantai", k: "tala", s: "L" },
+            { i: "lapar", k: "kşudhā", s: "L" },
+            { i: "lari", k: "druta", s: "L" },
+            { i: "laut", k: "abdhi; arņawa; jaladhi; sāgara; samudra", s: "L" },
+            { i: "lawan", k: "vairi; śatru", s: "L" },
+            { i: "layak", k: "yogya", s: "L" },
+            { i: "lebar", k: "pṛthu", s: "L" },
+            { i: "leher", k: "grīvā", s: "L" },
+            { i: "lemah", k: "manda", s: "L" },
+            { i: "lembu", k: "go; dhenu", s: "L" },
+            { i: "lepas", k: "mukta", s: "L" },
+            { i: "letih", k: "śrānta", s: "L" },
+            { i: "lidah", k: "jihwā", s: "L" },
+            { i: "lihat", k: "dṛś; ton", s: "L" },
+            { i: "lima", k: "pañca", s: "L" },
+            { i: "lisan", k: "mukha", s: "L" },
+            { i: "lubang", k: "randhra; guhā", s: "L" },
+            { i: "lucu", k: "hāsya", s: "L" },
+            { i: "lumpuh", k: "paṅgu", s: "L" },
+            { i: "lupa", k: "vismṛti", s: "L" },
+            { i: "lurus", k: "ārjava", s: "L" },
+            { i: "lutut", k: "jānu", s: "L" },
+            { i: "maaf", k: "kşama", s: "M" },
+            { i: "mabuk", k: "mada", s: "M" },
+            { i: "madu", k: "madhu", s: "M" },
+            { i: "mahal", k: "argha", s: "M" },
+            { i: "mahkota", k: "mukuṭa", s: "M" },
+            { i: "main", k: "krīḍā", s: "M" },
+            { i: "maju", k: "agrapada", s: "M" },
+            { i: "makan", k: "bhojana; khādana", s: "M" },
+            { i: "malam", k: "rātri; naktā", s: "M" },
+            { i: "malas", k: "manda", s: "M" },
+            { i: "malu", k: "lajjā", s: "M" },
+            { i: "mana", k: "kuta", s: "M" },
+            { i: "mandiri", k: "swatantra", s: "M" },
+            { i: "manfaat", k: "phala; hita", s: "M" },
+            { i: "mangga", k: "āmra", s: "M" },
+            { i: "manis", k: "madhura", s: "M" },
+            { i: "manusia", k: "jana; janma; manuja; manușa; wwang", s: "M" },
+            { i: "marah", k: "krodha", s: "M" },
+            { i: "masa", k: "kāla", s: "M" },
+            { i: "masalah", k: "saṃśaya", s: "M" },
+            { i: "masuk", k: "praveśa", s: "M" },
+            { i: "mata", k: "cakşuh; netra", s: "M" },
+            { i: "matahari", k: "aditya; arka; bhānu; diwakara; rawi; sūrya", s: "M" },
+            { i: "mati", k: "mṛta; lina", s: "M" },
+            { i: "mega", k: "megha", s: "M" },
+            { i: "melati", k: "mālatī", s: "M" },
+            { i: "memang", k: "tuhu", s: "M" },
+            { i: "menang", k: "jaya; molih; wijaya", d: "pemenang: parantapa", s: "M" },
+            { i: "menteri", k: "amatya; mantri; ta.l)4a", d: "menteri utama: mahamantri", s: "M" },
+            { i: "merah", k: "rakta", s: "M" },
+            { i: "merpati", k: "pārāpata", s: "M" },
+            { i: "mimpi", k: "swapna", s: "M" },
+            { i: "minta", k: "yācana", s: "M" },
+            { i: "minum", k: "pāna", s: "M" },
+            { i: "minyak", k: "taila", s: "M" },
+            { i: "miskin", k: "daridra", s: "M" },
+            { i: "muda", k: "yūwan", s: "M" },
+            { i: "mudah", k: "laghu", s: "M" },
+            { i: "mujarat", k: "sakti", s: "M" },
+            { i: "muka", k: "mukha; wadana", s: "M" },
+            { i: "mulai", k: "ādi", s: "M" },
+            { i: "mulia", k: "udāra; mahā", s: "M" },
+            { i: "mulut", k: "mukha", s: "M" },
+            { i: "mungkin", k: "sadhya", s: "M" },
+            { i: "murid", k: "śişya", s: "M" },
+            { i: "musuh", k: "śatru; vairi", s: "M" },
+            { i: "mutiara", k: "muktā", s: "M" },
+            { i: "nadi", k: "nāḍī", s: "N" },
+            { i: "nafas", k: "prāṇa", s: "N" },
+            { i: "naga", k: "nāga", s: "N" },
+            { i: "naik", k: "āroha", s: "N" },
+            { i: "nama", k: "asajña; aran; nama; nāmā; sajiia; yasa", s: "N" },
+            { i: "nampak", k: "dṛśya", s: "N" },
+            { i: "nanti", k: "benjang", s: "N" },
+            { i: "nasib", k: "bhāgya", s: "N" },
+            { i: "nasihat", k: "upadeśa", s: "N" },
+            { i: "negara", k: "nāgara; rājya", d: "tata negara: rajanlti", s: "N" },
+            { i: "neraka", k: "naraka", s: "N" },
+            { i: "niat", k: "saṃkalpa", s: "N" },
+            { i: "nikah", k: "vivāha", s: "N" },
+            { i: "nyanyi", k: "gīta", s: "N" },
+            { i: "nyata", k: "tattva", s: "N" },
+            { i: "obat", k: "jampi; pratamba; usadh8; panguwat", s: "O" },
+            { i: "orang", k: "jana; wwang", s: "O" },
+            { i: "pagi", k: "aruṇa; prāta", s: "P" },
+            { i: "pahlawan", k: "maharddhika; wita; wiradhira", d: "pahlawan besar: mahawira", s: "P" },
+            { i: "pakaian", k: "ambara; angsuka; bhawa; bhii~lJa; wastra; weSa", s: "P" },
+            { i: "palu", k: "mudgara", s: "P" },
+            { i: "panah", k: "astra; bāṇa", s: "P" },
+            { i: "panas", k: "uṣṇa; gěsěng", s: "P" },
+            { i: "pandai", k: "dak~a; kUSaJa; nipUl)a; prajnii; widagdha", s: "P" },
+            { i: "panjang", k: "dīrgha", s: "P" },
+            { i: "pantai", k: "tīra", s: "P" },
+            { i: "papan", k: "phalaka", s: "P" },
+            { i: "para", k: "sarwa", s: "P" },
+            { i: "pasir", k: "wālukā", s: "P" },
+            { i: "pasti", k: "niścita", s: "P" },
+            { i: "pasukan", k: "bala; tantra; wadwa; yodha", s: "P" },
+            { i: "payung", k: "chattra", s: "P" },
+            { i: "pedang", k: "khaḍga", s: "P" },
+            { i: "pegang", k: "dhara", s: "P" },
+            { i: "pelayan", k: "paricāraka", s: "P" },
+            { i: "pemerintah", k: "jagad~l)a; tantra; waSatIcira", s: "P" },
+            { i: "pemimpin", k: "nāyaka", s: "P" },
+            { i: "pendeta", k: "pandita", s: "P" },
+            { i: "pendek", k: "hraswa", s: "P" },
+            { i: "pengikut", k: "anuju", s: "P" },
+            { i: "penuh", k: "pūrṇa", s: "P" },
+            { i: "perahu", k: "bahitra", s: "P" },
+            { i: "perak", k: "rajata", s: "P" },
+            { i: "perang", k: "laga; pinda; rana; yuddha", d: "medan perang: ranangga", s: "P" },
+            { i: "percaya", k: "śraddhā", s: "P" },
+            { i: "perempuan", k: "strī; wanitā", s: "P" },
+            { i: "pergi", k: "gata", s: "P" },
+            { i: "perkara", k: "vyavahāra", s: "P" },
+            { i: "perkakas", k: "upakaraṇa", s: "P" },
+            { i: "permata", k: "maṇi; ratna", s: "P" },
+            { i: "perut", k: "udara", s: "P" },
+            { i: "pesan", k: "śāsana", s: "P" },
+            { i: "pikir", k: "cinta; manah", s: "P" },
+            { i: "pintu", k: "dwāra", s: "P" },
+            { i: "pohon", k: "naga; padapa; tam; wt;~a", d: "pohon beringin: bodhi", s: "P" },
+            { i: "puas", k: "tṛpti", s: "P" },
+            { i: "puisi", k: "kiiwya", d: "puisi klasik: mahrucawya", s: "P" },
+            { i: "puji", k: "stuti", s: "P" },
+            { i: "pulau", k: "dwīpa", s: "P" },
+            { i: "puncak", k: "agra; śikhara", s: "P" },
+            { i: "punggung", k: "pṛṣṭha", s: "P" },
+            { i: "putra", k: "putra; suta", s: "P" },
+            { i: "putri", k: "putrī; tanayā", s: "P" },
+            { i: "putus", k: "chinna", s: "P" },
+            { i: "racun", k: "vişa", s: "R" },
+            { i: "ragu", k: "saṃśaya", s: "R" },
+            { i: "rahasia", k: "rahasya", s: "R" },
+            { i: "raja", k: "adhipa; bhipa; narendra; natha; prabhu; ratu", s: "R" },
+            { i: "raksasa", k: "rākşasa; danawa", s: "R" },
+            { i: "rakyat", k: "jana; loka; prajā", s: "R" },
+            { i: "rambut", k: "keśa", s: "R" },
+            { i: "rasa", k: "rasa", s: "R" },
+            { i: "rata", k: "sama", s: "R" },
+            { i: "ratu", k: "rājñī", s: "R" },
+            { i: "rendah", k: "nīca", s: "R" },
+            { i: "rindu", k: "kāma", s: "R" },
+            { i: "roda", k: "cakra", s: "R" },
+            { i: "ruang", k: "antarā", s: "R" },
+            { i: "rumah", k: "alaya; bhawana; gerha; umah; wisma", s: "R" },
+            { i: "rupa", k: "rūpa", s: "R" },
+            { i: "rusak", k: "bhagna", s: "R" },
+            { i: "saat", k: "kşana", s: "S" },
+            { i: "sabar", k: "kşama", s: "S" },
+            { i: "sahabat", k: "mitra", s: "S" },
+            { i: "sakit", k: "wyādhi", s: "S" },
+            { i: "sakti", k: "śakti; wirya; wiryaman", d: "kesaktian: anubhāwa", s: "S" },
+            { i: "salah", k: "doṣa", s: "S" },
+            { i: "sama", k: "tulyā", s: "S" },
+            { i: "samudra", k: "samudra; arņawa", s: "S" },
+            { i: "sangat", k: "dahat", s: "S" },
+            { i: "sangka", k: "śangka", s: "S" },
+            { i: "sapi", k: "go", s: "S" },
+            { i: "satu", k: "eka", s: "S" },
+            { i: "saudara", k: "bāndhava", s: "S" },
+            { i: "sayang", k: "prema", s: "S" },
+            { i: "sayap", k: "pakşa", s: "S" },
+            { i: "sebab", k: "hetu; nimitta", s: "S" },
+            { i: "sedih", k: "śoka", s: "S" },
+            { i: "sedikit", k: "alpa", s: "S" },
+            { i: "segala", k: "sarwa", s: "S" },
+            { i: "sehat", k: "aroga", s: "S" },
+            { i: "sejarah", k: "itihāsa", s: "S" },
+            { i: "sejahtera", k: "hita", s: "S" },
+            { i: "sekarang", k: "samangkana", s: "S" },
+            { i: "selamat", k: "rahayu; śubha", s: "S" },
+            { i: "seluruh", k: "sakala", s: "S" },
+            { i: "semesta", k: "brahmāṇḍa", s: "S" },
+            { i: "sempurna", k: "siddha; pūrṇa", s: "S" },
+            { i: "semut", k: "pipīlikā", s: "S" },
+            { i: "senang", k: "tuṣṭa", s: "S" },
+            { i: "sendiri", k: "swatantra", s: "S" },
+            { i: "senjata", k: "astra; ayudha; bajra; braja; sarwa", s: "S" },
+            { i: "seperti", k: "kadi; lir", s: "S" },
+            { i: "sepuluh", k: "daśa", s: "S" },
+            { i: "seratus", k: "śata", s: "S" },
+            { i: "seribu", k: "sahasra", s: "S" },
+            { i: "seru", k: "garjita", s: "S" },
+            { i: "sesat", k: "mithyā", s: "S" },
+            { i: "setiap", k: "nitya", s: "S" },
+            { i: "siang", k: "diwa", s: "S" },
+            { i: "siapa", k: "syapa", s: "S" },
+            { i: "sidang", k: "sabhā", s: "S" },
+            { i: "sifat", k: "bhāva", s: "S" },
+            { i: "singa", k: "siṃha", s: "S" },
+            { i: "sisa", k: "śeşa", s: "S" },
+            { i: "sore", k: "sandhyā", s: "S" },
+            { i: "suami", k: "laki; pati; swāmi", s: "S" },
+            { i: "suara", k: "śabda; dhwani", s: "S" },
+            { i: "suci", k: "nirmala; pawitra; pūta; śuddha; śukla; wimala", s: "S" },
+            { i: "sudah", k: "telas", s: "S" },
+            { i: "sungai", k: "nadī", s: "S" },
+            { i: "sungguh", k: "tuhu", s: "S" },
+            { i: "surga", k: "kahyangan; swarga", s: "S" },
+            { i: "tabib", k: "bhaişajya", s: "T" },
+            { i: "tahu", k: "ajar; wruh", d: "pengetahuan: jñana; widya", s: "T" },
+            { i: "tahun", k: "warṣa", s: "T" },
+            { i: "tajam", k: "tīkşṇa", s: "T" },
+            { i: "takdir", k: "daiwa(m); pamastu; widhi", s: "T" },
+            { i: "takut", k: "bhaya; takut", s: "T" },
+            { i: "taman", k: "udyāna", s: "T" },
+            { i: "tambah", k: "adhika", s: "T" },
+            { i: "tanah", k: "bhūmi; siti", s: "T" },
+            { i: "tangan", k: "hasta; kara", s: "T" },
+            { i: "tangis", k: "rodana", s: "T" },
+            { i: "tanya", k: "praśna", s: "T" },
+            { i: "tata", k: "krama", s: "T" },
+            { i: "tawanan", k: "bandha", s: "T" },
+            { i: "tebal", k: "sthūla", s: "T" },
+            { i: "tegak", k: "stambha", s: "T" },
+            { i: "tegas", k: "spaṣṭa", s: "T" },
+            { i: "telaga", k: "sarovara", s: "T" },
+            { i: "telur", k: "aṇḍa", s: "T" },
+            { i: "teman", k: "mitra; sakha", s: "T" },
+            { i: "tembus", k: "vedha", s: "T" },
+            { i: "tempat", k: "sthāna", s: "T" },
+            { i: "tengah", k: "madhya", s: "T" },
+            { i: "tentara", k: "bala; sainya; sena; tantra; wadya", s: "T" },
+            { i: "tepi", k: "paryan", s: "T" },
+            { i: "terang", k: "teja; ruci", s: "T" },
+            { i: "terbang", k: "patana", s: "T" },
+            { i: "terima", k: "graha", s: "T" },
+            { i: "tertawa", k: "hāsa", s: "T" },
+            { i: "tetapi", k: "hěnyā", s: "T" },
+            { i: "tiang", k: "stambha", s: "T" },
+            { i: "tidak", k: "tan; nora", s: "T" },
+            { i: "tidur", k: "ke~; nidr3; supta; swapna; turii", s: "T" },
+            { i: "tiga", k: "tri; tělu", s: "T" },
+            { i: "tikus", k: "mūşika", s: "T" },
+            { i: "tinggi", k: "uttangga", s: "T" },
+            { i: "tinta", k: "malla", s: "T" },
+            { i: "tipis", k: "tanu", s: "T" },
+            { i: "tua", k: "vṛddha", s: "T" },
+            { i: "tujuan", k: "abhila~; abhipraya; artha; lak~ya; sadhya", s: "T" },
+            { i: "tujuh", k: "sapta", s: "T" },
+            { i: "tukar", k: "silih", s: "T" },
+            { i: "tulang", k: "asthi", s: "T" },
+            { i: "tulis", k: "likhita", s: "T" },
+            { i: "tulus", k: "ārjava", s: "T" },
+            { i: "tumbuh", k: "jāta", s: "T" },
+            { i: "tumpul", k: "manda", s: "T" },
+            { i: "tunangan", k: "samaya", s: "T" },
+            { i: "turun", k: "avatāra", s: "T" },
+            { i: "tusuk", k: "vedha", s: "T" },
+            { i: "tutup", k: "āvaraṇa", s: "T" },
+            { i: "uang", k: "dhana; dravya", s: "U" },
+            { i: "uap", k: "bāṣpa", s: "U" },
+            { i: "ubah", k: "anyathā", s: "U" },
+            { i: "udara", k: "ākāśa", s: "U" },
+            { i: "ular", k: "sarpa; nāga", s: "U" },
+            { i: "umum", k: "sāmānya", s: "U" },
+            { i: "umur", k: "āyus", s: "U" },
+            { i: "undangan", k: "āhvana", s: "U" },
+            { i: "unggul", k: "adhika", s: "U" },
+            { i: "untuk", k: "mangga; den", s: "U" },
+            { i: "untung", k: "bhāgya", s: "U" },
+            { i: "upacara", k: "upacāra", s: "U" },
+            { i: "usaha", k: "yatna; upaya", s: "U" },
+            { i: "usia", k: "āyus", s: "U" },
+            { i: "utama", k: "adhika; parama; pradhana; uttama; wisesa", s: "U" },
+            { i: "utara", k: "uttara", s: "U" },
+            { i: "utuh", k: "sakala", s: "U" },
+            { i: "utusan", k: "dūta", s: "U" },
+            { i: "vihara", k: "vihara", s: "V" },
+            { i: "wajah", k: "wadana; mukha", s: "W" },
+            { i: "wajib", k: "dharmika", s: "W" },
+            { i: "wakil", k: "pratinidhi", s: "W" },
+            { i: "waktu", k: "diwa; kala; wanci; wayah", s: "W" },
+            { i: "walau", k: "yadyapin", s: "W" },
+            { i: "wanita", k: "anggana; babini; kāmini; nārī; wadhu", s: "W" },
+            { i: "wangi", k: "gandha", s: "W" },
+            { i: "warna", k: "warna", s: "W" },
+            { i: "warta", k: "vṛtta", s: "W" },
+            { i: "wilayah", k: "maṇḍala", s: "W" },
+            { i: "yaitu", k: "pya; yeku", s: "Y" },
+            { i: "yakin", k: "niścita; sraddhā", s: "Y" },
+            { i: "yayasan", k: "kṛti", s: "Y" },
+            { i: "yoga", k: "yoga", s: "Y" },
+            { i: "zaman", k: "kāla; kalpa", s: "Z" }
+        ];
+
+        let isIndoToKawi = true;
+        let searchTimeout;
+
+        function toggleMode() {
+            isIndoToKawi = !isIndoToKawi;
+            const btn = document.getElementById('modeBtn');
+            const label = document.getElementById('modeLabel');
+            const input = document.getElementById('searchInput');
+            
+            label.innerText = isIndoToKawi ? "Indo → Kawi" : "Kawi → Indo";
+            input.placeholder = isIndoToKawi ? "Cari lema Indonesia..." : "Cari lema Jawa Kuno...";
+            
+            if(isIndoToKawi) {
+                btn.classList.replace('bg-amber-100', 'bg-amber-800');
+                btn.classList.replace('text-amber-900', 'text-white');
+            } else {
+                btn.classList.replace('bg-amber-800', 'bg-amber-100');
+                btn.classList.replace('text-white', 'text-amber-900');
+            }
+            performSearch();
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 300);
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const countDisplay = document.getElementById('countDisplay');
+
+            const filtered = dictionaryData.filter(item => {
+                if (isIndoToKawi) {
+                    return item.i.toLowerCase().includes(query) || (item.d && item.d.toLowerCase().includes(query));
+                } else {
+                    return item.k.toLowerCase().includes(query);
+                }
+            });
+
+            filtered.sort((a, b) => isIndoToKawi ? a.i.localeCompare(b.i) : a.k.localeCompare(b.k));
+
+            renderResults(filtered, query);
+            countDisplay.innerText = `Ditemukan ${filtered.length} lema dari arsip`;
+        }
+
+        function renderResults(data, query) {
+            const container = document.getElementById('results');
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 opacity-40">
+                        <i class="fas fa-scroll text-6xl mb-4"></i>
+                        <p class="text-xl font-medium">Lema tidak ditemukan dalam naskah</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(item => {
+                const headword = isIndoToKawi ? item.i : item.k;
+                const definition = isIndoToKawi ? item.k : item.i;
+                const extra = item.d ? `<div class="mt-2 text-xs text-amber-700 bg-amber-50 p-2 rounded-lg italic border border-amber-100">${item.d}</div>` : '';
+
+                return `
+                <div class="card-entry bg-white p-6 rounded-2xl shadow-sm border border-amber-50 mb-3 cursor-pointer" onclick="copyText('${headword}: ${definition}')">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-bold text-amber-400 bg-amber-50 px-2 py-0.5 rounded">${item.s}</span>
+                                <h3 class="traditional-font text-2xl font-bold text-amber-950 capitalize">${headword}</h3>
+                            </div>
+                            <p class="text-amber-600 font-semibold text-lg leading-snug">${definition}</p>
+                            ${extra}
+                        </div>
+                        <button class="text-amber-200 hover:text-amber-500 p-2 transition-colors">
+                            <i class="far fa-copy text-xl"></i>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-amber-900 text-white px-6 py-3 rounded-full text-sm font-bold shadow-2xl z-50 animate-bounce";
+            toast.innerText = "Berhasil disalin!";
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        window.onload = performSearch;
+    </script>
+</body>
+</html>
