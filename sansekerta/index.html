@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamus Sansekerta - Digitalized By Wahyudi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for premium feels -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Cinzel"', 'serif'],
+                        devanagari: ['"Yatra One"', 'cursive'],
+                    },
+                    colors: {
+                        sanskrit: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            950: '#451a03',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #fdfaf2;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #b45309;
+        }
+    </style>
+</head>
+<body class="bg-[#faf6eb] text-stone-800 min-h-screen font-sans flex flex-col selection:bg-sanskrit-200 selection:text-sanskrit-900">
+
+    <!-- TOP HEADER -->
+    <header class="relative border-b border-sanskrit-200 bg-white/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+        <!-- Accent Line -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-sanskrit-700 via-amber-500 to-sanskrit-700"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Brand & Title -->
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <!-- Golden Mandala SVG Icon -->
+                <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-sanskrit-700 rounded-2xl flex items-center justify-center shadow-lg shadow-sanskrit-700/10 text-white shrink-0">
+                    <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor"/>
+                        <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-dasharray="2 2"/>
+                        <path d="M12 2v20M2 12h20M5 5l14 14M5 19L19 5" stroke="currentColor" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl md:text-3xl font-extrabold tracking-wide text-sanskrit-950 uppercase flex items-center justify-center md:justify-start gap-2">
+                        Kamus Sansekerta
+                    </h1>
+                    <p class="text-xs md:text-sm font-medium tracking-widest text-sanskrit-700 uppercase">
+                        Digitalized By <span class="font-bold underline decoration-sanskrit-500 decoration-2">Wahyudi</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Navigation Links / Stats -->
+            <div class="flex items-center gap-2 bg-sanskrit-100/50 p-1.5 rounded-xl border border-sanskrit-200/50">
+                <button onclick="switchTab('dictionary')" id="tab-btn-dictionary" class="tab-btn px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 flex items-center gap-2 bg-sanskrit-700 text-white shadow-sm">
+                    <i data-lucide="book-open" class="w-4 h-4"></i> Kamus
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-btn-quiz" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-sanskrit-800 hover:bg-sanskrit-100">
+                    <i data-lucide="award" class="w-4 h-4"></i> Kuis Belajar
+                </button>
+                <button onclick="switchTab('favorites')" id="tab-btn-favorites" class="tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-sanskrit-800 hover:bg-sanskrit-100 relative">
+                    <i data-lucide="bookmark" class="w-4 h-4"></i> Favorit
+                    <span id="fav-count" class="hidden absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center font-bold">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow flex flex-col gap-6">
+        
+        <!-- SECTION 1: HERO / WORD OF THE DAY (Only visible on dictionary home) -->
+        <section id="hero-banner" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Welcome Info Card -->
+            <div class="lg:col-span-2 bg-gradient-to-br from-sanskrit-900 to-sanskrit-950 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-xl shadow-sanskrit-950/20 flex flex-col justify-between">
+                <!-- Background decorative elements -->
+                <div class="absolute right-0 bottom-0 opacity-10 translate-x-10 translate-y-10 pointer-events-none">
+                    <svg class="w-80 h-80 text-white" fill="currentColor" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40"/>
+                    </svg>
+                </div>
+                
+                <div class="relative z-10">
+                    <span class="inline-block px-3 py-1 bg-sanskrit-700/50 border border-sanskrit-500/30 text-sanskrit-200 text-xs font-semibold uppercase tracking-widest rounded-full mb-4">Mutiara Aksara Kuno</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold leading-tight mb-3">Selamat Datang di Portal Bahasa Sansekerta</h2>
+                    <p class="text-sanskrit-100 text-sm md:text-base max-w-xl leading-relaxed">
+                        Temukan kekayaan bahasa tertua rumpun Indo-Eropa yang menyusun landasan budaya, filosofi, sastra, dan peradaban Nusantara tempo dulu.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex flex-wrap items-center gap-4 relative z-10 border-t border-white/10 pt-6">
+                    <div class="flex -space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-sanskrit-600 border-2 border-sanskrit-950 flex items-center justify-center font-bold text-xs">ॐ</div>
+                        <div class="w-8 h-8 rounded-full bg-amber-600 border-2 border-sanskrit-950 flex items-center justify-center font-bold text-xs">श्री</div>
+                        <div class="w-8 h-8 rounded-full bg-yellow-600 border-2 border-sanskrit-950 flex items-center justify-center font-bold text-xs">ज्ञा</div>
+                    </div>
+                    <p class="text-xs text-sanskrit-200">
+                        Memuat <span id="db-total-count" class="text-white font-bold">0</span> kosakata premium pilihan.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Word of the Day Card -->
+            <div class="bg-white border-2 border-sanskrit-200/60 rounded-3xl p-6 shadow-md shadow-sanskrit-900/5 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sanskrit-600 flex items-center gap-1">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i> Kata Hari Ini
+                        </span>
+                        <button onclick="generateWordOfTheDay()" class="text-sanskrit-600 hover:text-sanskrit-800 transition p-1 rounded-lg hover:bg-sanskrit-50" title="Acak kata baru">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-baseline gap-2">
+                            <h3 id="wotd-word" class="font-serif text-2xl font-bold text-sanskrit-950">Dharma</h3>
+                            <span id="wotd-category" class="text-[10px] bg-amber-50 text-sanskrit-700 font-bold px-2 py-0.5 rounded border border-sanskrit-200/60">Nomina</span>
+                        </div>
+                        <p id="wotd-devanagari" class="font-devanagari text-xl text-sanskrit-600 mt-1">धर्म</p>
+                        <p id="wotd-pronounce" class="text-xs text-stone-400 italic mt-0.5">diucapkan: dhar-mah</p>
+                    </div>
+
+                    <div class="border-t border-sanskrit-100 pt-3">
+                        <p id="wotd-def" class="text-stone-600 text-sm transition-all duration-300">
+                            Kebenaran hakiki, kewajiban suci, kebajikan, hukum alam yang mengatur seluruh harmoni kehidupan semesta.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-sanskrit-100 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <button id="wotd-detail-btn" onclick="toggleWotd()" class="text-xs font-bold text-sanskrit-700 hover:text-sanskrit-900 flex items-center gap-1 group">
+                            Lihat Selengkapnya 
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition"></i>
+                        </button>
+                        <button id="wotd-goto-dict" class="text-[11px] font-semibold text-stone-400 hover:text-sanskrit-700 flex items-center gap-0.5 transition ml-2">
+                            Buka di Kamus
+                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                    <button id="wotd-fav-btn" class="p-1.5 rounded-lg hover:bg-red-50 text-stone-400 hover:text-red-500 transition">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB CONTENT: DICTIONARY -->
+        <section id="tab-dictionary" class="tab-content flex flex-col gap-6">
+            
+            <!-- SEARCH & ALPHABET FILTERS -->
+            <div class="bg-white rounded-3xl p-6 shadow-md shadow-sanskrit-900/5 border border-sanskrit-200/50 flex flex-col gap-5">
+                
+                <!-- Search inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="md:col-span-3 relative">
+                        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-sanskrit-600 w-5 h-5"></i>
+                        <input type="text" id="search-input" placeholder="Cari kata Sansekerta atau artinya dalam Bahasa Indonesia..." class="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-sanskrit-100 bg-sanskrit-50/30 focus:border-sanskrit-500 focus:bg-white outline-none transition text-base font-medium placeholder-stone-400">
+                        <button id="clear-search" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="relative">
+                        <i data-lucide="filter" class="absolute left-4 top-1/2 -translate-y-1/2 text-sanskrit-600 w-4 h-4"></i>
+                        <select id="category-filter" class="w-full pl-10 pr-4 py-3.5 rounded-2xl border-2 border-sanskrit-100 bg-sanskrit-50/30 focus:border-sanskrit-500 focus:bg-white outline-none transition text-sm font-semibold text-stone-700 appearance-none cursor-pointer">
+                            <option value="all">Semua Kategori</option>
+                            <option value="Nomina">Nomina (Kata Benda)</option>
+                            <option value="Adjektiva">Adjektiva (Kata Sifat)</option>
+                            <option value="Verba">Verba (Kata Kerja)</option>
+                            <option value="Numeralia">Numeralia (Angka)</option>
+                            <option value="Spiritual">Filsafat / Spiritual</option>
+                        </select>
+                        <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-500 w-4 h-4 pointer-events-none"></i>
+                    </div>
+                </div>
+
+                <!-- Alphabet A-Z Bar -->
+                <div class="border-t border-sanskrit-100 pt-4">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs font-bold text-sanskrit-700 uppercase tracking-wider">Cari Berdasarkan Abjad</span>
+                        <div class="h-px bg-sanskrit-100 flex-grow"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5" id="alphabet-container">
+                        <!-- Generates via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESULT DISPLAY PANELS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                <!-- Left panel: Word List -->
+                <div class="lg:col-span-5 bg-white rounded-3xl border border-sanskrit-200/50 shadow-md shadow-sanskrit-900/5 overflow-hidden flex flex-col min-h-[500px] max-h-[700px]">
+                    <div class="bg-sanskrit-50/50 px-6 py-4 border-b border-sanskrit-100 flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sanskrit-800 flex items-center gap-2">
+                            <i data-lucide="list" class="w-4 h-4 text-sanskrit-600"></i> Hasil Pencarian
+                        </span>
+                        <span id="results-count" class="text-xs bg-sanskrit-200 text-sanskrit-800 font-bold px-2 py-0.5 rounded-full">0 kata</span>
+                    </div>
+
+                    <!-- Scrollable List Container -->
+                    <div id="word-list-container" class="overflow-y-auto custom-scrollbar flex-grow divide-y divide-sanskrit-100/60">
+                        <!-- Dynamic list item markup injection -->
+                    </div>
+                </div>
+
+                <!-- Right panel: Word Details -->
+                <div id="details-panel" class="lg:col-span-7 bg-white rounded-3xl border-2 border-sanskrit-200/80 shadow-lg shadow-sanskrit-900/5 p-6 md:p-8 flex flex-col justify-between relative min-h-[500px]">
+                    <!-- Selected content loaded dynamically -->
+                    <div id="details-content" class="space-y-6">
+                        <!-- Initial placeholder state -->
+                        <div class="flex flex-col items-center justify-center py-20 text-center">
+                            <div class="w-20 h-20 bg-sanskrit-50 rounded-full flex items-center justify-center text-sanskrit-400 mb-4 animate-bounce">
+                                <i data-lucide="book-open" class="w-10 h-10"></i>
+                            </div>
+                            <h3 class="font-serif text-xl font-bold text-sanskrit-900 mb-1">Eksplorasi Kosakata</h3>
+                            <p class="text-sm text-stone-500 max-w-sm">Pilih salah satu kata dari daftar di samping untuk menilik makna mendalam, tata bahasa, dan cara pelafalan aksaranya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TAB CONTENT: QUIZ -->
+        <section id="tab-quiz" class="tab-content hidden flex-col gap-6">
+            <div class="max-w-3xl mx-auto w-full bg-white rounded-3xl border border-sanskrit-200/60 shadow-xl shadow-sanskrit-900/5 p-6 md:p-8">
+                <!-- Quiz Header -->
+                <div class="flex items-center justify-between border-b border-sanskrit-100 pb-5 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center text-white">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-serif text-xl font-bold text-sanskrit-950">Asah Otak Sansekerta</h2>
+                            <p class="text-xs text-stone-500">Tebak arti kata Sansekerta untuk mempertajam pengetahuan Anda.</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs font-bold text-stone-400 uppercase block tracking-wider">Skor Terbaik</span>
+                        <span id="quiz-high-score" class="font-bold text-amber-600 text-lg">0</span>
+                    </div>
+                </div>
+
+                <!-- Quiz Main Game Panel -->
+                <div id="quiz-ready-state" class="text-center py-10 space-y-6">
+                    <div class="max-w-md mx-auto">
+                        <h3 class="font-serif text-2xl font-bold text-sanskrit-900 mb-3">Siap Menghadapi Tantangan?</h3>
+                        <p class="text-stone-500 text-sm leading-relaxed mb-6">Anda akan dihadapkan dengan 10 pertanyaan kosakata Sansekerta acak. Dapatkan skor setinggi mungkin!</p>
+                        <button onclick="startQuiz()" class="px-8 py-3.5 bg-gradient-to-r from-sanskrit-700 to-amber-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-sanskrit-700/20 hover:shadow-sanskrit-700/30 transition-all duration-200 transform hover:-translate-y-0.5">
+                            Mulai Kuis Sekarang
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Playing State -->
+                <div id="quiz-playing-state" class="hidden space-y-6">
+                    <!-- Progress Bar & Question Tracker -->
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="font-bold text-stone-500">Pertanyaan <span id="quiz-current-num" class="text-sanskrit-800">1</span> / 10</span>
+                        <span class="font-bold text-amber-600">Skor: <span id="quiz-current-score">0</span></span>
+                    </div>
+                    <div class="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-amber-500 h-full transition-all duration-300" style="width: 10%"></div>
+                    </div>
+
+                    <!-- Question Container -->
+                    <div class="bg-sanskrit-50/50 rounded-2xl border border-sanskrit-200/50 p-6 text-center space-y-3">
+                        <span class="text-xs font-bold uppercase text-sanskrit-600 tracking-widest">Apa arti dari kata ini?</span>
+                        <h3 id="quiz-question-word" class="font-serif text-3xl font-extrabold text-sanskrit-950">Ahimsa</h3>
+                        <p id="quiz-question-devanagari" class="font-devanagari text-2xl text-sanskrit-500">अहिंसा</p>
+                    </div>
+
+                    <!-- Answers options -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="quiz-options-container">
+                        <!-- Option buttons injected here -->
+                    </div>
+
+                    <!-- Next navigation -->
+                    <div class="flex justify-end pt-4 border-t border-sanskrit-100">
+                        <button id="quiz-next-btn" onclick="nextQuizQuestion()" disabled class="px-6 py-3 bg-stone-200 text-stone-400 rounded-xl font-bold text-sm transition flex items-center gap-2 cursor-not-allowed">
+                            Lanjut <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results State -->
+                <div id="quiz-result-state" class="hidden text-center py-10 space-y-6">
+                    <div class="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 mx-auto border-4 border-amber-300 shadow-inner">
+                        <i data-lucide="trophy" class="w-12 h-12"></i>
+                    </div>
+                    <div class="max-w-md mx-auto">
+                        <h3 class="font-serif text-3xl font-bold text-sanskrit-900 mb-2">Kuis Selesai!</h3>
+                        <p class="text-stone-500 text-sm mb-6">Hasil luar biasa untuk usaha belajar Anda hari ini.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 bg-sanskrit-50 p-4 rounded-2xl border border-sanskrit-200 mb-6">
+                            <div>
+                                <span class="text-xs text-stone-500 block">Total Skor</span>
+                                <span id="quiz-final-score" class="text-2xl font-black text-sanskrit-800">80</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-stone-500 block">Benar / Salah</span>
+                                <span id="quiz-ratio" class="text-2xl font-black text-sanskrit-800">8 / 2</span>
+                            </div>
+                        </div>
+
+                        <button onclick="resetQuiz()" class="px-8 py-3.5 bg-sanskrit-800 hover:bg-sanskrit-950 text-white rounded-2xl font-bold transition">
+                            Main Lagi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB CONTENT: FAVORITES -->
+        <section id="tab-favorites" class="tab-content hidden flex-col gap-6">
+            <div class="bg-white rounded-3xl border border-sanskrit-200/50 p-6 md:p-8 shadow-md shadow-sanskrit-900/5">
+                <div class="flex items-center gap-3 border-b border-sanskrit-100 pb-5 mb-6">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-500">
+                        <i data-lucide="bookmark" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif text-xl font-bold text-sanskrit-950">Daftar Kata Favorit Anda</h2>
+                        <p class="text-xs text-stone-500">Kumpulan kosakata penting yang Anda simpan untuk dipelajari kembali.</p>
+                    </div>
+                </div>
+
+                <div id="favorites-empty-state" class="text-center py-16 space-y-4">
+                    <div class="w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center text-stone-300 mx-auto">
+                        <i data-lucide="heart" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-stone-500 text-sm max-w-sm mx-auto">Belum ada kata yang difavoritkan. Klik tombol hati pada setiap kata di kamus untuk menambahkannya kemari.</p>
+                    <button onclick="switchTab('dictionary')" class="text-xs bg-sanskrit-100 text-sanskrit-800 font-bold px-4 py-2 rounded-lg hover:bg-sanskrit-200 transition">
+                        Cari Kata Sekarang
+                    </button>
+                </div>
+
+                <div id="favorites-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Dynamic cards injection -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-sanskrit-950 text-sanskrit-200 py-12 mt-12 border-t border-sanskrit-800 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center">
+            <svg class="w-[600px] h-[600px] text-white" fill="currentColor" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" stroke="currentColor" stroke-dasharray="2 2" fill="none"/>
+                <circle cx="50" cy="50" r="40" stroke="currentColor" fill="none"/>
+            </svg>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+            <h2 class="font-serif text-2xl text-white tracking-widest uppercase">ॐ शांति शांति शांति ॐ</h2>
+            <p class="text-sm max-w-lg mx-auto text-sanskrit-300/80 leading-relaxed">
+                Bahasa Sansekerta memengaruhi pembentukan bahasa Kawi Jawa Kuno, Melayu, dan pada akhirnya memperkaya perbendaharaan kosakata modern Bahasa Indonesia.
+            </p>
+            <div class="h-px bg-sanskrit-900 max-w-md mx-auto"></div>
+            <div class="text-xs text-sanskrit-400 space-y-1">
+                <p class="font-semibold text-sanskrit-200">Kamus Sansekerta Digital &copy; 2026</p>
+                <p>Digitalized & Crafted with Heart By <span class="text-sanskrit-300 font-bold">Wahyudi</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- COPY ALERT POPUP (Custom Non-blocking notification toast) -->
+    <div id="copy-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-sanskrit-900 text-white px-5 py-3 rounded-2xl shadow-xl shadow-sanskrit-950/40 flex items-center gap-2 border border-sanskrit-700 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <span class="text-xs font-semibold" id="toast-message">Teks berhasil disalin!</span>
+    </div>
+
+    <!-- DICTIONARY DATA & LOGIC SCRIPT -->
+    <script>
+        // Dictionary Database (Rich mock dataset with authentic, correct terms)
+        const dictionaryData = [
+            { id: 1, word: "Ahimsa", devanagari: "अहिंसा", category: "Nomina", classification: "Spiritual", definition: "Prinsip nirkekerasan dan penghormatan penuh terhadap segala jenis makhluk hidup di alam semesta.", pronunciation: "ah-him-saa", origin: "a- (tidak) + himsa (melukai)", example: "Menjaga keharmonisan ekosistem adalah bentuk nyata pengamalan ajaran ahimsa secara universal." },
+            { id: 2, word: "Ananda", devanagari: "आनन्द", category: "Nomina", classification: "Spiritual", definition: "Kebahagiaan tertinggi, kedamaian spiritual batin murni yang lepas dari keterikatan duniawi.", pronunciation: "aa-nan-dah", origin: "a- (penuh) + nand (bersukacita)", example: "Saat bermeditasi dalam kesunyian fajar, sang petapa meraih kebahagiaan ananda." },
+            { id: 3, word: "Atman", devanagari: "आत्मन्", category: "Nomina", classification: "Spiritual", definition: "Diri sejati, jiwa individu, atau percikan terkecil dari kesadaran universal (Brahman) yang bersemayam dalam setiap makhluk.", pronunciation: "aat-man", origin: "an- (bernapas)", example: "Tubuh bisa hancur, namun Atman di dalamnya tetap kekal abadi, tak tersentuh kematian." },
+            { id: 4, word: "Avatara", devanagari: "अवतार", category: "Nomina", classification: "Spiritual", definition: "Turunnya sesosok dewa ke bumi dengan mengambil wujud fisik demi menegakkan kebenaran (dharma) saat dunia kacau.", pronunciation: "ah-vah-taa-rah", origin: "ava- (turun) + tri (menyeberang)", example: "Dewa Wisnu turun ke dunia dalam wujud Krishna sebagai salah satu Avatara agung." },
+            { id: 5, word: "Bhakti", devanagari: "भक्ति", category: "Nomina", classification: "Spiritual", definition: "Cinta kasih murni, pengabdian yang tulus, dan penyerahan diri seutuhnya kepada Tuhan.", pronunciation: "bhak-ti", origin: "bhaj (menyembah)", example: "Melalui nyanyian pujian suci, umat mengekspresikan rasa bhakti yang mendalam." },
+            { id: 6, word: "Brahma", devanagari: "ब्रह्मा", category: "Nomina", classification: "Spiritual", definition: "Dewa pencipta alam semesta dalam konsep ketuhanan Trimurti ajaran Hindu.", pronunciation: "brah-maa", origin: "brih (tumbuh, meluas)", example: "Pemujaan Dewa Brahma melambangkan awal penciptaan segala rupa di kosmos." },
+            { id: 7, word: "Brahman", devanagari: "ब्रह्मन्", category: "Nomina", classification: "Spiritual", definition: "Realitas tertinggi yang absolut, tidak berwujud, tidak terbatas, dan merasuki seluruh jagat raya.", pronunciation: "brah-man", origin: "brih (meluas, mutlak)", example: "Segala yang tercipta pada akhirnya akan kembali menyatu ke dalam keheningan Brahman." },
+            { id: 8, word: "Buddhi", devanagari: "बुद्धि", category: "Nomina", classification: "Spiritual", definition: "Kekuatan intelek, daya memilah secara bijak, kesadaran akal budi luhur.", pronunciation: "bud-dhi", origin: "budh (terjaga, tahu)", example: "Mengasah buddhi membantu manusia memilih tindakan bajik di tengah ujian duniawi." },
+            { id: 9, word: "Cakra", devanagari: "चक्र", category: "Nomina", classification: "Spiritual", definition: "Roda kehidupan atau pusat-pusat pusaran energi metafisik dalam tubuh halus manusia.", pronunciation: "cak-rah", origin: "car (bergerak melingkar)", example: "Cakra mahkota yang selaras di puncak kepala menghadirkan ketenangan jiwa." },
+            { id: 10, word: "Cinta", devanagari: "चिन्ता", category: "Nomina", classification: "Nomina", definition: "Awal mulanya berarti pikiran, ingatan luhur, atau kepedulian yang mendalam (mengalami pergeseran arti di bahasa Indonesia modern menjadi kasih sayang).", pronunciation: "cin-taa", origin: "cit (berpikir)", example: "Kosa kata cinta memiliki akar filosofis tentang kepedulian pikiran yang dalam." },
+            { id: 11, word: "Dewa", devanagari: "देव", category: "Nomina", classification: "Spiritual", definition: "Makhluk surgawi yang memancarkan cahaya suci dari manifestasi kebaikan Tuhan.", pronunciation: "dey-vah", origin: "div (bersinar)", example: "Masyarakat memohon berkah kesuburan tanah pertanian dari para Dewa penjaga alam." },
+            { id: 12, word: "Dewi", devanagari: "देवी", category: "Nomina", classification: "Spiritual", definition: "Wujud ilahi feminin, manifestasi agung dari energi penciptaan dan kelembutan kasih sayang.", pronunciation: "dey-vee", origin: "div (bersinar)", example: "Dewi Sri sangat dihormati sebagai pelindung padi dan kemakmuran pangan." },
+            { id: 13, word: "Dharma", devanagari: "धर्म", category: "Nomina", classification: "Spiritual", definition: "Kebenaran universal, kewajiban etis, hukum alam yang menyokong harmoni dan tata tertib kehidupan.", pronunciation: "dhar-mah", origin: "dhri (menopang, memelihara)", example: "Mengikuti jalan dharma adalah tugas tertinggi setiap insan manusia." },
+            { id: 14, word: "Dhyana", devanagari: "ध्यान", category: "Nomina", classification: "Spiritual", definition: "Meditasi tingkat lanjut, keheningan pikiran yang terfokus satu tanpa distorsi indra.", pronunciation: "dhyaa-nah", origin: "dhyai (merenungkan)", example: "Dalam dhyana yang dalam, batas fisik keduniawian tampak memudar." },
+            { id: 15, word: "Eka", devanagari: "एक", category: "Numeralia", classification: "Numeralia", definition: "Angka atau bilangan satu; melambangkan ketunggalan atau persatuan.", pronunciation: "ey-kah", origin: "eka (tunggal)", example: "Prinsip Eka Prasetya Pancasila melandasi komitmen kesatuan bangsa." },
+            { id: 16, word: "Dwi", devanagari: "द्वि", category: "Numeralia", classification: "Numeralia", definition: "Bilangan dua; melambangkan dualitas alam semesta seperti rupa baik dan buruk.", pronunciation: "dwee", origin: "dvi (dua)", example: "Konsep dwiwarna merah-putih menghiasi bendera pusaka Indonesia." },
+            { id: 17, word: "Tri", devanagari: "त्रि", category: "Numeralia", classification: "Numeralia", definition: "Bilangan tiga; melambangkan kekuatan sakral penyeimbang.", pronunciation: "tree", origin: "tri (tiga)", example: "Tri Murti melambangkan siklus abadi penciptaan, pemeliharaan, dan peleburan." },
+            { id: 18, word: "Catur", devanagari: "चतुर्", category: "Numeralia", classification: "Numeralia", definition: "Bilangan empat; melambangkan empat penjuru mata angin atau fondasi kestabilan.", pronunciation: "ca-tur", origin: "catur (empat)", example: "Catur marga adalah empat jalan spiritual utama dalam ajaran Hindu." },
+            { id: 19, word: "Panca", devanagari: "पञ्चन्", category: "Numeralia", classification: "Numeralia", definition: "Bilangan lima; menjadi basis dari penamaan pilar penting kenegaraan kita.", pronunciation: "pan-cah", origin: "panca (lima)", example: "Pancasila dirumuskan sebagai lima prinsip pemersatu NKRI." },
+            { id: 20, word: "Guru", devanagari: "गुरु", category: "Nomina", classification: "Nomina", definition: "Pembimbing spiritual, penghancur kegelapan batin, seseorang yang mulia penuntun kebijaksanaan hidup.", pronunciation: "gu-roo", origin: "gu (kegelapan) + ru (penghalau)", example: "Hormatilah setiap guru yang telah membuka gerbang cakrawala pengetahuan berharga." },
+            { id: 21, word: "Indra", devanagari: "इन्द्र", category: "Nomina", classification: "Spiritual", definition: "Penguasa langit, dewa petir, hujan, dan kesuburan alam yang bertahta di khayangan.", pronunciation: "in-drah", origin: "ind (memiliki kekuatan)", example: "Petir menggelegar dipandang sebagai anak panah panji keagungan Dewa Indra." },
+            { id: 22, word: "Jiwa", devanagari: "जीव", category: "Nomina", classification: "Nomina", definition: "Prinsip kehidupan universal, roh yang bernapas, kekuatan daya hidup makhluk.", pronunciation: "jee-vah", origin: "jiv (hidup)", example: "Kedamaian jiwa tidak dapat ditukar dengan limpahan materi duniawi semata." },
+            { id: 23, word: "Karma", devanagari: "कर्मन्", category: "Nomina", classification: "Spiritual", definition: "Hukum kausalitas mutlak, di mana setiap tindakan (baik/buruk) mendatangkan akibat setimpal.", pronunciation: "kar-mah", origin: "kri (melakukan perbuatan)", example: "Tanamlah kebajikan jika ingin memanen buah karma manis di masa depan." },
+            { id: 24, word: "Kriya", devanagari: "Nomina", classification: "Nomina", definition: "Tindakan, usaha fisik, atau praktik pembersihan diri dalam tradisi yoga kuno.", pronunciation: "kree-yaa", origin: "kri (melakukan)", example: "Latihan kriya yoga memperkuat ketahanan paru dan konsentrasi pikiran." },
+            { id: 25, word: "Mantra", devanagari: "मन्त्र", category: "Nomina", classification: "Spiritual", definition: "Suku kata suci atau bait doa berkekuatan mistis yang diucapkan berulang demi fokus meditatif.", pronunciation: "man-trah", origin: "man (berpikir) + tra (melindungi)", example: "Melantunkan mantra penenang memancarkan getaran positif yang menenangkan syaraf." },
+            { id: 26, word: "Moksa", devanagari: "मोक्ष", category: "Nomina", classification: "Spiritual", definition: "Kebebasan mutlak dari siklus reinkarnasi, penyatuan Atman secara sempurna dengan Brahman.", pronunciation: "mok-shah", origin: "muc (melepaskan)", example: "Tujuan akhir perjalanan evolusi spiritual manusia adalah pencapaian moksa." },
+            { id: 27, word: "Nirwana", devanagari: "निर्वाण", category: "Nomina", classification: "Spiritual", definition: "Keadaan hening tanpa penderitaan, padamnya nafsu ego keduniawian, kedamaian mutlak.", pronunciation: "neer-vaa-nah", origin: "nis- (keluar) + va (bertiup)", example: "Batin yang damai dari amarah perlahan-lahan mendekati batas samudera Nirwana." },
+            { id: 28, word: "Prana", devanagari: "प्राण", category: "Nomina", classification: "Spiritual", definition: "Daya hidup kosmis, energi vital penopang pernapasan seluruh makhluk hidup.", pronunciation: "praa-nah", origin: "pra- (ke depan) + an (bernapas)", example: "Latihan pernapasan pranamaya berfungsi memperlancar sirkulasi prana tubuh." },
+            { id: 29, word: "Samsara", devanagari: "संसार", category: "Nomina", classification: "Spiritual", definition: "Perputaran lingkaran kelahiran, kematian, dan reinkarnasi berulang di dunia fana.", pronunciation: "sam-saa-rah", origin: "sam (bersama) + sri (mengalir, berputar)", example: "Kesadaran akan samsara mendorong manusia memperbanyak tabungan kebajikan." },
+            { id: 30, word: "Satya", devanagari: "सत्य", category: "Adjektiva", classification: "Spiritual", definition: "Kebenaran sejati, kesetiaan, kejujuran dalam pikiran, ucapan, dan tindakan nyata.", pronunciation: "sat-yah", origin: "sat (keberadaan murni)", example: "Karakter agung seseorang tecermin dari komitmennya memegang teguh satya." },
+            { id: 31, word: "Seva", devanagari: "सेवा", category: "Nomina", classification: "Nomina", definition: "Tindakan pelayanan sosial sukarela tanpa mengharapkan pamrih atau balasan material.", pronunciation: "sey-vaa", origin: "sev (melayani)", example: "Menolong korban bencana dengan ikhlas adalah bentuk nyata pengabdian seva." },
+            { id: 32, word: "Sila", devanagari: "शील", category: "Nomina", classification: "Nomina", definition: "Prinsip moralitas, fondasi etika berperilaku bajik dan menjauhi maksiat.", pronunciation: "shee-lah", origin: "shil (berlatih perilaku)", example: "Pancasila memiliki landasan kata sila yang berarti asas bermasyarakat yang luhur." },
+            { id: 33, word: "Surya", devanagari: "सूर्य", category: "Nomina", classification: "Nomina", definition: "Dewa matahari, pusat kehangatan alam, pelambang cahaya ilmu pengetahuan penghalau kegelapan.", pronunciation: "soor-yah", origin: "svar (bersinar terang)", example: "Surya namaskar adalah rangkaian yoga penghormatan pada terbitnya matahari fajar." },
+            { id: 34, word: "Yoga", devanagari: "योग", category: "Nomina", classification: "Spiritual", definition: "Penyatuan harmonis antara tubuh fisik, pikiran sadar, dan Atman (jiwa) dengan kesadaran semesta.", pronunciation: "yo-gah", origin: "yuj (menghubungkan, menyatukan)", example: "Melalui latihan yoga secara teratur, kebugaran raga dan ketenangan batin dapat terjaga seimbang." },
+            { id: 35, word: "Sundara", devanagari: "सुन्दर", category: "Adjektiva", classification: "Adjektiva", definition: "Indah, cantik, rupawan, memikat hati, atau menyenangkan untuk dipandang mata.", pronunciation: "sun-da-rah", origin: "sund (bersinar indah)", example: "Taman asri di lereng bukit itu tampak sangat sundara saat kabut pagi menyelimutinya." },
+            { id: 36, word: "Manggala", devanagari: "मङ्गल", category: "Nomina", classification: "Spiritual", definition: "Berkat suci, keberuntungan, kebahagiaan, pembawa keselamatan atau tanda-tanda baik.", pronunciation: "mang-ga-lah", origin: "mang (tumbuh makmur)", example: "Upacara selamatan itu diselenggarakan sebagai manggala keselamatan seluruh warga desa." },
+            { id: 37, word: "Wira", devanagari: "वीर", category: "Nomina", classification: "Nomina", definition: "Pahlawan, kesatria, pejuang tangguh, gagah berani, berkemauan kuat mempertahankan kebenaran.", pronunciation: "wee-rah", origin: "vir (kuat, bertenaga)", example: "Seorang wira tidak akan lari dari tanggung jawab melindungi mereka yang lemah." },
+            { id: 38, word: "Santosa", devanagari: "संतोष", category: "Nomina", classification: "Nomina", definition: "Kepuasan hati, perasaan tenteram, rasa syukur yang mendalam atas segala keadaan hidup apa adanya.", pronunciation: "san-to-shah", origin: "sam (sepenuhnya) + tush (puas)", example: "Menemukan kebahagiaan santosa di dalam hati membuat seseorang bebas dari rasa iri dengki." },
+            { id: 39, word: "Karuna", devanagari: "करुणा", category: "Nomina", classification: "Spiritual", definition: "Belas kasih aktif, keinginan tulus meringankan kesengsaraan sesama makhluk hidup.", pronunciation: "ka-ru-naa", origin: "kr (berbuat belas kasih)", example: "Sikap karuna menuntun seorang dokter untuk merawat pasien miskin secara gratis." },
+            { id: 40, word: "Vidya", devanagari: "विद्या", category: "Nomina", classification: "Nomina", definition: "Ilmu pengetahuan luhur, kebijaksanaan spiritual yang membuyarkan kabut kebodohan (avidya).", pronunciation: "wid-yaa", origin: "vid (mengetahui)", example: "Buku-buku perpustakaan kuno itu menyimpan vidya yang sangat berharga bagi peradaban." }
+        ];
+
+        // State variables
+        let selectedWordId = 1;
+        let activeAlphabet = '';
+        let favorites = [];
+        let currentTab = 'dictionary';
+        let wotdExpanded = false;
+        
+        // Quiz state variables
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let isAnswerSelected = false;
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load favorites from memory
+            const savedFavs = localStorage.getItem('sanskrit_favs');
+            if (savedFavs) {
+                favorites = JSON.parse(savedFavs);
+            }
+            updateFavCount();
+
+            // Setup total count label
+            document.getElementById('db-total-count').textContent = dictionaryData.length;
+
+            // Generate layout items
+            generateAlphabetFilter();
+            renderWordList();
+            generateWordOfTheDay();
+            renderSelectedWordDetails();
+            initQuizHighScore();
+
+            // Attach search listeners
+            document.getElementById('search-input').addEventListener('input', handleSearch);
+            document.getElementById('category-filter').addEventListener('change', handleSearch);
+            document.getElementById('clear-search').addEventListener('click', () => {
+                document.getElementById('search-input').value = '';
+                document.getElementById('clear-search').classList.add('hidden');
+                handleSearch();
+            });
+
+            // Initialize Lucide Icons
+            lucide.createIcons();
+        });
+
+        // Tab Switcher
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Toggle active styles on buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 flex items-center gap-2 text-sanskrit-800 hover:bg-sanskrit-100";
+            });
+            
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.className = "tab-btn px-4 py-2 rounded-lg text-sm font-bold transition-all duration-200 flex items-center gap-2 bg-sanskrit-700 text-white shadow-sm";
+
+            // Show/Hide sections
+            document.querySelectorAll('.tab-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('flex');
+
+            // Hide/Show hero banner depending on tab
+            const hero = document.getElementById('hero-banner');
+            if (tabName === 'dictionary') {
+                hero.classList.remove('hidden');
+                hero.classList.add('grid');
+                renderWordList(); // Refresh
+            } else {
+                hero.classList.remove('grid');
+                hero.classList.add('hidden');
+            }
+
+            if (tabName === 'favorites') {
+                renderFavorites();
+            }
+            
+            lucide.createIcons();
+        }
+
+        // Alphabet Filter Builder
+        function generateAlphabetFilter() {
+            const container = document.getElementById('alphabet-container');
+            container.innerHTML = '';
+
+            // Generate "Semua" button
+            const allBtn = document.createElement('button');
+            allBtn.textContent = 'SEMUA';
+            allBtn.className = `px-3 py-1.5 rounded-lg text-xs font-bold transition border cursor-pointer ${
+                activeAlphabet === '' 
+                    ? 'bg-sanskrit-700 text-white border-sanskrit-700' 
+                    : 'bg-sanskrit-50 text-sanskrit-800 border-sanskrit-200/60 hover:bg-sanskrit-100'
+            }`;
+            allBtn.onclick = () => filterByAlphabet('');
+            container.appendChild(allBtn);
+
+            // Fetch list of starting letters available in our DB
+            const alphabets = [...new Set(dictionaryData.map(item => item.word.charAt(0).toUpperCase()))].sort();
+
+            alphabets.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.textContent = letter;
+                btn.className = `w-8 h-8 rounded-lg text-xs font-bold transition border flex items-center justify-center cursor-pointer ${
+                    activeAlphabet === letter 
+                        ? 'bg-sanskrit-700 text-white border-sanskrit-700' 
+                        : 'bg-sanskrit-50 text-sanskrit-800 border-sanskrit-200/60 hover:bg-sanskrit-100'
+                }`;
+                btn.onclick = () => filterByAlphabet(letter);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByAlphabet(letter) {
+            activeAlphabet = letter;
+            generateAlphabetFilter();
+            handleSearch();
+        }
+
+        // Filter & Search Logic combined
+        function getFilteredData() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const category = document.getElementById('category-filter').value;
+            const clearBtn = document.getElementById('clear-search');
+
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            return dictionaryData.filter(item => {
+                const matchesQuery = item.word.toLowerCase().includes(query) || 
+                                     item.definition.toLowerCase().includes(query) ||
+                                     item.devanagari.includes(query);
+                
+                const matchesAlphabet = activeAlphabet === '' || item.word.startsWith(activeAlphabet);
+                
+                let matchesCategory = true;
+                if (category !== 'all') {
+                    if (category === 'Spiritual') {
+                        matchesCategory = item.classification === 'Spiritual';
+                    } else {
+                        matchesCategory = item.category.includes(category);
+                    }
+                }
+
+                return matchesQuery && matchesAlphabet && matchesCategory;
+            });
+        }
+
+        // Render Sidebar Word List
+        function renderWordList() {
+            const listContainer = document.getElementById('word-list-container');
+            const data = getFilteredData();
+            
+            document.getElementById('results-count').textContent = `${data.length} kata`;
+            listContainer.innerHTML = '';
+
+            if (data.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="p-8 text-center text-stone-400 flex flex-col items-center justify-center gap-2">
+                        <i data-lucide="compass" class="w-8 h-8 text-stone-300"></i>
+                        <p class="text-sm font-semibold">Tidak ada kosakata yang cocok</p>
+                        <p class="text-xs">Coba kurangi filter atau ubah kata pencarian Anda.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            data.forEach(item => {
+                const isSelected = item.id === selectedWordId;
+                const isFav = favorites.includes(item.id);
+                
+                const div = document.createElement('div');
+                div.className = `group p-4 flex items-center justify-between cursor-pointer border-l-4 transition-all ${
+                    isSelected 
+                        ? 'bg-sanskrit-50/80 border-sanskrit-700' 
+                        : 'border-transparent hover:bg-stone-50'
+                }`;
+                div.setAttribute('onclick', `selectWord(${item.id})`);
+
+                div.innerHTML = `
+                    <div class="min-w-0 flex-grow pr-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-serif text-base font-bold text-sanskrit-950 group-hover:text-sanskrit-800 transition">${item.word}</span>
+                            <span class="text-[9px] bg-stone-100 text-stone-500 font-bold px-1.5 py-0.5 rounded">${item.category}</span>
+                        </div>
+                        <p class="font-devanagari text-stone-400 text-sm mt-0.5">${item.devanagari}</p>
+                        <p class="text-xs text-stone-500 truncate mt-1">${item.definition}</p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        ${isFav ? '<i data-lucide="heart" class="w-4 h-4 text-red-500 fill-current"></i>' : ''}
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-stone-300 group-hover:text-sanskrit-600 transition transform group-hover:translate-x-0.5"></i>
+                    </div>
+                `;
+                listContainer.appendChild(div);
+            });
+
+            lucide.createIcons();
+        }
+
+        function handleSearch() {
+            renderWordList();
+            
+            // Auto-select first matching result if current selection is not in filtered list
+            const filtered = getFilteredData();
+            if (filtered.length > 0 && !filtered.some(i => i.id === selectedWordId)) {
+                selectWord(filtered[0].id);
+            }
+        }
+
+        // Select Word from List
+        function selectWord(id) {
+            selectedWordId = id;
+            
+            // Highlight list selection
+            document.querySelectorAll('#word-list-container > div').forEach(el => {
+                el.classList.remove('bg-sanskrit-50/80', 'border-sanskrit-700');
+                el.classList.add('border-transparent');
+            });
+            
+            // Re-render selected details
+            renderSelectedWordDetails();
+            renderWordList();
+        }
+
+        // Render Detailed Info (Right Panel)
+        function renderSelectedWordDetails() {
+            const detailsContent = document.getElementById('details-content');
+            const item = dictionaryData.find(i => i.id === selectedWordId);
+
+            if (!item) return;
+
+            const isFav = favorites.includes(item.id);
+
+            detailsContent.innerHTML = `
+                <!-- Title Header -->
+                <div class="flex items-start justify-between border-b border-sanskrit-100 pb-5 gap-4">
+                    <div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <h2 class="font-serif text-3xl md:text-4xl font-black text-sanskrit-950 tracking-wide">${item.word}</h2>
+                            <span class="text-xs bg-sanskrit-100 text-sanskrit-800 font-bold px-3 py-1 rounded-full border border-sanskrit-200">${item.category}</span>
+                            ${item.classification === 'Spiritual' ? `<span class="text-xs bg-amber-500/10 text-amber-700 font-bold px-2.5 py-0.5 rounded-full border border-amber-300/30">Filosofi</span>` : ''}
+                        </div>
+                        <div class="mt-2 flex items-baseline gap-3">
+                            <p class="font-devanagari text-3xl text-sanskrit-600 tracking-wider">${item.devanagari}</p>
+                            <span class="text-xs text-stone-400 italic">Pratima Aksara</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleFavorite(${item.id})" class="p-2.5 rounded-2xl border border-sanskrit-100 hover:bg-red-50 text-stone-400 hover:text-red-500 transition-all duration-200 shadow-sm" title="Tambahkan ke Favorit">
+                            <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-red-500 text-red-500' : ''}"></i>
+                        </button>
+                        <button onclick="copyToClipboard('${item.word} (${item.devanagari}) : ${item.definition}')" class="p-2.5 rounded-2xl border border-sanskrit-100 hover:bg-sanskrit-50 text-stone-500 hover:text-sanskrit-800 transition-all duration-200 shadow-sm" title="Salin Makna">
+                            <i data-lucide="copy" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Phonetics & Origin Metadata Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-sanskrit-50/60 p-4 rounded-2xl border border-sanskrit-100">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-sanskrit-700 block mb-1">Pelafalan Sansekerta</span>
+                        <p class="font-semibold text-stone-800">
+                            <span class="italic text-base">"${item.pronunciation}"</span>
+                        </p>
+                    </div>
+                    <div class="bg-sanskrit-50/60 p-4 rounded-2xl border border-sanskrit-100">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-sanskrit-700 block mb-1">Etimologi / Asal Kata</span>
+                        <p class="font-semibold text-stone-800 flex items-center gap-2">
+                            <i data-lucide="git-branch" class="w-4 h-4 text-sanskrit-600"></i>
+                            <span class="text-sm">${item.origin || 'Tidak terdokumentasi'}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Deep Meaning / Definition -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-sanskrit-800 block">Arti & Tafsir Filosofis</span>
+                    <div class="bg-gradient-to-r from-amber-500/5 to-transparent border-l-4 border-amber-500 p-5 rounded-r-2xl">
+                        <p class="text-stone-700 text-base leading-relaxed font-medium">
+                            ${item.definition}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Example of Context Usage -->
+                <div class="space-y-2">
+                    <span class="text-xs font-bold uppercase tracking-wider text-sanskrit-800 block">Contoh Penggunaan Kontekstual</span>
+                    <p class="text-stone-600 text-sm leading-relaxed italic bg-stone-50/80 p-4 rounded-2xl border border-stone-200/50">
+                        "${item.example}"
+                    </p>
+                </div>
+
+                <!-- Educational Info Footnote -->
+                <div class="bg-stone-50 p-4 rounded-2xl border border-stone-100 flex gap-3 text-stone-500">
+                    <i data-lucide="info" class="w-5 h-5 text-sanskrit-600 shrink-0 mt-0.5"></i>
+                    <p class="text-xs leading-relaxed">
+                        Tahukah Anda? Banyak istilah hukum, filsafat kenegaraan, lambang kepahlawanan, serta ornamen luhur kebangsaan Indonesia menyerap falsafah mulia langsung dari akar kata bahasa Sansekerta kuno.
+                    </p>
+                </div>
+            `;
+
+            lucide.createIcons();
+        }
+
+        // Copy Clipboard Helper
+        function copyToClipboard(text) {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast("Berhasil menyalin definisi ke papan klip!");
+            } catch (err) {
+                console.error("Gagal menyalin teks: ", err);
+            }
+            
+            document.body.removeChild(tempTextArea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('copy-toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.className = "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-sanskrit-900 text-white px-5 py-3 rounded-2xl shadow-xl shadow-sanskrit-950/40 flex items-center gap-2 border border-sanskrit-700 translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto";
+            
+            setTimeout(() => {
+                toast.className = "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-sanskrit-900 text-white px-5 py-3 rounded-2xl shadow-xl shadow-sanskrit-950/40 flex items-center gap-2 border border-sanskrit-700 translate-y-20 opacity-0 transition-all duration-300 pointer-events-none";
+            }, 3000);
+        }
+
+        // Favorite Toggle Action
+        function toggleFavorite(id) {
+            const index = favorites.indexOf(id);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast("Dihapus dari koleksi favorit Anda.");
+            } else {
+                favorites.push(id);
+                showToast("Ditambahkan ke koleksi favorit Anda!");
+            }
+
+            localStorage.setItem('sanskrit_favs', JSON.stringify(favorites));
+            updateFavCount();
+            renderWordList();
+            
+            if (currentTab === 'favorites') {
+                renderFavorites();
+            } else if (currentTab === 'dictionary') {
+                renderSelectedWordDetails();
+                updateWotdFavState();
+            }
+        }
+
+        function updateFavCount() {
+            const countEl = document.getElementById('fav-count');
+            countEl.textContent = favorites.length;
+            if (favorites.length > 0) {
+                countEl.classList.remove('hidden');
+            } else {
+                countEl.classList.add('hidden');
+            }
+        }
+
+        // Render Favorites Tab Grid Layout
+        function renderFavorites() {
+            const grid = document.getElementById('favorites-grid');
+            const emptyState = document.getElementById('favorites-empty-state');
+            
+            grid.innerHTML = '';
+
+            if (favorites.length === 0) {
+                grid.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.classList.remove('hidden');
+            grid.classList.add('grid');
+
+            favorites.forEach(favId => {
+                const item = dictionaryData.find(i => i.id === favId);
+                if (!item) return;
+
+                const card = document.createElement('div');
+                card.className = "bg-gradient-to-b from-white to-sanskrit-50/20 rounded-2xl border border-sanskrit-200 p-5 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                                <h3 class="font-serif text-lg font-bold text-sanskrit-950">${item.word}</h3>
+                                <p class="font-devanagari text-sanskrit-600 text-sm mt-0.5">${item.devanagari}</p>
+                            </div>
+                            <button onclick="toggleFavorite(${item.id})" class="text-red-500 hover:text-stone-400 p-1 rounded-lg transition" title="Hapus Favorit">
+                                <i data-lucide="heart" class="w-5 h-5 fill-current"></i>
+                            </button>
+                        </div>
+                        <p class="text-stone-600 text-xs line-clamp-3 my-3 border-t border-sanskrit-100/60 pt-3">${item.definition}</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-2 pt-3 border-t border-sanskrit-100/60">
+                        <span class="text-[10px] font-black uppercase text-sanskrit-700 bg-amber-50 px-2 py-0.5 rounded">${item.category}</span>
+                        <button onclick="switchTab('dictionary'); selectWord(${item.id});" class="text-xs font-bold text-sanskrit-800 hover:text-sanskrit-950 flex items-center gap-1">
+                            Lihat Kamus <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Toggle Expand Word Of The Day Card Locally
+        function toggleWotd() {
+            if (!currentWotd) return;
+            wotdExpanded = !wotdExpanded;
+            const defEl = document.getElementById('wotd-def');
+            const btnEl = document.getElementById('wotd-detail-btn');
+            
+            if (wotdExpanded) {
+                defEl.textContent = currentWotd.definition;
+                btnEl.innerHTML = `Sembunyikan <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>`;
+            } else {
+                defEl.textContent = currentWotd.definition.slice(0, 50) + (currentWotd.definition.length > 50 ? '...' : '');
+                btnEl.innerHTML = `Lihat Selengkapnya <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>`;
+            }
+            lucide.createIcons();
+        }
+
+        // Randomize Word Of The Day Card
+        let currentWotd = null;
+        function generateWordOfTheDay() {
+            const randomIndex = Math.floor(Math.random() * dictionaryData.length);
+            currentWotd = dictionaryData[randomIndex];
+
+            document.getElementById('wotd-word').textContent = currentWotd.word;
+            document.getElementById('wotd-devanagari').textContent = currentWotd.devanagari;
+            document.getElementById('wotd-category').textContent = currentWotd.category;
+            document.getElementById('wotd-pronounce').textContent = `diucapkan: "${currentWotd.pronunciation}"`;
+
+            // Reset expand state to default collapsed, and slice to 50 characters maximum
+            wotdExpanded = false;
+            const defEl = document.getElementById('wotd-def');
+            defEl.textContent = currentWotd.definition.slice(0, 50) + (currentWotd.definition.length > 50 ? '...' : '');
+
+            const btnEl = document.getElementById('wotd-detail-btn');
+            btnEl.innerHTML = `Lihat Selengkapnya <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>`;
+
+            // Action listener to open directly in standard dictionary view
+            const gotoBtn = document.getElementById('wotd-goto-dict');
+            gotoBtn.onclick = () => {
+                switchTab('dictionary');
+                selectWord(currentWotd.id);
+            };
+
+            // Set Favorite Heart button status
+            updateWotdFavState();
+        }
+
+        function updateWotdFavState() {
+            if (!currentWotd) return;
+            const favBtn = document.getElementById('wotd-fav-btn');
+            const isFav = favorites.includes(currentWotd.id);
+            
+            favBtn.setAttribute('onclick', `toggleFavorite(${currentWotd.id}); updateWotdFavState();`);
+            
+            if (isFav) {
+                favBtn.innerHTML = '<i data-lucide="heart" class="w-4 h-4 text-red-500 fill-current animate-pulse"></i>';
+            } else {
+                favBtn.innerHTML = '<i data-lucide="heart" class="w-4 h-4"></i>';
+            }
+            lucide.createIcons();
+        }
+
+        // --- KUIS / GAME LOGIC ---
+        function initQuizHighScore() {
+            const highScore = localStorage.getItem('sanskrit_quiz_highscore') || '0';
+            document.getElementById('quiz-high-score').textContent = highScore;
+        }
+
+        function startQuiz() {
+            document.getElementById('quiz-ready-state').classList.add('hidden');
+            document.getElementById('quiz-result-state').classList.add('hidden');
+            document.getElementById('quiz-playing-state').classList.remove('hidden');
+
+            // Generate 10 random questions from DB
+            quizQuestions = [];
+            const tempDb = [...dictionaryData];
+            
+            // Draw 10 items
+            for (let i = 0; i < 10; i++) {
+                if (tempDb.length === 0) break;
+                const randomIndex = Math.floor(Math.random() * tempDb.length);
+                const chosenItem = tempDb.splice(randomIndex, 1)[0];
+                
+                // Get 3 random wrong options
+                const wrongOptions = dictionaryData
+                    .filter(item => item.id !== chosenItem.id)
+                    .map(item => item.definition);
+                
+                // Shuffle wrong choices and select 3
+                const shuffledWrongs = wrongOptions.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                // Mix correct + wrong options and shuffle
+                const choices = [chosenItem.definition, ...shuffledWrongs].sort(() => 0.5 - Math.random());
+
+                quizQuestions.push({
+                    correctWord: chosenItem.word,
+                    devanagari: chosenItem.devanagari,
+                    correctDef: chosenItem.definition,
+                    choices: choices
+                });
+            }
+
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            isAnswerSelected = false;
+            
+            // Toggle next button
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-3 bg-stone-200 text-stone-400 rounded-xl font-bold text-sm transition flex items-center gap-2 cursor-not-allowed";
+
+            const q = quizQuestions[currentQuestionIndex];
+            
+            // Progress tracker update
+            document.getElementById('quiz-current-num').textContent = currentQuestionIndex + 1;
+            document.getElementById('quiz-current-score').textContent = quizScore;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / 10) * 100}%`;
+
+            // Display question
+            document.getElementById('quiz-question-word').textContent = q.correctWord;
+            document.getElementById('quiz-question-devanagari').textContent = q.devanagari;
+
+            // Render options
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = '';
+
+            q.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = "quiz-opt-btn p-4 rounded-2xl border-2 border-stone-200 text-left text-sm font-semibold text-stone-700 bg-white hover:bg-stone-50 hover:border-sanskrit-300 transition duration-150 flex items-start gap-3 cursor-pointer";
+                btn.onclick = () => selectQuizAnswer(btn, choice, q.correctDef);
+                
+                btn.innerHTML = `
+                    <span class="w-5 h-5 rounded-full border border-stone-300 text-stone-400 text-xs flex items-center justify-center font-bold shrink-0 mt-0.5">•</span>
+                    <span class="leading-relaxed">${choice}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizAnswer(clickedBtn, selectedValue, correctValue) {
+            if (isAnswerSelected) return; // Guard for single choice
+            isAnswerSelected = true;
+
+            const buttons = document.querySelectorAll('.quiz-opt-btn');
+            const isCorrect = selectedValue === correctValue;
+
+            if (isCorrect) {
+                quizScore += 10;
+                document.getElementById('quiz-current-score').textContent = quizScore;
+                
+                clickedBtn.className = "quiz-opt-btn p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 text-left text-sm font-bold flex items-start gap-3 shrink-0";
+                clickedBtn.querySelector('span:first-child').className = "w-5 h-5 rounded-full bg-emerald-500 text-white text-[10px] flex items-center justify-center font-bold shrink-0 mt-0.5";
+                clickedBtn.querySelector('span:first-child').innerHTML = "✓";
+            } else {
+                clickedBtn.className = "quiz-opt-btn p-4 rounded-2xl border-2 border-red-500 bg-red-50 text-red-800 text-left text-sm font-semibold flex items-start gap-3 shrink-0";
+                clickedBtn.querySelector('span:first-child').className = "w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold shrink-0 mt-0.5";
+                clickedBtn.querySelector('span:first-child').innerHTML = "✕";
+
+                // Highlight correct answer
+                buttons.forEach(btn => {
+                    if (btn.textContent.includes(correctValue)) {
+                        btn.className = "quiz-opt-btn p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 text-left text-sm font-bold flex items-start gap-3 shrink-0";
+                        btn.querySelector('span:first-child').className = "w-5 h-5 rounded-full bg-emerald-500 text-white text-[10px] flex items-center justify-center font-bold shrink-0 mt-0.5";
+                        btn.querySelector('span:first-child').innerHTML = "✓";
+                    }
+                });
+            }
+
+            // Enable next button
+            const nextBtn = document.getElementById('quiz-next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-3 bg-sanskrit-700 hover:bg-sanskrit-800 text-white rounded-xl font-bold text-sm transition flex items-center gap-2 cursor-pointer";
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuestionIndex < 9) {
+                currentQuestionIndex++;
+                loadQuizQuestion();
+            } else {
+                // Show Quiz Results
+                document.getElementById('quiz-playing-state').classList.add('hidden');
+                document.getElementById('quiz-result-state').classList.remove('hidden');
+
+                document.getElementById('quiz-final-score').textContent = quizScore;
+                document.getElementById('quiz-ratio').textContent = `${quizScore / 10} Benar / ${10 - (quizScore / 10)} Salah`;
+
+                // Update Highscore
+                const currentHighScore = parseInt(localStorage.getItem('sanskrit_quiz_highscore') || '0');
+                if (quizScore > currentHighScore) {
+                    localStorage.setItem('sanskrit_quiz_highscore', quizScore.toString());
+                    document.getElementById('quiz-high-score').textContent = quizScore;
+                    showToast("Selamat! Anda memecahkan skor terbaik kuis!");
+                }
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-result-state').classList.add('hidden');
+            document.getElementById('quiz-ready-state').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
