@@ -17,190 +17,107 @@
                         serif: ['Fraunces', 'serif'],
                     },
                     colors: {
-                        heritage: {
-                            50: '#fbf8f3', 100: '#f5efe0', 200: '#e9dac1', 300: '#d7bc95', 400: '#c29b6b', 500: '#ad7c48', 600: '#915f33', 700: '#754625', 800: '#5a311b', 900: '#432113', 950: '#271009',
-                        },
-                        sage: {
-                            50: '#f4f7f5', 100: '#e5ebe6', 200: '#ccd8cf', 300: '#a7bcaa', 400: '#7d9b81', 500: '#5d7e61', 600: '#48644c', 700: '#3c5240', 800: '#324235', 900: '#2b382d',
-                        }
+                        heritage: { 50: '#fbf8f3', 100: '#f5efe0', 200: '#e9dac1', 300: '#d7bc95', 400: '#c29b6b', 500: '#ad7c48', 600: '#915f33', 700: '#754625', 800: '#5a311b', 900: '#432113', 950: '#271009' },
+                        sage: { 50: '#f4f7f5', 100: '#e5ebe6', 200: '#ccd8cf', 300: '#a7bcaa', 400: '#7d9b81', 500: '#5d7e61', 600: '#48644c', 700: '#3c5240', 800: '#324235', 900: '#2b382d' }
                     }
                 }
             }
         }
     </script>
-    <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f5efe0; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c29b6b; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #915f33; }
-        .perspective { perspective: 1000px; }
-    </style>
 </head>
-<body class="bg-heritage-50 text-heritage-950 font-sans min-h-screen flex flex-col selection:bg-heritage-200 selection:text-heritage-900">
+<body class="bg-heritage-50 text-heritage-950 font-sans min-h-screen flex flex-col">
 
-    <!-- HEADER / NAVIGATION -->
     <header class="bg-heritage-950 text-heritage-100 border-b border-heritage-800 sticky top-0 z-40 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex items-center gap-3">
-                    <div class="bg-heritage-800 p-2.5 rounded-xl border border-heritage-700 shadow-inner flex items-center justify-center">
-                        <svg class="w-8 h-8 text-heritage-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 22h20L12 2z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 5l-7 14h14l-7-14z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M7 16h10M9 12h6M11 8h2" />
-                        </svg>
+                    <div class="bg-heritage-800 p-2.5 rounded-xl border border-heritage-700 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-heritage-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 22h20L12 2z" /><path d="M12 5l-7 14h14l-7-14z" /><path d="M12 2v20M7 16h10M9 12h6M11 8h2" /></svg>
                     </div>
                     <div>
-                        <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-wide text-heritage-200">Banyumasan</h1>
-                        <p class="text-[11px] sm:text-xs text-heritage-400 font-medium tracking-widest uppercase">Portal Kamus & Budaya Ngapak - Created By Wahyudi</p>
+                        <h1 class="font-serif text-lg sm:text-2xl font-bold text-heritage-200">Banyumasan</h1>
+                        <p class="text-[10px] sm:text-xs text-heritage-400 tracking-widest uppercase">- Created By Wahyudi</p>
                     </div>
                 </div>
 
+                <!-- Desktop Nav -->
                 <nav class="hidden lg:flex space-x-1">
-                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-200 bg-heritage-900 border border-heritage-800">Beranda</button>
-                    <button onclick="switchTab('kamus')" id="nav-kamus" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Kamus Utama</button>
-                    <button onclick="switchTab('penerjemah')" id="nav-penerjemah" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Penerjemah</button>
-                    <button onclick="switchTab('sinau')" id="nav-sinau" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Sinau & Game</button>
-                    <button onclick="switchTab('budaya')" id="nav-budaya" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Sastra & Budaya</button>
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold bg-heritage-900 text-heritage-200 border border-heritage-800">Beranda</button>
+                    <button onclick="switchTab('kamus')" id="nav-kamus" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Kamus Utama</button>
+                    <button onclick="handleHeroAiTranslation()" id="nav-penerjemah" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Penerjemah AI</button>
+                    <button onclick="switchTab('sinau')" id="nav-sinau" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Sinau</button>
                 </nav>
 
-                <div class="flex items-center lg:hidden">
-                    <button onclick="toggleMobileMenu()" class="text-heritage-200 hover:text-heritage-100 focus:outline-none p-2 rounded-lg border border-heritage-800 bg-heritage-900">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- MOBILE MENU DRAWER -->
-        <div id="mobile-drawer" class="fixed inset-0 z-50 bg-heritage-950/80 backdrop-blur-sm hidden flex justify-end">
-            <div class="bg-heritage-950 border-l border-heritage-800 w-72 h-full p-6 flex flex-col justify-between shadow-2xl">
-                <div class="space-y-6">
-                    <div class="flex items-center justify-between border-b border-heritage-800 pb-4">
-                        <span class="font-serif font-bold text-heritage-200">Menu Navigasi</span>
-                        <button onclick="toggleMobileMenu()" class="text-heritage-400 hover:text-heritage-100 p-1.5 rounded-lg border border-heritage-800 bg-heritage-900">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Links -->
-                    <div class="flex flex-col gap-2">
-                        <button onclick="switchTab('beranda'); toggleMobileMenu();" id="mob-nav-beranda" class="text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-200 bg-heritage-900 border border-heritage-800">Beranda</button>
-                        <button onclick="switchTab('kamus'); toggleMobileMenu();" id="mob-nav-kamus" class="text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Kamus Utama</button>
-                        <button onclick="switchTab('penerjemah'); toggleMobileMenu();" id="mob-nav-penerjemah" class="text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Penerjemah</button>
-                        <button onclick="switchTab('sinau'); toggleMobileMenu();" id="mob-nav-sinau" class="text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Sinau & Game</button>
-                        <button onclick="switchTab('budaya'); toggleMobileMenu();" id="mob-nav-budaya" class="text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Sastra & Budaya</button>
-                    </div>
-                </div>
-
-                <!-- Mode Switch Toggle (Inside Menu) -->
-                <div class="border-t border-heritage-800 pt-6 space-y-4">
-                    <div class="flex items-center justify-between bg-heritage-900 px-4 py-3 rounded-xl border border-heritage-800">
-                        <span class="text-xs font-bold text-heritage-400">Luring</span>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="mobile-mode-switch" onchange="toggleOnlineMode(this.checked)" class="sr-only peer">
-                            <div class="w-10 h-5 bg-heritage-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-heritage-300 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-sage-600"></div>
-                        </label>
-                        <span class="text-xs font-bold text-heritage-200">Online AI</span>
-                    </div>
-                </div>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg border border-heritage-800 bg-heritage-900 text-heritage-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- TAB: BERANDA -->
-        <section id="tab-beranda" class="tab-content block space-y-8 animate-fadeIn">
-            <div class="bg-gradient-to-br from-heritage-900 via-heritage-950 to-sage-950 rounded-3xl p-6 sm:p-10 border border-heritage-800 text-heritage-100 shadow-2xl">
-                <div class="max-w-2xl space-y-4">
-                    <h2 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-heritage-100">Ora Ngapak, <span class="text-heritage-300 italic">Ora Kepenak!</span></h2>
-                    <p class="text-heritage-300 text-sm sm:text-base leading-relaxed">
-                        Jelajahi keunikan kosakata dialek Banyumasan. Bersumber dari "Kamus Bahasa Jawa Banyumasan-Indonesia-2014".
-                    </p>
-                    <div class="flex flex-wrap gap-3 pt-2">
-                        <button onclick="switchTab('kamus')" class="bg-heritage-500 hover:bg-heritage-400 text-heritage-950 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200">Cari Kosakata</button>
-                        <button onclick="handleHeroAiTranslation()" class="bg-heritage-900/60 hover:bg-heritage-900 border border-heritage-700/60 text-heritage-200 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200">Coba Terjemahkan AI ➔</button>
-                    </div>
+    <div id="mobile-drawer" class="fixed inset-0 z-50 bg-heritage-950/90 backdrop-blur-md hidden">
+        <div class="bg-heritage-950 w-72 h-full p-6 shadow-2xl flex flex-col justify-between border-l border-heritage-800">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between border-b border-heritage-800 pb-4">
+                    <span class="font-serif font-bold text-heritage-200">Menu Navigasi</span>
+                    <button onclick="toggleMobileMenu()" class="text-heritage-400">Tutup</button>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <button onclick="switchTab('beranda'); toggleMobileMenu();" id="mob-nav-beranda" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-heritage-900 text-heritage-200">Beranda</button>
+                    <button onclick="switchTab('kamus'); toggleMobileMenu();" id="mob-nav-kamus" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Kamus Utama</button>
+                    <button onclick="handleHeroAiTranslation(); toggleMobileMenu();" id="mob-nav-penerjemah" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Penerjemah AI</button>
+                    <button onclick="switchTab('sinau'); toggleMobileMenu();" id="mob-nav-sinau" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Sinau</button>
                 </div>
             </div>
-        </section>
-
-        <!-- TAB: KAMUS -->
-        <section id="tab-kamus" class="tab-content hidden space-y-6">
-            <div class="bg-heritage-100 p-6 rounded-2xl border border-heritage-200">
-                <input id="search-input" oninput="filterDictionary()" type="text" placeholder="Cari kosakata..." class="w-full bg-heritage-50 border border-heritage-300 rounded-xl p-3 text-sm focus:outline-none">
+            <div class="border-t border-heritage-800 pt-6">
+                <div class="flex items-center justify-between bg-heritage-900 px-4 py-3 rounded-xl">
+                    <span class="text-xs font-bold text-heritage-400">Mode AI</span>
+                    <input type="checkbox" onchange="toggleOnlineMode(this.checked)" class="toggle w-10 h-6 bg-heritage-800 appearance-none rounded-full cursor-pointer relative checked:bg-emerald-600 checked:after:translate-x-4 after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-all">
+                </div>
             </div>
-            <div id="dictionary-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-        </section>
+        </div>
+    </div>
 
-        <!-- TAB: PENERJEMAH -->
-        <section id="tab-penerjemah" class="tab-content hidden">
-            <div class="bg-heritage-100 p-6 rounded-2xl border border-heritage-200 text-center text-heritage-600">
-                <p>Fitur Penerjemah AI akan aktif jika Mode Online diaktifkan.</p>
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+        <section id="tab-beranda" class="tab-content block animate-fadeIn">
+            <div class="bg-heritage-900 rounded-3xl p-10 border border-heritage-800 text-heritage-100 shadow-xl">
+                <h2 class="font-serif text-5xl font-bold mb-4">Ora Ngapak, <span class="text-heritage-300 italic">Ora Kepenak!</span></h2>
+                <p class="text-heritage-400 max-w-xl">Portal kamus digital untuk melestarikan dialek Banyumasan dengan sentuhan teknologi modern.</p>
+                <button onclick="handleHeroAiTranslation()" class="bg-heritage-500 hover:bg-heritage-400 text-heritage-950 px-6 py-3 rounded-xl font-bold text-sm mt-6 transition duration-200">Coba Terjemahkan AI ➔</button>
             </div>
         </section>
-
-        <!-- TAB: SINAU -->
-        <section id="tab-sinau" class="tab-content hidden text-center">
-             <h2 class="text-2xl font-serif font-bold">Sinau Ngapak</h2>
-        </section>
-        
-        <!-- TAB: BUDAYA -->
-        <section id="tab-budaya" class="tab-content hidden text-center">
-            <h2 class="text-2xl font-serif font-bold">Sastra & Budaya</h2>
-        </section>
+        <section id="tab-kamus" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Kamus Utama</h2></section>
+        <section id="tab-penerjemah" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Penerjemah AI</h2></section>
+        <section id="tab-sinau" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Sinau</h2></section>
     </main>
 
-    <footer class="bg-heritage-950 text-heritage-300 py-10 mt-12 text-center text-xs">
-        <p>&copy; 2026 Balai Bahasa Jawa Tengah • Created By Wahyudi</p>
-    </footer>
-
-    <!-- TOAST -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50"></div>
-
     <script>
-        let isOnlineMode = false;
-
-        function toggleOnlineMode(isChecked) {
-            isOnlineMode = isChecked;
-            document.getElementById('mobile-mode-switch').checked = isChecked;
-            showToast(isOnlineMode ? "Mode Online AI Diaktifkan" : "Mode Offline Aktif", isOnlineMode ? "success" : "info");
-        }
-
-        function handleHeroAiTranslation() {
-            if (isOnlineMode) {
-                switchTab('penerjemah');
-            } else {
-                showToast("Aktifkan Terlebih Dahulu AI Mode!", "error");
-            }
-        }
-
-        function showToast(message, type = "info") {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            let bgClass = type === "success" ? "bg-emerald-900" : type === "error" ? "bg-rose-900" : "bg-heritage-900";
-            toast.className = `p-4 rounded-xl border text-white text-xs mb-2 ${bgClass}`;
-            toast.innerText = message;
-            container.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-drawer').classList.toggle('hidden');
-        }
-
+        function toggleMobileMenu() { document.getElementById('mobile-drawer').classList.toggle('hidden'); }
+        
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn, .mob-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-heritage-900', 'bg-heritage-800', 'text-heritage-200', 'border');
+                btn.classList.add('text-heritage-400');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            const activeMobBtn = document.getElementById('mob-nav-' + tabId);
+            if(activeBtn) { activeBtn.classList.add('bg-heritage-900', 'text-heritage-200', 'border'); activeBtn.classList.remove('text-heritage-400'); }
+            if(activeMobBtn) { activeMobBtn.classList.add('bg-heritage-800', 'text-heritage-200'); activeMobBtn.classList.remove('text-heritage-400'); }
         }
 
-        // Mock Vocabulary
-        const banyumasVocabulary = [{ word: "Inyong", type: "Pronoun", indo: "Saya", sentence: "Inyong lunga.", sentenceIndo: "Saya pergi.", note: "Ciri khas Ngapak." }];
+        let isOnlineMode = false;
+        function toggleOnlineMode(checked) { isOnlineMode = checked; }
         
-        function filterDictionary() { /* logic */ }
-        function showWordDetails(word) { /* logic */ }
-        function populatePopularWords() { /* logic */ }
-        function generateAlphabetButtons() { /* logic */ }
+        function handleHeroAiTranslation() { 
+            if(isOnlineMode) {
+                switchTab('penerjemah');
+            } else {
+                alert("Aktifkan Terlebih Dahulu AI Mode!");
+            }
+        }
     </script>
 </body>
 </html>
