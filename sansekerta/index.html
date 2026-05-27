@@ -169,10 +169,6 @@
                             Lihat Selengkapnya 
                             <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition"></i>
                         </button>
-                        <button id="wotd-goto-dict" class="text-[11px] font-semibold text-stone-400 hover:text-sanskrit-700 flex items-center gap-0.5 transition ml-2">
-                            Buka di Kamus
-                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
-                        </button>
                     </div>
                     <button id="wotd-fav-btn" class="p-1.5 rounded-lg hover:bg-red-50 text-stone-400 hover:text-red-500 transition">
                         <i data-lucide="heart" class="w-4 h-4"></i>
@@ -907,13 +903,6 @@
 
             const btnEl = document.getElementById('wotd-detail-btn');
             btnEl.innerHTML = `Lihat Selengkapnya <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>`;
-
-            // Action listener to open directly in standard dictionary view
-            const gotoBtn = document.getElementById('wotd-goto-dict');
-            gotoBtn.onclick = () => {
-                switchTab('dictionary');
-                selectWord(currentWotd.id);
-            };
 
             // Set Favorite Heart button status
             updateWotdFavState();
