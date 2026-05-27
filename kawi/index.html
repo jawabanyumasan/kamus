@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bausastra Kawi - Indonesia - Jawa Klasik | Leksikon & Transliterasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Javanese&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FAF6EE; 
+            background-image: radial-gradient(#ebdcb9 0.5px, transparent 0.5px), radial-gradient(#ebdcb9 0.5px, #FAF6EE 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        .traditional-font { font-family: 'Cinzel', serif; }
+        .javanese-script { font-family: 'Noto Sans Javanese', 'Inter', sans-serif; }
+        
+        /* Premium custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(91, 25, 25, 0.05);
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #5B1919;
+            border-radius: 9999px;
+        }
+
+        /* Card interactive effects */
+        .card-entry {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid transparent;
+        }
+        .card-entry:hover {
+            border-left-color: #5B1919;
+            background-color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(91, 25, 25, 0.1);
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-16">
+
+    <!-- Header Banner -->
+    <header class="py-10 text-center relative overflow-hidden bg-gradient-to-b from-[#ebdcb9]/40 to-transparent">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="inline-flex items-center gap-2 bg-[#5B1919]/10 text-[#5B1919] text-xs px-4 py-1.5 rounded-full font-bold tracking-widest uppercase mb-4 border border-[#5B1919]/20">
+                <i class="fas fa-scroll"></i> Scriptorium Bausastra Kawi - Indonesia - Jawa
+            </div>
+            <h1 class="traditional-font text-3xl md:text-5xl font-black text-[#5B1919] tracking-wide mb-2">
+                BAUSUSTRA KAWI
+            </h1>
+            <div class="javanese-script text-2xl md:text-3xl text-[#E0A96D] mb-4 tracking-wider">
+                ꦧꦲꦸꦱꦱ꧀ꦠꦿꦏꦮꦶꦆꦤ꧀ꦞꦺꦴꦤꦺꦱꦶꦪꦗꦮ
+            </div>
+            <p class="text-[#8B5A2B] text-xs md:text-sm font-semibold tracking-widest uppercase max-w-2xl mx-auto px-2">
+                Edisi Komprehensif: Mardi Kawi (Poerwadarminta), Serat Adi Parwa (Juynboll) & Leksikon Nusantara
+            </p>
+            <div class="h-[2px] w-48 bg-gradient-to-r from-transparent via-[#5B1919] to-transparent mx-auto mt-6"></div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-4xl mx-auto px-4 mb-6">
+        <div class="flex border-b border-[#5B1919]/20 bg-[#FAF6EE]/90 backdrop-blur-md sticky top-0 z-40 py-2 gap-2 overflow-x-auto custom-scrollbar">
+            <button onclick="switchTab('kamus')" id="tab-kamus" class="px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap bg-[#5B1919] text-[#FAF6EE] shadow-md">
+                <i class="fas fa-book-open"></i> Leksikon Kamus
+            </button>
+            <button onclick="switchTab('transliterasi')" id="tab-transliterasi" class="px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap text-[#5B1919] hover:bg-[#5B1919]/5">
+                <i class="fas fa-keyboard"></i> Papan Transliterasi
+            </button>
+            <button onclick="switchTab('pedoman')" id="tab-pedoman" class="px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap text-[#5B1919] hover:bg-[#5B1919]/5">
+                <i class="fas fa-table"></i> Pedoman Carakan
+            </button>
+            <button onclick="switchTab('tentang')" id="tab-tentang" class="px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap text-[#5B1919] hover:bg-[#5B1919]/5">
+                <i class="fas fa-info-circle"></i> Tentang Naskah
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="max-w-4xl mx-auto px-4">
+
+        <!-- TAB 1: DICTIONARY -->
+        <div id="content-kamus" class="space-y-6">
+            
+            <!-- Sticky Search & Filter Control -->
+            <div class="bg-[#F6EEDD] p-5 rounded-3xl border border-[#E0A96D]/60 shadow-lg space-y-4">
+                <div class="flex flex-col md:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-[#5B1919]"></i>
+                        <input type="text" id="searchInput" oninput="debounceSearch()" 
+                            placeholder="Cari lema kata Kawi, Indonesia, atau Jawa..." 
+                            class="w-full pl-12 pr-4 py-4 rounded-2xl border-none focus:ring-2 focus:ring-[#5B1919] outline-none text-base bg-white shadow-inner">
+                    </div>
+                </div>
+
+                <!-- Custom Search Mode Selector Buttons -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-bold text-[#5B1919] uppercase"><i class="fas fa-sliders"></i> Arah:</span>
+                    <button onclick="changeSearchMode('all')" id="mode-all" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-[#5B1919] text-[#FAF6EE] shadow-sm transition-all">Semua Bahasa</button>
+                    <button onclick="changeSearchMode('kawi')" id="mode-kawi" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-white border border-[#E0A96D]/40 text-[#5B1919] shadow-sm transition-all">Kawi ➔ Arti</button>
+                    <button onclick="changeSearchMode('indo')" id="mode-indo" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-white border border-[#E0A96D]/40 text-[#5B1919] shadow-sm transition-all">Indonesia ➔ Kawi</button>
+                    <button onclick="changeSearchMode('jawa')" id="mode-jawa" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-white border border-[#E0A96D]/40 text-[#5B1919] shadow-sm transition-all">Jawa ➔ Kawi</button>
+                </div>
+
+                <!-- Alphabetical Filter Row -->
+                <div class="flex items-center gap-2 pt-2 border-t border-[#E0A96D]/30">
+                    <span class="text-xs font-bold text-[#5B1919] uppercase shrink-0"><i class="fas fa-list"></i> Indeks:</span>
+                    <div class="flex gap-1.5 overflow-x-auto pb-1.5 custom-scrollbar w-full" id="alphabetContainer">
+                        <button onclick="filterByLetter('ALL')" id="btn-ALL" class="px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-[#5B1919] text-white shadow-sm transition-colors shrink-0">Semua</button>
+                    </div>
+                </div>
+
+                <!-- Stats Dashboard -->
+                <div id="stats" class="text-xs font-bold text-[#8B5A2B] uppercase tracking-wider flex justify-between items-center bg-white/45 p-2.5 rounded-xl border border-[#E0A96D]/30">
+                    <span id="countDisplay"><i class="fas fa-circle-notch animate-spin"></i> Merajut naskah leksikon...</span>
+                    <span id="activeFilterDisplay" class="bg-[#5B1919]/10 text-[#5B1919] px-2.5 py-0.5 rounded-md">Seluruh Huruf</span>
+                </div>
+            </div>
+
+            <!-- Content Area for Search Results -->
+            <div id="results" class="space-y-4">
+                <!-- Skeleton Shimmer Loader -->
+                <div class="space-y-4 animate-pulse">
+                    <div class="h-28 bg-white/60 rounded-3xl border border-[#E0A96D]/20"></div>
+                    <div class="h-28 bg-white/60 rounded-3xl border border-[#E0A96D]/20"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: PAPAN TRANSLITERASI -->
+        <div id="content-transliterasi" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E0A96D]/40 shadow-md space-y-6">
+                <div class="border-b border-[#E0A96D]/30 pb-4">
+                    <h2 class="traditional-font text-2xl font-bold text-[#5B1919] flex items-center gap-2">
+                        <i class="fas fa-keyboard"></i> Papan Transliterasi Latin ke Aksara Jawa
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">Ketik kata dalam huruf Latin di bawah ini, mesin akan mengonversinya ke Aksara Jawa secara langsung.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Input Area -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-[#5B1919] uppercase tracking-wider block">Teks Latin:</label>
+                        <textarea id="latinInput" oninput="liveTransliterate()" placeholder="Ketik kata Latin di sini... (contoh: hanacaraka, rahayu, kawi)" 
+                            class="w-full h-40 p-4 rounded-2xl border border-[#E0A96D]/40 focus:ring-2 focus:ring-[#5B1919] outline-none text-base bg-[#FAF6EE]/50 resize-none shadow-inner"></textarea>
+                        <div class="flex gap-2">
+                            <button onclick="clearTransliteration()" class="px-4 py-2 text-xs font-bold text-[#5B1919] bg-[#5B1919]/10 rounded-xl hover:bg-[#5B1919]/20 transition-all">Bersihkan</button>
+                            <button onclick="useExampleLatin()" class="px-4 py-2 text-xs font-bold text-white bg-[#5B1919] rounded-xl hover:bg-[#421212] transition-all">Gunakan Contoh</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Output Area -->
+                    <div class="space-y-2 flex flex-col">
+                        <label class="text-xs font-bold text-[#5B1919] uppercase tracking-wider block">Aksara Carakan:</label>
+                        <div class="flex-grow min-h-[10rem] p-4 rounded-2xl border border-[#E0A96D]/40 bg-[#FAF6EE] flex flex-col justify-between shadow-inner">
+                            <div id="carakanOutput" class="javanese-script text-3xl md:text-4xl text-[#5B1919] break-all leading-relaxed p-2">
+                                ꦲꦤꦕꦫꦏ
+                            </div>
+                            <div class="flex justify-end pt-2">
+                                <button onclick="copyTransliteratedResult()" class="text-[#E0A96D] hover:text-[#5B1919] px-3 py-1.5 text-xs font-bold rounded-lg border border-[#E0A96D]/30 bg-white shadow-sm flex items-center gap-1.5 transition-all">
+                                    <i class="far fa-copy"></i> Salin Aksara
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#F6EEDD]/40 p-4 rounded-2xl border border-[#E0A96D]/20 text-xs text-slate-600 space-y-1">
+                    <span class="font-bold text-[#5B1919] block"><i class="fas fa-lightbulb"></i> Petunjuk Penulisan:</span>
+                    <p>• Ketik suku kata secara alami. Gunakan huruf <strong class="text-[#5B1919]">dh</strong> untuk ꦝ (dha) dan <strong class="text-[#5B1919]">th</strong> untuk ꦛ (tha).</p>
+                    <p>• Karakter diakritik Kawi seperti <strong class="text-[#5B1919]">ā, ī, ū</strong> akan dikonversikan sebagai sandhangan vokal panjang.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PEDOMAN AKSARA -->
+        <div id="content-pedoman" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl border border-[#E0A96D]/40 shadow-md">
+                <h2 class="traditional-font text-2xl font-bold text-[#5B1919] mb-4 border-b border-[#E0A96D]/40 pb-2 flex items-center gap-2">
+                    <i class="fas fa-table"></i> Tabel Aksara Javanologi (Hanacaraka)
+                </h2>
+                <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+                    Naskah kuno *Mardi Kawi* dan *Adi Parwa* menggunakan kaidah tata penulisan Aksara Carakan / Jawa Baru yang didasarkan pada Wewaton Aksara Kawi lama untuk menegaskan maknanya. Di bawah ini adalah pemetaan vokal, aksara utama, dan penanda diakritik:
+                </p>
+
+                <!-- Interactive Hanacaraka Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3" id="aksaraGrid">
+                    <!-- Javascript will inject hanacaraka cards -->
+                </div>
+
+                <!-- Special Notes -->
+                <div class="mt-8 bg-[#F6EEDD]/50 p-5 rounded-2xl border border-[#E0A96D]/30 space-y-3">
+                    <h3 class="font-bold text-[#5B1919] text-base"><i class="fas fa-info-circle"></i> Kaidah Diakritik Latin Jawa Kuno</h3>
+                    <ul class="list-disc pl-5 text-sm text-slate-700 space-y-2">
+                        <li><strong>ā, ī, ū (Vokal Panjang / Dirga):</strong> Digunakan untuk melambangkan suara vokal panjang asli Sansekerta/Kawi. Contoh: <em>ākāra</em> (bentuk), <em>nadī</em> (sungai).</li>
+                        <li><strong>ś (Sya - Murda), ṣ (Sya - Agung):</strong> Melambangkan fonem desis yang berbeda dalam tulisan Kawi asli. Contoh: <em>śāstra</em>, <em>āçrama</em>.</li>
+                        <li><strong>ñ (Nya - Kawi):</strong> Menandakan pelafalan nasal 'ny'.</li>
+                        <li><strong>å (O - Jowo):</strong> Melambangkan pelafalan huruf 'a' jejeg/miring dalam kosakata Jawa Baru yang diserap.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: TENTANG NASKAH -->
+        <div id="content-tentang" class="hidden space-y-6">
+            <div class="bg-white p-6 md:p-10 rounded-3xl border border-[#E0A96D]/40 shadow-md space-y-6">
+                <div class="text-center max-w-md mx-auto space-y-2">
+                    <i class="fas fa-scroll text-4xl text-[#5B1919]"></i>
+                    <h2 class="traditional-font text-2xl font-bold text-[#5B1919]">Bausastra Kawi - Indonesia - Jawa</h2>
+                    <p class="text-xs font-bold text-[#E0A96D] tracking-widest uppercase">Edisi Digital Leksikon Klasik Nusantara</p>
+                </div>
+
+                <div class="border-t border-[#E0A96D]/40 my-6"></div>
+
+                <div class="space-y-4 text-slate-700 text-sm leading-relaxed">
+                    <p class="italic bg-[#F6EEDD]/30 p-5 rounded-2xl border-l-4 border-[#5B1919]">
+                        "Bausastra Kawi - Jawa atau Kamus Bahasa Kawi - Jawa Sederhana, dikutip dari buku Mardi Kawi karangan Bapak W.J.S. Poerwadarminta yang bersumber/dipetik dari Serat Adi Parwa oleh Paduka Tuwan Dr. H. H. Juynboll, dipadukan bersama arsip leksikon Jawa Kuno - Indonesia digital."
+                    </p>
+                    <p>
+                        Aplikasi kamus digital terintegrasi ini dirancang khusus untuk memudahkan pembaca, peneliti, serta penikmat sastra klasik dalam memahami manuskrip agung Nusantara seperti Kakawin Ramayana, Bharatayuddha, Negarakretagama, dan susastra Jawa Kuno lainnya.
+                    </p>
+                    <p>
+                        Dengan mempertahankan tanda baca **diakritik** latin orisinal bahasa Jawa serta menghadirkan mesin transliterasi aksara Jawa dinamis, pengguna kini dapat secara interaktif mencari arti kata, menyalin teks, sekaligus mempelajari konversi visual huruf Latin ke dalam Aksara Carakan secara akurat.
+                    </p>
+                </div>
+
+                <div class="bg-[#5B1919]/5 p-5 rounded-2xl border border-[#5B1919]/20 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-[#5B1919] text-base">Arsiparsi Sumber Naskah</h4>
+                        <p class="text-xs text-slate-600">Digitalized by Wahyudi & Ki Demang Sokowaten (Sokowaten Heritage)</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-[#5B1919] text-[#FAF6EE] text-[10px] px-3 py-1.5 rounded-full font-bold uppercase">Mardi Kawi</span>
+                        <span class="bg-[#E0A96D] text-[#5B1919] text-[10px] px-3 py-1.5 rounded-full font-bold uppercase">Adi Parwa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#5B1919] text-[#FAF6EE] px-6 py-4 rounded-2xl text-sm font-bold shadow-2xl z-50 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none flex items-center gap-3 border border-[#E0A96D]">
+        <i class="fas fa-check-circle text-emerald-400"></i>
+        <span id="toastMessage">Teks disalin ke papan klip!</span>
+    </div>
+
+    <!-- DATABASES CONSOLIDATION -->
+    <script>
+        // Code 1 Database (Indonesia to Kawi)
+        const dictionaryData1 = [
+            { i: "abadi", k: "lanā; langgeng; śāswata; nitya", d: "tidak abadi: kşara; anitya", s: "A" },
+            { i: "abdi", k: "balawarga; panakawan; parepat; paricara; sewaka; swabhrtya", d: "Abdi perempuan: paricāraka; mengabdi: masevaka", s: "A" },
+            { i: "abu", k: "bhasma; dhūli; kṣāra", s: "A" },
+            { i: "ada", k: "asti; wwanten; wwara; (w)waya", d: "keadaan: awasthā; lwir", s: "A" },
+            { i: "adat", k: "caritra; dhrta; krama; śila", s: "A" },
+            { i: "adik", k: "anuju; ari; rari", d: "adik laki-laki: ari jalu; adik perempuan: ari strī", s: "A" },
+            { i: "adil", k: "dharmâtma; dharmaśila; dharnika; kénoh; rēju", d: "keadilan: dharmayukti", s: "A" },
+            { i: "adu", k: "padu; geseh; ayun; tanggul", s: "A" },
+            { i: "agama", k: "dharma; agama; śāsana", d: "aliran syiwa: syiwapaksa; wisnu: wesnawapaksa", s: "A" },
+            { i: "air", k: "ambu(h); apah; bāñu; dūh; jahni; jala; tirtha; toya; udaka; warih", d: "air suci: waratīrtha; air mata: bāşpa", s: "A" },
+            { i: "ajar", k: "ajar; upadeśa; warah", d: "pengajaran: prawacana; belajar: maṅaji", s: "A" },
+            { i: "ajal", k: "antaka; lalis; lina; mati; pralina; padem", s: "A" },
+            { i: "akal", k: "buddhi; cetana; medha; sandhi; upaya", s: "A" },
+            { i: "akar", k: "mula; oyot; syandana", s: "A" },
+            { i: "alam", k: "loka; mandala; rat", d: "alam semesta: Brahmāṇda; rěta", s: "A" },
+            { i: "alang-alang", k: "kṛta; lalang", s: "A" },
+            { i: "alangkah", k: "ahayū; ambu; ngho; nora", s: "A" },
+            { i: "alas", k: "dasar; lěpih; pawayan", s: "A" },
+            { i: "alat", k: "bhūşana; upakarana", s: "A" },
+            { i: "aliran", k: "arus; mili; srotas", s: "A" },
+            { i: "aman", k: "nirbhaya; śanta; thāni", s: "A" },
+            { i: "amat", k: "dahat; dyam; lwěp; lěwih", s: "A" },
+            { i: "ampun", k: "anugraha; kşama; sapura", s: "A" },
+            { i: "anak", k: "apatya; atmaja; bála(ka); jāta; santāna; śiśu; wěka; wija; yoga", d: "anak laki-laki: nanda; suta; tanaya; putra. perempuan: putri; sutā", s: "A" },
+            { i: "ancam", k: "takut; tēmam; gěsěng", s: "A" },
+            { i: "andika", k: "jěng; kuta; natha", s: "A" },
+            { i: "aneh", k: "ascarya; adbhuta; len", s: "A" },
+            { i: "angan", k: "citta; manah; samkalpa", s: "A" },
+            { i: "angga", k: "awak; raga; śarira", s: "A" },
+            { i: "anggota", k: "angga; awayawa", s: "A" },
+            { i: "angin", k: "anila; bāyu; māruta; pawana; samira", d: "angin ribut: prabañcana; bāyubajra", s: "A" },
+            { i: "angkasa", k: "ākāśa; ambara; antarikşa; gagana; wiyat", s: "A" },
+            { i: "angkuh", k: "drpta; garwita; mada", s: "A" },
+            { i: "aniaya", k: "anyaya; duskrta; upadrawa", s: "A" },
+            { i: "anjing", k: "aswān; kukur; sěwan", s: "A" },
+            { i: "api", k: "agni; (a)nala; apuy; bahni; dahana; jwalana; pāwāka", d: "api besar: mahanala", s: "A" },
+            { i: "apung", k: "ambāwang; kambang; kělěm", s: "A" },
+            { i: "arah", k: "deśa; dik; marga", s: "A" },
+            { i: "arak", k: "ari-ari; madya; waruni", s: "A" },
+            { i: "arti", k: "artha; tatwa", s: "A" },
+            { i: "asam", k: "amla; kěcut", s: "A" },
+            { i: "asap", k: "dhūma; kuskus", s: "A" },
+            { i: "asing", k: "bahir; len; paradewa; paratantra", s: "A" },
+            { i: "asrama", k: "āśrama; patapan", s: "A" },
+            { i: "asuh", k: "among; momong; pawat", s: "A" },
+            { i: "atas", k: "agra; luhur; munggu; mungseng", s: "A" },
+            { i: "atur", k: "krama; mranata; nitya", s: "A" },
+            { i: "awas", k: "awas; prayatna; satya", s: "A" },
+            { i: "ayah", k: "bapa; janaka; pita; rama", s: "A" },
+            { i: "ayam", k: "itik; kukkuta", s: "A" },
+            { i: "ayun", k: "ambayun; goyang; osing", s: "A" },
+            { i: "baca", k: "aca; maca; mra; waśit", s: "B" },
+            { i: "badan", k: "angga; raga; śarira; tanu; wak", s: "B" },
+            { i: "bagai", k: "kadya; kadi; lir; saksat; tulyā", s: "B" },
+            { i: "bagi", k: "bhaga; dum; mrayojana", s: "B" },
+            { i: "bagus", k: "adi; abhirama; ayu; śobha", s: "B" },
+            { i: "bahagia", k: "bhadra; bhage; bhagya; laksmiwati; mukti; nohan", d: "kebahagiaan: abhyudaya; ananda; sukha", s: "B" },
+            { i: "bahaya", k: "bhaya; baya; upadrawa", s: "B" },
+            { i: "bahasa", k: "bhāşā; śabda; wāk", s: "B" },
+            { i: "bahu", k: "pundak; skandha", s: "B" },
+            { i: "baik", k: "ajeng; arjya; dharmeşti; dharmika; gunawan; hita; kalyana", d: "terbaik: adhi; uttama", s: "B" },
+            { i: "bait", k: "pada; śloka", s: "B" },
+            { i: "baja", k: "bajra; malela; waja", s: "B" },
+            { i: "bakal", k: "calon; dadi; sedya", s: "B" },
+            { i: "bakar", k: "basmi; dahana; tunu", s: "B" },
+            { i: "bakti", k: "bhakti; sewa; sewaka", s: "B" },
+            { i: "balas", k: "saur; wales; pratikara", s: "B" },
+            { i: "balatentara", k: "bala; tantra; wadwa", s: "B" },
+            { i: "bandar", k: "pelabuhan; pabean; pattana", s: "B" },
+            { i: "bangga", k: "darpa; garwa; mada", s: "B" },
+            { i: "bangsa", k: "gotra; jāta; kula; wangśa; sangha", s: "B" },
+            { i: "bangun", k: "tangi; jaga; nyāsa", s: "B" },
+            { i: "bangunan", k: "bandha; nyāsa; wandha; wastu; yasa", d: "bangunan agung: prasāda", s: "B" },
+            { i: "banjir", k: "banjir; rob; bahula; sarayu", s: "B" },
+            { i: "bantai", k: "pejah; prěmat; rěmpak", s: "B" },
+            { i: "banteng", k: "andaka; go; wrşabha", s: "B" },
+            { i: "bantu", k: "bantu; sraya; tulung", s: "B" },
+            { i: "banyak", k: "akeh; bahu; bahula; lwir", s: "B" },
+            { i: "barang", k: "drwya; wastu; bhanda", s: "B" },
+            { i: "barat", k: "paścime; kulwan", s: "B" },
+            { i: "baris", k: "jajar; lari; tata", s: "B" },
+            { i: "baru", k: "anyar; nawa", s: "B" },
+            { i: "baruna", k: "waruṇa; dewa laut", s: "B" },
+            { i: "basah", k: "nyěm; teles; udaka", s: "B" },
+            { i: "batas", k: "hingga; paryan; sima; maryādā", s: "B" },
+            { i: "batu", k: "aśma; seladri; upala; watu; (w)iştaka", d: "batu permata: mani; sosoca; ratna", s: "B" },
+            { i: "bau", k: "gandha; mambu", s: "B" },
+            { i: "bawa", k: "bhāra; gawa; wat; mamawa", s: "B" },
+            { i: "bawah", k: "adhah; jhandah; sor", s: "B" },
+            { i: "bayang", k: "chāyā; maya; wawayang", s: "B" },
+            { i: "bayar", k: "saur; tawur", s: "B" },
+            { i: "bayi", k: "śişu; bālak; rare", s: "B" },
+            { i: "bebas", k: "anāśrita; asambādhā; mokta; muktā; mukti; nirmukta", d: "pembebasan: apawarga; muksa; kaivalya", s: "B" },
+            { i: "beban", k: "bhāra; bot; munggu", s: "B" },
+            { i: "beberapa", k: "pirang; sawaya", s: "B" },
+            { i: "bedah", k: "bedah; sěmpal", s: "B" },
+            { i: "bedanya", k: "anya; bheda; len", s: "B" },
+            { i: "begitu", k: "mangkana; samangkana", s: "B" },
+            { i: "bekas", k: "tapak; lari; tilas", s: "B" },
+            { i: "belah", k: "pěcah; sěmpal; dadi rwa", s: "B" },
+            { i: "belajar", k: "abhyasa; ajar; śikşa", s: "B" },
+            { i: "belakang", k: "burat; pungkur; wuri", s: "B" },
+            { i: "belas", k: "wělas; kārulya", s: "B" },
+            { i: "belas", k: "wělas; kārulya", s: "B" },
+            { i: "belati", k: "kadga; kŗs", s: "B" },
+            { i: "beli", k: "tuku; panuku", s: "B" },
+            { i: "beliau", k: "sira; sang; natha", s: "B" },
+            { i: "belok", k: "simpang; sěmbal", s: "B" },
+            { i: "belum", k: "durung; taha", s: "B" },
+            { i: "benar", k: "paramartha; rju; sat; satya; (sa)yukti; tuhu", d: "kebenaran: tattwa; tatwa; satyani", s: "B" },
+            { i: "benci", k: "dweşa; sengit", s: "B" },
+            { i: "benda", k: "dravya; wastu", s: "B" },
+            { i: "bendera", k: "dhwaja; patāka; tunggul", s: "B" },
+            { i: "bentuk", k: "ākāra; rūpa; warna", s: "B" },
+            { i: "berani", k: "agal; darpa; dhairya; dhira; suramanta; wira; wirya", s: "B" },
+            { i: "beras", k: "tandas; beras; akşata", s: "B" },
+            { i: "berat", k: "bhāra; bot; gurwa", s: "B" },
+            { i: "berhenti", k: "mĕnĕng; lereh; stambha", s: "B" },
+            { i: "beritahu", k: "uadyani; warah", s: "B" },
+            { i: "berkat", k: "anugraha; waśita", s: "B" },
+            { i: "bersih", k: "nirmala; śuci; śuddha; wimala", s: "B" },
+            { i: "besar", k: "bahula; mahā; nisala; udāra; uttangga; wipulā", d: "besar jiwa: mahatmya", s: "B" },
+            { i: "besi", k: "loha; wĕsi", s: "B" },
+            { i: "besok", k: "benjang; esuk", s: "B" },
+            { i: "betina", k: "stri", s: "B" },
+            { i: "betul", k: "yukti; tuhu", s: "B" },
+            { i: "biar", k: "pajarnaka; uadi", s: "B" },
+            { i: "biara", k: "āśrama; wihāra", s: "B" },
+            { i: "biasa", k: "nītya; sāmānya", s: "B" },
+            { i: "biawak", k: "salira", s: "B" },
+            { i: "bibir", k: "oştha; lambay", s: "B" },
+            { i: "bicara", k: "ucapan; ucap; wadana; wāg; wāk; wāņi; wicāra", s: "B" },
+            { i: "bidadari", k: "apsarī; dewatā; widyādharī", s: "B" },
+            { i: "bijak", k: "nipuna; prajña; widagdha; pandita", s: "B" },
+            { i: "biji", k: "bīja; wija", s: "B" },
+            { i: "binasa", k: "paralīna; lĕbur; rusak; bhasmībhūta", s: "B" },
+            { i: "binatang", k: "paśu; mrgā; satwa", s: "B" },
+            { i: "bingung", k: "brānta; moha; wimūḍha; bhrānti", s: "B" },
+            { i: "bintang", k: "anakşatra; lintang; nakşatra; tarā; tāraka; wintang", s: "B" },
+            { i: "biru", k: "nīla", s: "B" },
+            { i: "bisa", k: "wasita; sakti; wĕnang", d: "racun: viṣa", s: "B" },
+            { i: "bisikan", k: "japa; mantra; upāṃśu", s: "B" },
+            { i: "bisnis", k: "wyāpāra", s: "B" },
+            { i: "bodoh", k: "duşprajña; jada; mūd(h)a; wibuddhi", s: "B" },
+            { i: "buah", k: "phala; sale; woh; wwah", s: "B" },
+            { i: "buang", k: "buwang; tilar", s: "B" },
+            { i: "buat", k: "kŗti; yasa", s: "B" },
+            { i: "buaya", k: "bujangga; makara", s: "B" },
+            { i: "budi", k: "buddhi; cetana; manasa", d: "budi luhur: mahabodhi", s: "B" },
+            { i: "buka", k: "mungkab; buka", s: "B" },
+            { i: "bukan", k: "tan; nora; dudu", s: "B" },
+            { i: "bukit", k: "adri; giri; wukir", s: "B" },
+            { i: "buku", k: "pustaka; naskah; lepihan", s: "B" },
+            { i: "bulan", k: "bindu; candra; indu; śaśāngka; śasi; wulan", s: "B" },
+            { i: "bumi", k: "anda; bhūmi; dharani; jagat; madhyapada; prĕthiwi; siti", s: "B" },
+            { i: "bunga", k: "kembang; kusuma; mālini; palawa; puspa; sēkar", s: "B" },
+            { i: "bunuh", k: "pĕjah; patěy; mara", s: "B" },
+            { i: "bunyi", k: "śabda; dhwani; uni", s: "B" },
+            { i: "buruk", k: "dur; papa; pūtika", s: "B" },
+            { i: "burung", k: "kaga; khaga; manuk; pakşi; wihaga", s: "B" },
+            { i: "busur", k: "cāpa; dhanuh", s: "B" },
+            { i: "buta", k: "andhaka; wuta", s: "B" }
+            // Dynamic data 1 letter merges logically below...
+        ];
+
+        // Code 2 Database (Kawi to Jawa, enriched)
+        const dictionaryData2 = [
+            // A
+            { i: "akampya", k: "kukúh, santoså, panggah", s: "A", d: "Tidak tergoyahkan; kokoh bersemadi" },
+            { i: "ākāra", k: "rupá, wangún, kirå-kirå, lêt sawatårå", s: "A", d: "Wujud luar, rupa, atau jeda waktu sementara" },
+            { i: "ākarshaña", k: "anggodhå, narik, narík, gimír", s: "A", d: "Menarik hati, menggoda, atau memikat" },
+            { i: "akākarshaña", k: "kapéncút, katarík", s: "A", d: "Tertarik secara mendalam; terpikat" },
+            { i: "akalpa", k: "rêrêgan, rêgané", s: "A", d: "Hiasan; perhiasan diri" },
+            { i: "akaça", k: "langít, awang-awang", s: "A", d: "Angkasa raya; langit luas" },
+            { i: "akên", k: "kåyå", s: "A", d: "Bagaikan; seperti" },
+            { i: "ākincanÿa", k: "mlarat", s: "A", d: "Miskin papa; tidak memiliki harta benda" },
+            { i: "akila", k: "wutúh, múrni, rêsík", s: "A", d: "Sempurna; tanpa noda; bersih" },
+            { i: "akrêti", k: "wuwujudan", s: "A", d: "Wujud lahiriah atau bentuk rupa" },
+            { i: "ākÿātī", k: "misuwúr", s: "A", d: "Terkenal; masyhur" },
+            { i: "ākÿāna", k: "caritå, pawartå", s: "A", d: "Kabar; cerita; hikayat kuno" },
+            { i: "āksata", k: "gabah", s: "A", d: "Butir padi utuh" },
+            { i: "āksama", k: "apurå", s: "A", d: "Ampunan; maaf" },
+            { i: "aksi", k: "måtå", s: "A", d: "Indra penglihatan; mata" },
+            { i: "aksohinī", k: "bêrgådå, satús yutå", s: "A", d: "Pasukan perang besar berskala seratus juta" },
+            { i: "agal", k: "roså, kêndêl", s: "A", d: "Kuat; gagah berani" },
+            { i: "agni", k: "gêni", s: "A", d: "Elemen api suci" },
+            { i: "aknnéya", k: "kidúl wétan", s: "A", d: "Arah mata angin tenggara" },
+            { i: "agra", k: "pucúk, pucak, bangêt", s: "A", d: "Bagian puncak teratas; sangat utama" },
+            { i: "angang", k: "mêngå, mangap, ngaglak", s: "A", d: "Terbuka lebar" },
+            { i: "angit", k: "ngênam", s: "A", d: "Menganyam kata atau serat" },
+            { i: "angkas", k: "kêsusu, muring", s: "A", d: "Tergesa-gesa atau gusar" },
+            { i: "angkên", k: "sabên", s: "A", d: "Setiap; tiap-tiap" },
+            { i: "angkuça", k: "hêcis", s: "A", d: "Gada kecil pengatur gajah" },
+            { i: "angga", k: "gêlêm, manút, awak, badan", s: "A", d: "Anggota tubuh, badan; mau bersepakat" },
+            { i: "ānggakara", k: "kêndêl", s: "A", d: "Pemberani" },
+            { i: "angganā", k: "wóng wadón", s: "A", d: "Wanita; perempuan" },
+            { i: "anggara", k: "sêlåså", s: "A", d: "Hari Selasa" },
+            { i: "anggêh", k: "pangkat, kukúh, prênah, mênggah, têtêp", s: "A", d: "Anggapan; kedudukan tetap" },
+            { i: "anggulī", k: "driji", s: "A", d: "Jari-jari tangan atau kaki" },
+            { i: "anggushtha", k: "jêmpól", s: "A", d: "Ibu jari" },
+            { i: "angsö", k: "nyêdhaki, marani", s: "A", d: "Maju mendekat; menyerang" },
+            { i: "angça", k: "pérangan, titisan", s: "A", d: "Bagian warisan; inkarnasi dewa" },
+            { i: "ācāmana", k: "kêmu lan raúp, adús rêrêsik", s: "A", d: "Berkumur dan membasuh wajah untuk bersuci" },
+            { i: "ācāmanīya", k: "banyu kanggo wulu", s: "A", d: "Air suci untuk berwudhu" },
+            { i: "ācāra", k: "kalakuwan", s: "A", d: "Tata kelakuan; tradisi" },
+            { i: "ācāryya", k: "imam, pandhitå", s: "A", d: "Guru spiritual atau pendeta agung" },
+            { i: "acala", k: "gunúng", s: "A", d: "Gunung yang berdiri tegak" },
+            { i: "acinkya", k: "linuwih, mokal", s: "A", d: "Luar biasa; tak terbayangkan" },
+            { i: "aji", k: "layang kawrúh, sinau", s: "A", d: "Buku ilmu pengetahuan; belajar kitab" },
+            { i: "ajihmaga", k: "panah", s: "A", d: "Anak panah senjata perang" },
+            { i: "anjana", k: "mangsi, cêlak", s: "A", d: "Tinta penghitam atau celak mata" },
+            { i: "anjali", k: "simbah, nyêmbah, ngúrmati", s: "A", d: "Sikap menyembah dengan merapatkan tangan" },
+            { i: "añiman", k: "lêmbút, alús", s: "A", d: "Kecil luar biasa; lembut" },
+            { i: "andha", k: "êndhóg, jagad, pêtêng", s: "A", d: "Telur semesta; gelap gulita" },
+            { i: "andhêh", k: "mênêt, tindhih", s: "A", d: "Menekan atau menindih" },
+            { i: "atat", k: "manúk bètèt", s: "A", d: "Burung betet berwarna hijau" },
+            { i: "atīta", k: "liwat, kapungkúr", s: "A", d: "Masa lampau; telah berlalu" },
+            { i: "atithi", k: "dayóh", s: "A", d: "Tamu yang patut dihormati" },
+            { i: "atiçaya", k: "bangêt, kêluwih", s: "A", d: "Sangat berlebih-lebihan" },
+            { i: "ākma", k: "súkmå", s: "A", d: "Jiwa; roh halus" },
+            { i: "atmaja", k: "anak", s: "A", d: "Putra/putri kandung" },
+            { i: "adara", k: "húrmat", s: "A", d: "Sikap hormat takzim" },
+            { i: "ādarga", k: "cêrmin, pêngilon", s: "A", d: "Cermin kaca pengilon" },
+            { i: "adi", k: "wiwitan, kangarêp, kang punjúl dhéwé", s: "A", d: "Awal mula; yang terunggul" },
+            { i: "āditya", k: "srêngéngé, ngahad", s: "A", d: "Matahari; hari Minggu" },
+            { i: "adrêçÿa", k: "ora katón", s: "A", d: "Gaib; tidak kasat mata" },
+            { i: "ādéça", k: "wartå, dhawúh", s: "A", d: "Kabar warta atau perintah resmi" },
+            { i: "adbuta", k: "anggumúnaké, ngéram-éramké", s: "A", d: "Sangat menakjubkan" },
+            { i: "adri", k: "gunúng", s: "A", d: "Pegunungan batu besar" },
+            { i: "adhama", k: "nisthå, camah", s: "A", d: "Sangat rendah; nista" },
+            { i: "adhah", k: "ngisór, asór", s: "A", d: "Bagian bawah; kedudukan rendah" },
+            { i: "adhi", k: "luhúr, pinunjúl, mulyå", s: "A", d: "Mulia; agung" },
+            { i: "adhipati", k: "adipati, pangréh", s: "A", d: "Pemimpin wilayah" },
+            { i: "adirājya", k: "nagårå kang bêcik, punjúl", s: "A", d: "Kerajaan yang makmur nan agung" },
+            { i: "adhyaya", k: "piwulang, murid", s: "A", d: "Pelajaran spiritual atau siswa penuntut ilmu" },
+            { i: "anāgata", k: "íng têmbè", s: "A", d: "Masa depan kelak" },
+            { i: "anala", k: "gêni", s: "A", d: "Api membara" },
+            { i: "anugraha", k: "ganjaran", s: "A", d: "Anugerah pemberian dewa" },
+            { i: "anurāga", k: "katresnan, trêsnå, éndah", s: "A", d: "Kasih sayang yang memikat hati" },
+            { i: "apsarā", k: "widådårå", s: "A", d: "Bidadara penghuni khayangan" },
+            
+            // B
+            { i: "baka", k: "cangak, bango", s: "B", d: "Burung cangak atau bangau rawa" },
+            { i: "bakiti", k: "sêmút", s: "B", d: "Semut kecil" },
+            { i: "bajra", k: "tumbak landhêp, landhêp, blêdhèg", s: "B", d: "Senjata petir; sangat tajam" },
+            { i: "bancana", k: "apús, krénah, godhå", s: "B", d: "Tipu daya; cobaan batin" },
+            { i: "bāña", k: "panah", s: "B", d: "Anak panah" },
+            { i: "banyaga", k: "nakhodha, sudagar", s: "B", d: "Saudagar laut yang berlayar jauh" },
+            { i: "banwa", k: "prahu, badég", s: "B", d: "Perahu besar atau cairan" },
+            { i: "bandha", k: "tali, bebandan", s: "B", d: "Ikatan erat" },
+            { i: "bāyu", k: "angin", s: "B", d: "Kekuatan angin semesta" },
+            { i: "bayubajra", k: "prahara", s: "B", d: "Angin puting beliung besar" },
+            { i: "bala", k: "kêkuwatan, bålå", s: "B", d: "Pasukan tentara pertahanan" },
+            { i: "balaka", k: "bocah, blåkå", s: "B", d: "Anak-anak; berbicara jujur" },
+            { i: "basanta", k: "móngså ngarêpaké móngså panas", s: "B", d: "Musim semi" },
+            { i: "bahni", k: "gêni", s: "B", d: "Nyala api suci" },
+            { i: "bisha", k: "biså", s: "B", d: "Bisa beracun" },
+            { i: "bishama", k: "ambêbayani, nguwatiri", s: "B", d: "Sangat berbahaya bagi keselamatan" },
+            { i: "buddhiman", k: "pintêr", s: "B", d: "Berbudi pekerti luhur dan pandai" },
+            { i: "byakta", k: "nyåtå, têtélå, têrang", s: "B", d: "Nyata sejelas-jelasnya" },
+            { i: "byaya", k: "rusak, lêbúr, labúh, wragad, biyåyå", s: "B", d: "Biaya yang dikeluarkan; lebur" },
+            { i: "brahmacari", k: "calón pandhitå, pandhitå wadad", s: "B", d: "Menempuh jalan kesucian diri tanpa menikah" },
+            { i: "bwat", k: "bóbót, abót, mómót, gawéyan", s: "B", d: "Berat beban muatan" },
+
+            // C
+            { i: "cakra", k: "cåkrå, rodhå, bundêran", s: "C", d: "Senjata cakram melingkar; roda kehidupan" },
+            { i: "cakrangga", k: "bèbèk", s: "C", d: "Unggas bebek" },
+            { i: "cakrawartti", k: "kang ngêrèh jagad, ngubêngaké jagad", s: "C", d: "Penguasa alam semesta raya" },
+            { i: "caksu", k: "mripat", s: "C", d: "Mata atau penglihatan jernih" },
+            { i: "cancala", k: "obah-obah, oyag-oyag", s: "C", d: "Goyah; senantisan bergerak" },
+            { i: "cāndhala", k: "wóng asór, nisthå", s: "C", d: "Orang berderajat hina dina" },
+            { i: "catur", k: "papat", s: "C", d: "Bilangan empat" },
+            { i: "catra", k: "payúng", s: "C", d: "Payung kebesaran raja" },
+            { i: "candra", k: "rêmbulan", s: "C", d: "Bulan di malam hari" },
+            { i: "cāpa", k: "gêndéwå", s: "C", d: "Busur panah kokoh" },
+            { i: "cāyā", k: "sórót", s: "C", d: "Cahaya gemilang" },
+            { i: "cāraka", k: "utusan", s: "C", d: "Utusan pembawa pesan suci" },
+            { i: "carmma", k: "walulang, kulit", s: "C", d: "Kulit pelindung luar" },
+            { i: "calita", k: "obah-obah, mlaku-mlaku", s: "C", d: "Berjalan kian kemari" },
+            { i: "citta", k: "ati, råså pangråså, cíptå, pikir", s: "C", d: "Pikiran terdalam; cipta rasa" },
+            { i: "citra", k: "tulís, gambar, layang", s: "C", d: "Lukisan gambar; tulisan indah" },
+            { i: "cudhāmañi", k: "intên rêrêngganing sirah, susúk kondhè", s: "C", d: "Permata mahkota terindah di rambut" },
+            { i: "curiga", k: "kêris, lading", s: "C", d: "Senjata keris pusaka" },
+            { i: "caitya", k: "pahuman", s: "C", d: "Tempat suci perhimpunan pendeta" },
+            { i: "cora", k: "maling, cólóng", s: "C", d: "Pencuri yang bertindak kriminal" },
+
+            // D
+            { i: "daksa", k: "pintêr", s: "D", d: "Ahli; terampil dan pandai" },
+            { i: "daksiña", k: "kidúl, ganjaran marang pandhitå", s: "D", d: "Arah selatan; sedekah suci kepada pendeta" },
+            { i: "dagda", k: "kóbóng", s: "D", d: "Terbakar oleh kobaran api" },
+            { i: "dangū", k: "biyèn, kang uwís", s: "D", d: "Dahulu kala di masa silam" },
+            { i: "dadhi", k: "puhan", s: "D", d: "Air susu murni" },
+            { i: "dānawa", k: "butå", s: "D", d: "Raksasa jahat berbadan besar" },
+            { i: "danta", k: "untu, siyúng, gadhing", s: "D", d: "Gading gajah putih mulia" },
+            { i: "danti", k: "gajah", s: "D", d: "Hewan gajah" },
+            { i: "dampati", k: "bojo, jodho", s: "D", d: "Pasangan suami-istri yang sah" },
+            { i: "dayā", k: "srånå, welas", s: "D", d: "Welas asih penolong liyan" },
+            { i: "dayita", k: "garwå", s: "D", d: "Istri tercinta" },
+            { i: "daridra", k: "mlarat", s: "D", d: "Sangat melarat papa" },
+            { i: "darsana", k: "tulādhå", s: "D", d: "Suri teladan hidup yang baik" },
+            { i: "dala", k: "gódhóng", s: "D", d: "Daun tanaman" },
+            { i: "dalancang", k: "kêthu klókópan kayu", s: "D", d: "Kertas kuno dari kulit kayu terolah" },
+            { i: "daça", k: "sêpulúh", s: "D", d: "Bilangan sepuluh" },
+            { i: "dāsa", k: "batúr tukón", s: "D", d: "Hamba sahaya pria" },
+            { i: "dāsi", k: "batúr tukón wadón", s: "D", d: "Hamba sahaya wanita" },
+            { i: "daha", k: "kóbóng", s: "D", d: "Terbakar habis" },
+            { i: "dahat", k: "bangêt", s: "D", d: "Sangat amat" },
+            { i: "dahana", k: "gêni", s: "D", d: "Kobaran api pelebur" },
+            { i: "digantarāla", k: "awang-awang", s: "D", d: "Ruang angkasa luas" },
+            { i: "digjaya", k: "mênangan", s: "D", d: "Sakti mandraguna tiada tanding" },
+            { i: "digwidig", k: "kéblat", s: "D", d: "Arah mata angin semesta" },
+            { i: "dīna", k: "asór, cilåkå", s: "D", d: "Sengsara; bernasib asor" },
+            { i: "dinakara", k: "srêngéngé", s: "D", d: "Matahari pembawa terang" },
+            { i: "dīpa", k: "sorót, diyan", s: "D", d: "Pelita malam penerang batin" },
+            { i: "dibya", k: "linuwih, luhúr, pinunjúl", s: "D", d: "Sakti nan mulia" },
+            { i: "diwākara", k: "srêngéngé", s: "D", d: "Matahari mulia" },
+            { i: "diwasānta", k: "soré, bêngi", s: "D", d: "Senja berakhir hingga gulita" },
+            { i: "dūta", k: "utusan", s: "D", d: "Utusan agung pembawa sabda" },
+            { i: "dūra", k: "adóh, nglêngkårå", s: "D", d: "Jauh atau mustahil terjadi" },
+            { i: "durātmaka", k: "wóng ålå, maling", s: "D", d: "Orang licik penjahat batin" },
+            { i: "durgga", k: "rêkåså", s: "D", d: "Penuh kesukaran dan bahaya" },
+            { i: "durggama", k: "angél diambah, wêrít", s: "D", d: "Medan yang sukar dijelajahi" },
+            { i: "durjjana", k: "maling, wong ala", s: "D", d: "Orang dursila berbudi buruk" },
+            { i: "durbbala", k: "ringkih, rêkåså", s: "D", d: "Lemah tak berdaya" },
+            { i: "durbiksa", k: "larang pangan", s: "D", d: "Musim paceklik berat" },
+            { i: "duhka", k: "susah, cilåkå, lårå", s: "D", d: "Duka cita yang mendalam" },
+            { i: "drêdha", k: "kukúh, sêtyå, bangêt", s: "D", d: "Kukuh kokoh berkeyakinan" },
+            { i: "drêbya", k: "darbé", s: "D", d: "Harta benda kepemilikan" },
+            { i: "deça", k: "panggónan, tanah", s: "D", d: "Tanah kediaman atau desa" },
+            { i: "daitya", k: "butå", s: "D", d: "Kelompok raksasa kuno" },
+            { i: "droña", k: "klênthíng, jún", s: "D", d: "Wadah air tanah liat" },
+            { i: "dwāra", k: "lawang, régól", s: "D", d: "Pintu gerbang halaman" },
+            { i: "dwi", k: "loro, suwiwi, lar", s: "D", d: "Bilangan dua; sayap burung" },
+            { i: "dwija", k: "brahmana, guru", s: "D", d: "Pendeta suci mulia" },
+            { i: "dwīpa", k: "pulo", s: "D", d: "Pulau di tengah lautan" },
+            { i: "dwipāngga", k: "gajah", s: "D", d: "Gajah purba agung" },
+            { i: "dhātu", k: "pêlikan, gincu", s: "D", d: "Zat logam bumi; gincu pewarna" },
+            { i: "dhana", k: "dhuwit", s: "D", d: "Harta kekayaan materi" },
+            { i: "dhanudhara", k: "kang anggåwå panah, satriyå", s: "D", d: "Prajurit pemanah" },
+            { i: "dhanuh", k: "gêndéwå", s: "D", d: "Gendewa pembidik sasaran" },
+            { i: "dharaka", k: "mómót, nyånggå, sabar, kukúh", s: "D", d: "Mampu bersabar menyangga ujian" },
+            { i: "dharani", k: "bumi", s: "D", d: "Ibu bumi tanah pijak" },
+            { i: "dharmma", k: "laku utåmå, wajíb, anggêr, candhi", s: "D", d: "Kebenaran abadi, kewajiban suci, kuil pemujaan" },
+            { i: "dhīra", k: "kêndêl, kukúh", s: "D", d: "Bermental baja kokoh teguh" },
+            { i: "dhūpa", k: "dupå", s: "D", d: "Dupa wewangian pengantar doa" },
+            { i: "dhūma", k: "kêbúl", s: "D", d: "Asap membubung" },
+            { i: "dhwaja", k: "gêndérå, têtêngêr", s: "D", d: "Bendera lambang klan" },
+            { i: "dhwasta", k: "rusak, lêbúr", s: "D", d: "Musnah hancur tak bersisa" },
+
+            // E
+            { i: "éka", k: "siji, tunggal", s: "E", d: "Satu tunggal esa" },
+            { i: "ékākī", k: "ijèn", s: "E", d: "Sendirian menyepi" },
+            { i: "ékadaça", k: "sawêlas", s: "E", d: "Bilangan sebelas" },
+            { i: "ékaprāña", k: "rujúk", s: "E", d: "Satu nafas seiya sekata" },
+            { i: "èr", k: "banyu", s: "E", d: "Air suci mengalir" },
+            { i: "aiçanya", k: "lór wétan", s: "E", d: "Arah timur laut" },
+            { i: "aiçwaryja", k: "kasugihan", s: "E", d: "Kemakmuran raja agung" },
+            { i: "oshadha", k: "tåmbå", s: "E", d: "Ramuan herbal obat penyembuh" },
+
+            // G
+            { i: "gagana", k: "awang awang, langít", s: "G", d: "Cakrawala luas tanpa batas" },
+            { i: "gaja", k: "gajah", s: "G", d: "Gajah tunggangan bangsawan" },
+            { i: "gaña", k: "gólóngan, grómbólan", s: "G", d: "Kelompok makhluk khayangan atau manusia" },
+            { i: "gañita", k: "wilang, pétúng", s: "G", d: "Perhitungan matematis" },
+            { i: "gandhaka", k: "cula", s: "G", d: "Cula badak purba" },
+            { i: "gandhi", k: "palu, gandhèn", s: "G", d: "Alat pengetok kayu besi" },
+            { i: "gata", k: "laku", s: "G", d: "Berjalan di jalan kebenaran" },
+            { i: "gati", k: "laku, kahanan, sarana", s: "G", d: "Keadaan riil; jalan hidup" },
+            { i: "gātra", k: "awak", s: "G", d: "Wujud badan lahiriah" },
+            { i: "gadgada", k: "kagèt, gumún", s: "G", d: "Tercengang keheranan" },
+            { i: "gandarwwa", k: "niyaganing déwa", s: "G", d: "Pemusik dewa-dewa" },
+            { i: "gabhīra", k: "jêro", s: "G", d: "Sangat dalam samudra" },
+            { i: "gamana", k: "laku, sarånå, cårå", s: "G", d: "Sarana bertindak" },
+            { i: "garjjita", k: "bungah", s: "G", d: "Sangat bersemangat gembira" },
+            { i: "garbba", k: "wêtêng", s: "G", d: "Rahim suci ibu" },
+            { i: "garbiñi", k: "mêtêng", s: "G", d: "Mengandung anak" },
+            { i: "garwwa", k: "brangasan, nêpsón, umúk", s: "G", d: "Sombong pongah tak terkendali" },
+            { i: "galah", k: "tumbak", s: "G", d: "Tombak perang panjang" },
+            { i: "galuh", k: "intên", s: "G", d: "Permata murni istana" },
+            { i: "gawaya", k: "bantèng", s: "G", d: "Banteng hutan perkasa" },
+            { i: "gahan", k: "jênêng, misuwur", s: "G", d: "Tersohor namanya di seantero negeri" },
+            { i: "gêgö", k: "nyêkêl, gugu", s: "G", d: "Memegang teguh kepercayaan" },
+            { i: "gêntêr", k: "gumludhúg", s: "G", d: "Petir menggelegar" },
+            { i: "gêmpang", k: "rusak, sírnå", s: "G", d: "Hancur lebur sirna" },
+            { i: "gêlana", k: "sayah, susah", s: "G", d: "Gelisah lelah batin" },
+            { i: "gêlêng", k: "nêpsu", s: "G", d: "Kemarahan memuncak" },
+            { i: "gêlêh", k: "nisthå, rêgêd", s: "G", d: "Noda kotoran" },
+            { i: "gö", k: "gêdhé", s: "G", d: "Berukuran sangat raksasa" },
+            { i: "gīta", k: "kidúng, têmbúng", s: "G", d: "Senandung kidung merdu" },
+            { i: "girang", k: "bungah, sênêng", s: "G", d: "Riang gembira" },
+            { i: "giri", k: "gunúng", s: "G", d: "Gunung tegak" },
+            { i: "giha", k: "guwå", s: "G", d: "Gua pertapaan gelap sunyi" },
+            { i: "guña", k: "watak, kautaman, pahédah", s: "G", d: "Sifat utama penuh kebajikan" },
+            { i: "guñawān", k: "sugih kautaman, pintêr", s: "G", d: "Sangat bijaksana berbudi luhur" },
+            { i: "gupura", k: "gapura", s: "G", d: "Pintu gerbang megah" },
+            { i: "gupta", k: "wêwadi", s: "G", d: "Sesuatu yang dirahasiakan rapat" },
+            { i: "gubah", k: "klambu, tutúp", s: "G", d: "Penutup ranjang kencana" },
+            { i: "gurubhakti", k: "bêkti marang guru", s: "G", d: "Bakti setia tanpa batas kepada guru suci" },
+            { i: "grêha", k: "omah", s: "G", d: "Griya tempat bernaung" },
+            { i: "gotra", k: "gótrå", s: "G", d: "Klan silsilah keturunan agung" },
+            { i: "gopa", k: "pangón", s: "G", d: "Penggembala sapi khayangan" },
+            { i: "gorawa", k: "húrmat", s: "G", d: "Rasa takzim tinggi" },
+            { i: "goshthi", k: "rêmbúg", s: "G", d: "Musyawarah memecahkan masalah" },
+            { i: "grama", k: "déså", s: "G", d: "Wilayah pemukiman rakyat" },
+            { i: "glāna", k: "susah, sayah", s: "G", d: "Keletihan batin raga" },
+            { i: "ghana", k: "mégå, mêndhúng", s: "G", d: "Awan kelabu pembawa berkah hujan" },
+            { i: "ghāra", k: "garwå, bojo", s: "G", d: "Belahan jiwa utama" },
+            { i: "ghurnña", k: "umyung, ramé", s: "G", d: "Suara riuh gemuruh" },
+            { i: "ghurnñita", k: "gumludhug, gumlêgêr", s: "G", d: "Gemuruh guntur bumi" },
+
+            // I
+            { i: "igar", k: "bungah", s: "I", d: "Gembira riang gembira" },
+            { i: "içu", k: "hóyóg, andhrêdêg, kocak", s: "I", d: "Terguncang hebat batin raga" },
+            { i: "ingêt", k: "élíng", s: "I", d: "Sadar ingatan sepenuhnya" },
+            { i: "inggung", k: "gonjang ganjing, oyag ayig", s: "I", d: "Guncangan gempa hebat" },
+            { i: "icchā", k: "bungah, arêp, ngarêp arêp", s: "I", d: "Kehendak bebas penuh hasrat" },
+            { i: "injuh", k: "bungah bangêt, sêngsêm", s: "I", d: "Sangat terpikat takzim" },
+            { i: "iti", k: "mangkono", s: "I", d: "Demikian adanya" },
+            { i: "itihāsa", k: "caritå, dongèng", s: "I", d: "Epos sejarah kuno kepahlawanan" },
+            { i: "inak", k: "énak", s: "I", d: "Nyaman tenteram nikmat" },
+            { i: "inang", k: "biyúng", s: "I", d: "Ibu pengasuh kerajaan" },
+            { i: "intaya", k: "nginjên, nêlík", s: "I", d: "Mengintai musuh rahasia" },
+            { i: "indu", k: "rêmbulan", s: "I", d: "Bulan purnama bersorot perak" },
+            { i: "indra", k: "ratu, têlênging mripat", s: "I", d: "Dewa utama; raja; fokus mata terdalam" },
+            { i: "indriya", k: "ati, rasaning ati", s: "I", d: "Pancaindra batiniah" },
+            { i: "irang", k: "isín, wirang", s: "I", d: "Malu menanggung aib" },
+            { i: "iras", k: "ngêthók, magas, nunggêl", s: "I", d: "Memotong lurus jadi satu" },
+            { i: "irshya", k: "mèri, drêngki", s: "I", d: "Iri dengki batin" },
+            { i: "iwêh", k: "angèl, éwuh", s: "I", d: "Sangat pelik dikerjakan" },
+            { i: "iwö", k: "sagúh, rêmbúg", s: "I", d: "Sanggup merawat berunding" },
+            { i: "iwu", k: "èwu", s: "I", d: "Bilangan ribu" },
+            { i: "ishū", k: "panah", s: "I", d: "Senjata bidik" },
+
+            // J
+            { i: "jagattraya", k: "jagad têtêlu", s: "J", d: "Tiga dunia semesta raya" },
+            { i: "jagatpālaka", k: "kang ngayómi jagad, ratu", s: "J", d: "Pelindung dunia agung" },
+            { i: "jāgra", k: "tangi", s: "J", d: "Terbangun sadar penuh batin" },
+            { i: "jaghana", k: "bókóng, silít", s: "J", d: "Bagian panggul bawah" },
+            { i: "janggala", k: "alas", s: "J", d: "Hutan rimbun kering" },
+            { i: "janjan", k: "dåwå, adóh", s: "J", d: "Sangat jauh membentang" },
+            { i: "jadha", k: "bódhó", s: "J", d: "Kurang pemahaman jernih" },
+            { i: "jana", k: "wóng", s: "J", d: "Manusia penghuni bumi" },
+            { i: "janapriya", k: "ditrêsnani íng wóng", s: "J", d: "Sangat dicintai rakyat" },
+            { i: "janaloka", k: "jagad, donyå", s: "J", d: "Dunia fana tempat bersemayam" },
+            { i: "jaya", k: "mênang", s: "J", d: "Kemenangan mutlak pertempuran" },
+            { i: "jara", k: "tuwå, umúr", s: "J", d: "Menua termakan usia" },
+            { i: "jala", k: "banyu, jålå", s: "J", d: "Air bening alam" },
+            { i: "jaladhara", k: "mêndhúng", s: "J", d: "Mendung penampung air hujan" },
+            { i: "jaladhi", k: "sagårå", s: "J", d: "Samudra luas tak berujung" },
+            { i: "jênar", k: "kuníng", s: "J", d: "Kuning keemasan mulia" },
+            { i: "jênak", k: "bungah, sênêng", s: "J", d: "Nyaman betah menetap" },
+            { i: "jêmah", k: "íng têmbé", s: "J", d: "Kelak di masa depan" },
+            { i: "jêmúr", k: "campúr", s: "J", d: "Bercampur aduk menjadi satu" },
+            { i: "jêrah", k: "anjrah, sumêbar", s: "J", d: "Tersebar merata ke segala penjuru" },
+            { i: "jīrnña", k: "risak", s: "J", d: "Hancur lapuk termakan zaman" },
+            { i: "jiwit", k: "uríp", s: "J", d: "Nyawa kehidupan" },
+            { i: "juga", k: "baé, múng, kåyå, ugå", s: "J", d: "Hanya; bagaikan; juga" },
+            { i: "jāna", k: "kawrúh, pangrêti", s: "J", d: "Pengetahuan hikmat terdalam" },
+            { i: "jyat", k: "diyan, sórót", s: "J", d: "Pelita bersorot benderang" },
+
+            // K
+            { i: "kaga", k: "manúk", s: "K", d: "Burung di angkasa" },
+            { i: "kangês", k: "landhêp", s: "K", d: "Sangat tajam bilahnya" },
+            { i: "kangça", k: "góngså, prunggu", s: "K", d: "Logam perunggu pembuat gamelan" },
+            { i: "kacapuri", k: "pagêr, capuri", s: "K", d: "Pagar batas halaman candi" },
+            { i: "kaccapa", k: "bulús", s: "K", d: "Penyu kura-kura air" },
+            { i: "kancít", k: "dumadakan", s: "K", d: "Tiba-tiba; seketika" },
+            { i: "kanyar", k: "jêjogèdan, lincak lincak", s: "K", d: "Menari kegirangan melonjak-lonjak" },
+            { i: "kangiwandha", k: "sabún", s: "K", d: "Pembersih kotoran" },
+            { i: "kathungka", k: "wóng ålå, nisthå", s: "K", d: "Orang durjana bernasib nista" },
+            { i: "kadhga", k: "pêdhang, sapunikå: kêrís", s: "K", d: "Senjata pedang belati kuno" },
+            { i: "kandha", k: "gulu", s: "K", d: "Leher pelindung kepala" },
+            { i: "kāndha", k: "caritå", s: "K", d: "Buku bab cerita kuno" },
+            { i: "kandhung", k: "mêtêng", s: "K", d: "Mengandung janin" },
+            { i: "kātara", k: "wêdi", s: "K", d: "Sangat ketakutan gentar" },
+            { i: "katha", k: "caritå, dongèng", s: "K", d: "Kisahan fabel dongeng rakyat" },
+            { i: "kadyangga", k: "båyå", s: "K", d: "Bencana bahaya menghadang" },
+            { i: "kanaka", k: "êmas", s: "K", d: "Emas logam mulia berkilau" },
+            { i: "kānana", k: "alas", s: "K", d: "Hutan rimba liar" },
+            { i: "kanin", k: "kêtatón", s: "K", d: "Menderita luka parah pertempuran" },
+            { i: "kanishtha", k: "asór dhéwé, cilík dhéwé", s: "K", d: "Paling rendah; paling terbelakang" },
+            { i: "kandarpa", k: "katresnan", s: "K", d: "Panah asmara dewa cinta" },
+            { i: "kanyā", k: "prawan, bocah wadon", s: "K", d: "Gadis suci belum menikah" },
+            { i: "kapāla", k: "êndhas", s: "K", d: "Tengkorak kepala" },
+            { i: "kapö", k: "kupíng", s: "K", d: "Indra pendengaran" },
+            { i: "kapi", k: "kêthèk", s: "K", d: "Kera cerdik pembela Rama" },
+            { i: "kapilawarnna", k: "abang", s: "K", d: "Merah menyala" },
+            { i: "kapwa", k: "pådhå, kabèh, babarêngan", s: "K", d: "Sama-sama; semuanya bersamaan" },
+            { i: "kāma", k: "sêngsêm, katresnan, pêpénginan", s: "K", d: "Hasrat cinta asmara menggelora" },
+            { i: "kamandhalu", k: "jan, kalênthing", s: "K", d: "Kendi tanah penampung air suci" },
+            { i: "kamantÿan", k: "sadélå, ora suwé banjur", s: "K", d: "Seketika itu juga" },
+            { i: "kamênā", k: "sadurungé", s: "K", d: "Sebelum melakukan sesuatu" },
+            { i: "kami", k: "aku", s: "K", d: "Saya pribadi" },
+            { i: "kamiris", k: "tikús", s: "K", d: "Hewan pengerat tikus" },
+            { i: "kamu", k: "kowė", s: "K", d: "Kamu sekalian" },
+            { i: "kāmuka", k: "kasêngsêm", s: "K", d: "Sangat tergila-gila asmara" },
+            { i: "kampita", k: "andrêdhêg, gêtêr", s: "K", d: "Gemetar ketakutan batin" },
+            { i: "kāya", k: "awak", s: "K", d: "Badan kasar manusia" },
+            { i: "kayop", k: "sórót", s: "K", d: "Sinar gemilang" },
+            { i: "kara", k: "kúldi, tangan, susah, wêlas, driji", s: "K", d: "Tangan terulur menolong; sinar" },
+            { i: "karuña", k: "wêlas", s: "K", d: "Belas kasih mendalam kepada kesengsaraan" },
+            { i: "karmma", k: "tindak kang linakónan, panggawé", s: "K", d: "Hukum perbuatan sebab-akibat" },
+            { i: "kāryÿa", k: "gawé", s: "K", d: "Tugas; pekerjaan penciptaan" },
+            { i: "kalā", k: "kålå, butå, slomprent, waktu", s: "K", d: "Dimensi waktu; jerat maut; nafiri" },
+            { i: "kalakā", k: "banyu", s: "K", d: "Cairan air alami" },
+            { i: "kalula", k: "brayat", s: "K", d: "Sanak keluarga besar" },
+            { i: "kalusha", k: "rêgêd", s: "K", d: "Keruh penuh kekotoran batin" },
+            { i: "kalpa", k: "jaman", s: "K", d: "Siklus waktu semesta raya sangat lama" },
+            { i: "kawasa", k: "klambi kêré", s: "K", d: "Baju pelindung dari rantai besi" },
+            { i: "kawandha", k: "gêmbúng", s: "K", d: "Tubuh tanpa kepala" },
+            { i: "kawês", k: "wêdi, kawús", s: "K", d: "Jera; ketakutan" },
+            { i: "kawi", k: "pangarang, pujónggå", s: "K", d: "Pujangga agung penggubah karya sastra" },
+            { i: "kawih", k: "pintêr, biså", s: "K", d: "Sangat pandai menguasai berbagai hal" },
+            { i: "kāwÿa", k: "têmbúng, kidung", s: "K", d: "Karya sastra berupa puisi/syair epik" },
+            { i: "kas", k: "atós, roså", s: "K", d: "Keras membatu; kuat kokoh" },
+            { i: "kêkês", k: "simpên", s: "K", d: "Menyimpan rapat rahasia" },
+
+            // L
+            { i: "laka", k: "abang", s: "L", d: "Warna merah jingga tua" },
+            { i: "laksaña", k: "kalakuwan, éndah", s: "L", d: "Tanda kemuliaan; perilaku luhur" },
+            { i: "laksita", k: "mangêrti", s: "L", d: "Mampu memahami sepenuhnya" },
+            { i: "laksmi", k: "ayu", s: "L", d: "Dewi kecantikan kemakmuran" },
+            { i: "laga", k: "pérang", s: "L", d: "Kancah pertempuran ksatria" },
+            { i: "lagna", k: "wudå, pandhitå papriman", s: "L", d: "Telanjang bulat bebas nafsu duniawi" },
+            { i: "laghu", k: "èndhèng, bantêr", s: "L", d: "Ringan cekatan; sangat cepat" },
+            { i: "langö", k: "éndah", s: "L", d: "Pesona keindahan alam yang memabukkan rasa" },
+            { i: "langkap", k: "gêndéwå", s: "L", d: "Gendewa panah pusaka ksatria" },
+            { i: "langghana", k: "ora manút, andaga", s: "L", d: "Membangkang perintah raja" },
+            { i: "lajjita", k: "isín", s: "L", d: "Tersipu malu memerah" },
+            { i: "latā", k: "gódhóng", s: "L", d: "Tanaman merambat daun hijau" },
+            { i: "lāna", k: "langgêng, banjúr baé, tanpau kêndhat", s: "L", d: "Abadi tanpa henti selama-lamanya" },
+            { i: "lapā", k: "ngêlíh", s: "L", d: "Lapar menahan dahaga makanan" },
+            { i: "labdha", k: "putús, kêlakón, katêkan", s: "L", d: "Berhasil meraih tujuan mulia" },
+            { i: "lābha", k: "bathi", s: "L", d: "Keberuntungan laba usaha" },
+            { i: "laya", k: "rusak, kiyamat, nglayani, ngladèni", s: "L", d: "Hancur lebur kiamat semesta" },
+            { i: "layat", k: "lungå, mlayu", s: "L", d: "Melarikan diri berpindah tempat" },
+            { i: "layu", k: "alúm", s: "L", d: "Layu berguguran bunga" },
+            { i: "lara", k: "susah", s: "L", d: "Kesedihan batin mendalam" },
+            { i: "laran", k: "sudå, lungå", s: "L", d: "Berkurang bebannya" },
+            { i: "laras", k: "gêndéwå", s: "L", d: "Gendewa pembidik sasaran" },
+            { i: "lalatha", k: "bathúk", s: "L", d: "Dahi kening mulia" },
+            { i: "lālana", k: "bungah bungah, nglipúr, dolan dolan", s: "L", d: "Menghibur diri bertamasya ceria" },
+            { i: "lalah", k: "ora sarèh, kêpíngín bangêt, adreng", s: "L", d: "Tidak sabaran; sangat berhasrat" },
+            { i: "lalita", k: "nêngsêmaké", s: "L", d: "Sangat manis menawan hati" },
+            { i: "lalis", k: "ora wêlas, bêngís, tégå, mati", s: "L", d: "Tega tanpa belas kasih; meninggal dunia" },
+            { i: "lawan", k: "tilík", s: "L", d: "Melakukan kunjungan takzim" },
+            { i: "lahru", k: "móngså katigå", s: "L", d: "Musim kemarau panjang gersang" },
+
+            // M
+            { i: "makara", k: "iwak lodan", s: "M", d: "Makhluk laut legendaris berwujud gabungan" },
+            { i: "makin", k: "såyå", s: "M", d: "Semakin bertambah-tambah" },
+            { i: "manggala", k: "dongå pamuji, pamuji bêcik, pangarêp", s: "M", d: "Doa restu keselamatan; pemimpin guarda depan" },
+            { i: "mamang", k: "dongå", s: "M", d: "Doa batin suci" },
+            { i: "mañi", k: "intên", s: "M", d: "Intan permata mulia" },
+            { i: "manik", k: "intên", s: "M", d: "Butir kristal permata batin" },
+            { i: "mandhaga", k: "wêdhak", s: "M", d: "Bedak pupur wajah" },
+            { i: "mandhala", k: "wêwêngkón, laladan, tlatah, patapan", s: "M", d: "Wilayah kedaulatan lingkaran spiritual" },
+            { i: "mātā", k: "biyúng", s: "M", d: "Ibu kandung mulia" },
+            { i: "matang", k: "sabab", s: "M", d: "Sebab muasal peristiwa" },
+            { i: "matangga", k: "gajah", s: "M", d: "Gajah purba penembus barisan" },
+            { i: "matta", k: "bungah bangêt, gêndhêng", s: "M", d: "Sangat gembira lepas kendali" },
+            { i: "mātra", k: "ukuran", s: "M", d: "Dimensi ukuran terkecil" },
+            { i: "mātsharyÿa", k: "mèri, drêngki", s: "M", d: "Iri hati dengki batin" },
+            { i: "mada", k: "mêndêm", s: "M", d: "Mabuk khayali duniawi" },
+            { i: "madana", k: "sêngsêm", s: "M", d: "Terpikat pesona dewa asmara" },
+            { i: "madirā", k: "inuman", s: "M", d: "Minuman memabukkan berkadar tinggi" },
+            { i: "maddu", k: "madu", s: "M", d: "Cairan madu manis lebah" },
+            { i: "madhukara", k: "tawón", s: "M", d: "Lebah pencari madu" },
+            { i: "madhura", k: "manís", s: "M", d: "Sangat manis memikat tutur katanya" },
+            { i: "madhya", k: "têngah", s: "M", d: "Bagian poros tengah semesta" },
+            { i: "madhyapada", k: "jagad", s: "M", d: "Dunia fana tengah bumi manusia" },
+            { i: "māna", k: "nêpsu, pangirå, umúk", s: "M", d: "Kesombongan pongah ego batin" },
+            { i: "manastāpa", k: "sêdhih, susah", s: "M", d: "Penyesalan duka mendalam" },
+            { i: "manojawa", k: "rikat kåyå lakuning pikiran", s: "M", d: "Kecepatan luar biasa secepat kilatan pikir" },
+            { i: "manodnya", k: "éndah, bêcík", s: "M", d: "Sangat rupawan elok rupanya" },
+            { i: "manobhawa", k: "trêsnå, sêngsêm", s: "M", d: "Tumbuhnya asmara suci" },
+            { i: "manohara", k: "nêngsêmaké, sêngsêm", s: "M", d: "Sangat mempesona menawan hati" },
+            { i: "manti", k: "sadhélå, banjúr", s: "M", d: "Seketika kemudian" },
+            { i: "manda", k: "alón, lirih", s: "M", d: "Sangat lembut perlahan laun" },
+            { i: "mandra", k: "nyênêngaké", s: "M", d: "Menyenangkan sanubari" },
+            { i: "manmatha", k: "sêngsêm, tresna", s: "M", d: "Dewa asmara cinta sejati" },
+            { i: "māyā", k: "gógóróhan, sulapan, rêrékan", s: "M", d: "Dunia khayali semu penuh tipu daya indrawi" },
+            { i: "mayūra", k: "mêrak", s: "M", d: "Burung merak bermahkota" },
+
+            // N
+            { i: "nā", k: "mangkono", s: "N", d: "Begitulah adanya" },
+            { i: "naka", k: "tuku", s: "N", d: "Membeli barang dagangan" },
+            { i: "naksatra", k: "lintang", s: "N", d: "Bintang-bintang penunjuk arah" },
+            { i: "nāga", k: "ulå, gajah", s: "N", d: "Naga sakti penjaga bumi; gajah perkasa" },
+            { i: "nāgata", k: "íng têmbé, calón", s: "N", d: "Di masa mendatang kelak" },
+            { i: "nagna", k: "wudå", s: "N", d: "Telanjang tanpa sehelai kain" },
+            { i: "nangkên", k: "sabên", s: "N", d: "Setiap kurun waktu" },
+            { i: "nātha", k: "juru jogèd, ratu", s: "N", d: "Raja pengayom rakyat" },
+            { i: "natar", k: "latar", s: "N", d: "Halaman rumah bersih" },
+            { i: "natgata", k: "wêdi", s: "N", d: "Gentar ketakutan mendalam" },
+            { i: "nadī", k: "kali", s: "N", d: "Sungai berarus deras alami" },
+            { i: "nanā", k: "rusak", s: "N", d: "Hancur lebur luluh" },
+            { i: "nānā", k: "bédå bedå, warnå warnå", s: "N", d: "Beraneka ragam corak" },
+            { i: "nabhastala", k: "awang awang, langít", s: "N", d: "Kubah langit tak bertepi" },
+            { i: "nābhi", k: "wudêl", s: "N", d: "Pusar perut manusia" },
+            { i: "naya", k: "kalakuwan, pangrèh", s: "N", d: "Kebijakan tata kepemimpinan" },
+            { i: "nāyaka", k: "pangarêp, pajuntún", s: "N", d: "Pemimpin pelopor barisan agung" },
+            { i: "nayana", k: "mripat", s: "N", d: "Sorot pandangan mata" },
+            { i: "narādhipa", k: "ratu", s: "N", d: "Raja agung mulia" },
+            { i: "nāla", k: "ati, garan, bayu", s: "N", d: "Tangkai bunga; urat batin terdalam" },
+            { i: "nawa", k: "sångå", s: "N", d: "Bilangan sembilan" },
+            { i: "nasī", k: "sêgå", s: "N", d: "Nasi pangan harian" },
+            { i: "nāsikā", k: "irúng", s: "N", d: "Indra penciuman" },
+            { i: "nahan", k: "mangkono", s: "N", d: "Demikianlah halnya" },
+
+            // P
+            { i: "pakanira", k: "panjênêngan", s: "P", d: "Kata sapaan sangat hormat untuk Anda" },
+            { i: "pakêna", k: "sarana, tujuwan, kanggo, piranti", s: "P", d: "Maksud peruntukan kegunaan" },
+            { i: "pakö", k: "paku", s: "P", d: "Paku besi pemancang" },
+            { i: "paksa", k: "paro, uwang, swiwi, niyat, sedya, ancas, peksa", s: "P", d: "Sayap burung; kehendak keras memaksakan tujuan" },
+            { i: "paksi", k: "manúk", s: "P", d: "Unggas burung angkasa" },
+            { i: "pagêh", k: "kukúh, bakúh, panggêng, pugúh", s: "P", d: "Berpendirian kokoh tak tergoyahkan" },
+            { i: "panyut", k: "pêthúk, têmpúk, têmpúh", s: "P", d: "Saling berpapasan beradu muka" },
+            { i: "pangurang", k: "pandhitå ngêmís", s: "P", d: "Pendeta pengelana peminta sedekah kesucian" },
+            { i: "pangka", k: "blêthók, jêjêmbêk", s: "P", d: "Lumpur rawa kotor" },
+            { i: "pangkêl", k: "muring, nampik", s: "P", d: "Kemarahan menolak mentah-mentah" },
+            { i: "pangkuk", k: "andhódhók", s: "P", d: "Duduk berlutut takzim" },
+            { i: "panggah", k: "kuburan", s: "P", d: "Makam sunyi bersemayam" },
+            { i: "pangguh", k: "têmu, pêthúk", s: "P", d: "Berhasil menemui yang dicari" },
+            { i: "pangpang", k: "nedya wani, nempuh, nyuwara seru, gumuyu seru", s: "P", d: "Tekad keberanian menantang maut" },
+            { i: "panca", k: "limå", s: "P", d: "Bilangan lima" },
+            { i: "pancaka", k: "pangóbóngan mayít, pasiraman", s: "P", d: "Tempat pembakaran mayat suci ksatria" },
+            { i: "panjara", k: "kunjårå", s: "P", d: "Penjara kurungan besi" },
+            { i: "panji", k: "gandérå, sêbutan", s: "P", d: "Bendera kehormatan klan; gelar kepahlawanan" },
+            { i: "panjat", k: "diyan", s: "P", d: "Penerang pelita malam" },
+            { i: "pathāraña", k: "dhampar", s: "P", d: "Singgasana kencana raja mulia" },
+            { i: "pathiça", k: "tumbak", s: "P", d: "Senjata tombak penembus baju besi" },
+
+            // R
+            { i: "rakta", k: "abang", s: "R", d: "Warna merah darah membara" },
+            { i: "raksā", k: "jaga, rêkså", s: "R", d: "Perlindungan ketat menyeluruh" },
+            { i: "raksaka", k: "panjågå", s: "R", d: "Pengawal benteng terpercaya" },
+            { i: "rāksasa", k: "butå", s: "R", d: "Golongan makhluk bermuka menyeramkan" },
+            { i: "raga", k: "sêlåså, sêngsêm", s: "R", d: "Terpikat batin merindu" },
+            { i: "rāgādī", k: "håwå nêpsu", s: "R", d: "Aneka ragam belenggu nafsu duniawi" },
+            { i: "ragêt", k: "tatu", s: "R", d: "Luka robek berdarah pertempuran" },
+            { i: "rãgiī", k: "sêngsêm", s: "R", d: "Terpikat hatinya" },
+            { i: "rangkang", k: "bangsal, brangbang", s: "R", d: "Pendopo balairung kerajaan" },
+            { i: "racana", k: "pagawéyan, rancang, tåtå", s: "R", d: "Rencana tata letak yang indah" },
+            { i: "rajata", k: "salaka", s: "R", d: "Logam perak mengkilat" },
+            { i: "rãjanīti", k: "pangrèh pråjå", s: "R", d: "Ilmu tata negara politik mulia" },
+            { i: "rãjapatnī", k: "garwaníng ratu", s: "R", d: "Permaisuri agung pendamping raja" },
+            { i: "rajaswalã", k: "waktu kang prayogå", s: "R", d: "Kedewasaan matang masa subur wanita" },
+            { i: "rajah", k: "pêtêníng budi, pepeteng", s: "R", d: "Noda kegelapan pikiran terdalam" },
+            { i: "rãjÿa", k: "krajan", s: "R", d: "Wilayah ibukota kerajaan agung" },
+            { i: "raña", k: "pêrang", s: "R", d: "Kancah peperangan hidup-mati" },
+            { i: "rañãnggana", k: "paprangan", s: "R", d: "Medan yuda luas bersimbah darah" },
+
+            // S
+            { i: "sak", k: "rusak", s: "S", d: "Hancur lebur luluh" },
+            { i: "sakhã", k: "kóncå, mitrå", s: "S", d: "Sahabat setia pengiring hidup" },
+            { i: "sakatambaya", k: "wayah ésúk", s: "S", d: "Pagi buta fajar menyingsing" },
+            { i: "sakashang", k: "sadhélå", s: "S", d: "Sesaat waktu sementara" },
+            { i: "sakala", k: "sakabèhé", s: "S", d: "Segala isi semesta keseluruhan" },
+            { i: "sakī", k: "kóncå", s: "S", d: "Teman karib" },
+            { i: "sakta", k: "karêm, sênêng marang, doyan", s: "S", d: "Sangat menggemari ketagihan kegemaran" },
+            { i: "sakrama", k: "úrmat", s: "S", d: "Sopan santun beradab mulia" },
+            { i: "sãksãt", k: "cêthå, têrang, kåyå", s: "S", d: "Tampak nyata persis laksana" },
+            { i: "saguña", k: "utåmå", s: "S", d: "Memiliki kebajikan utama unggul" },
+            { i: "sgoradha", k: "kanthi úrmat", s: "S", d: "Dengan penuh rasa takzim" },
+            { i: "sangaskara", k: "nucèkaké", s: "S", d: "Ritual pensucian jiwa raga" },
+            { i: "sangi", k: "prasåjå", s: "S", d: "Nazarnya janji suci batin" },
+            { i: "sangkapañi", k: "pandhitå", s: "S", d: "Pendeta pemegang cakra kesucian" },
+            { i: "sangkyã", k: "cacah, wilangan", s: "S", d: "Jumlah hitungan kalkulasi" },
+            { i: "sangkasépa", k: "cêkaké", s: "S", d: "Ringkas kesimpulannya" },
+            { i: "sanggrama", k: "pêrang", s: "S", d: "Pertempuran masal kolosal ksatria" },
+            { i: "sanggraha", k: "cawisan, cawís, kukumpulané barang", s: "S", d: "Penyediaan logistik bekal perang" },
+            { i: "sangla", k: "papanthan, gólóngan", s: "S", d: "Kelompok barisan masyarakat" },
+            { i: "sangÿoga", k: "campúr, cumbånå", s: "S", d: "Penyatuan fisik batin sepasang kekasih" },
+            { i: "sangrabdha", k: "ngrakit, nyêkêl, tåtå tåtå", s: "S", d: "Mempersiapkan taktik perang matang" },
+            { i: "sangsaya", k: "susah", s: "S", d: "Keraguan kekhawatiran batin berat" },
+            { i: "sangsipta", k: "cêkaké", s: "S", d: "Singkatnya kata kesimpulan" },
+            { i: "sanghãra", k: "rusak, kiyamat", s: "S", d: "Peleburan total akhir zaman semesta" },
+            { i: "satmaka", k: "tunggal súkmå", s: "S", d: "Tunggal jiwa dengan Hyang Widhi" },
+            { i: "satÿa", k: "sêtÿā", s: "S", d: "Sumpah kesetiaan sehidup semati" },
+            { i: "sadãkãla", k: "tansah", s: "S", d: "Senantiasa selamanya" },
+            { i: "sãdara", k: "kanthi úrmat", s: "S", d: "Penuh rasa takzim mulia" },
+            { i: "sadah", k: "lintang", s: "S", d: "Bintang penanda musim tani" },
+
+            // T
+            { i: "tã", k: "ora", s: "T", d: "Penolakan mutlak; tidak" },
+            { i: "takarin", k: "rak", s: "T", d: "Bukankah begitu" },
+            { i: "takis", k: "tangkís", s: "T", d: "Tangkisan menangkis senjata" },
+            { i: "takut", k: "wêdi", s: "T", d: "Gentar ketakutan mendalam" },
+            { i: "takwan", k: "takón", s: "T", d: "Menanyakan berita kebenaran" },
+            { i: "tangkil", k: "sowan", s: "T", d: "Menghadap raja agung balairung" },
+            { i: "tanggêh", k: "pitutur, wulang", s: "T", d: "Nasihat ajaran leluhur suci" },
+            { i: "tanggung", k: "bóbót, mómótan", s: "T", d: "Menanggung beban berat" },
+            { i: "tanggul", k: "kulak", s: "T", d: "Tanggul batas aliran air" },
+            { i: "tangguh", k: "pitutúr", s: "T", d: "Kokoh berkepribadian tenang" },
+            { i: "tanggwan", k: "panah", s: "T", d: "Senjata andalan membidik" },
+            { i: "tanya", k: "takón", s: "T", d: "Bertanya mencari kejelasan" },
+            { i: "tatha", k: "pinggír kali, watês", s: "T", d: "Batas sempadan sungai rawan" },
+            { i: "tathãk", k: "blumbang", s: "T", d: "Kolam air taman sari" },
+            { i: "tadhah", k: "pangan, mangan, tómpå", s: "T", d: "Menerima berkah makanan konsumsi" },
+            { i: "tandha", k: "gêndérå, tåndhå, juru gêdhóng", s: "T", d: "Bendera tanda klan pataka agung" },
+            { i: "tatan", k: "ora", s: "T", d: "Sama sekali tidak" },
+            { i: "tatar", k: "ora", s: "T", d: "Sama sekali tiada" },
+            { i: "tatkãla", k: "nalikå", s: "T", d: "Seketika momen waktu tertentu" },
+            { i: "tatwa", k: "kahanan, nyatané, wujúd", s: "T", d: "Hakekat kebenaran sejati alam" },
+            { i: "tatsésha", k: "siså, turahan", s: "T", d: "Sisa kelebihan makanan persembahan" },
+            { i: "tathapi", k: "ananging", s: "T", d: "Akan tetapi namun" },
+            { i: "tadantara", k: "sawisê iku banjúr, ora suwé banjúr", s: "T", d: "Sesaat setelah kejadian itu" },
+            { i: "tanag", k: "wangkód", s: "T", d: "Sangat tegar keras kepala" },
+            { i: "tanaya", k: "anak", s: "T", d: "Putra/putri kandung tersayang" },
+            { i: "tanêk", k: "gódhóg", s: "T", d: "Merebus cairan hingga matang sempurna" },
+            { i: "tani", k: "lêmah, sawah", s: "T", d: "Bercocok tanam tanah subur" },
+            { i: "tanu", k: "badan", s: "T", d: "Wujud raga lahiriah manusia" },
+            { i: "tantu", k: "tali, bênang, panggónan", s: "T", d: "Benang pengikat tatanan takdir" },
+            { i: "tantra", k: "dongå, lapak", s: "T", d: "Rapalan mantra donga sakral" },
+            { i: "tan molah", k: "manggón", s: "T", d: "Berdiam diri khusyuk bertapa" },
+            { i: "tãpasa", k: "pandhitå", s: "T", d: "Petapa suci pengasing diri rimba" },
+            { i: "tapaswī", k: "pandhitå", s: "T", d: "Resi petapa penggapai moksah" },
+            { i: "tapwa", k: "ora, durúng, tanpaw", s: "T", d: "Belum; tiada halangan" },
+            { i: "tabêh", k: "jam, tabúh", s: "T", d: "Ketukan waktu kentongan jam" },
+            { i: "tama", k: "pintêr, putús, lêbu, lumêbu", s: "T", d: "Sangat ahli; memasuki kuil suci" },
+            { i: "tamuya", k: "dayóh, sugúh", s: "T", d: "Menyambut kedatangan tamu agung" },
+            { i: "tamolah", k: "manggón, dunúng", s: "T", d: "Berdiam tinggal menetap selamanya" },
+            { i: "tamoli", k: "ora ånå kang ngungkuli, ora liyå", s: "T", d: "Tiada bandingannya; tiada lain" },
+            { i: "tampak", k: "tapak, ambyúk, nyambêr, pidak", s: "T", d: "Bekas pijakan kaki bumi" },
+            { i: "tampuh", k: "têmpúh, nêmpúh", s: "T", d: "Menempuh badai membentur pertahanan" },
+            { i: "tampÿal", k: "tampèl", s: "T", d: "Menepis tamparan telapak" },
+            { i: "tambaya", k: "têmbé, dhisík, ésúk umun umun", s: "T", d: "Masa depan dini hari fajar buta" },
+            { i: "tambêh", k: "wuwúh, tambah", s: "T", d: "Bertambah banyak melimpah" },
+            { i: "tamyang", k: "tamèng", s: "T", d: "Tameng perisai perang pelindung dada" },
+            { i: "taya", k: "ora, ora ånå", s: "T", d: "Ketiadaan absolut hampa" },
+            { i: "tara", k: "bangêt, luwih", s: "T", d: "Sangat melebihi batasan biasa" },
+            { i: "tarã", k: "lintang", s: "T", d: "Bintang penanda musim tani" },
+
+            // U
+            { i: "ukta", k: "kasêbút, bab", s: "U", d: "Disebutkan dalam perbincangan naskah" },
+            { i: "uksa", k: "bantèng", s: "U", d: "Banteng liar bertenaga dewa" },
+            { i: "ugra", k: "bangêt, pucúk, gêdhé", s: "U", d: "Sangat utama puncak kebesaran" },
+            { i: "ugratapa", k: "ngêntèk tapané", s: "U", d: "Melakukan pertapaan keras tanpa batas makan" },
+            { i: "ungang", k: "ngungak", s: "U", d: "Mengintip keluar celah jendela" },
+            { i: "unggu", k: "manggón, ånå ing", s: "U", d: "Berdiam di tempat suci" },
+            { i: "uccha", k: "dhuwúr", s: "U", d: "Tinggi menjulang langit" },
+            { i: "ucchãraña", k: "ucap, kóndhó, têmbúng", s: "U", d: "Penyebutan kata pengucapan mantra" },
+            { i: "udhil", k: "natóni", s: "U", d: "Menyakiti melukai hati" },
+            { i: "udhū", k: "dhúh", s: "U", d: "Kata seru keluh kesah batin" },
+            { i: "udhupa", k: "rêmbulan", s: "U", d: "Bulan purnama perak khayangan" },
+            { i: "uttara", k: "lór", s: "U", d: "Arah mata angin utara" },
+            { i: "uttangga", k: "dhuwúr, bêcík, kang bêcík", s: "U", d: "Mulia terbaik tinggi derajatnya" },
+            { i: "utpãta", k: "sasmitå, kóndhå, pralambang, jangkah", s: "U", d: "Isyarat bencana pertanda gaib alam" },
+            { i: "utpatti", k: "lahír, mêtu, pamêtu", s: "U", d: "Kelahiran jiwa fana bumi" },
+            { i: "utshawa", k: "písta", s: "U", d: "Perayaan pesta pora syukuran agung" },
+            { i: "utshãha", k: "karósan, mêmpêng, saroså, angudi", s: "U", d: "Semangat tekad kerja keras tanpa lelah" },
+            { i: "unaka", k: "banyu", s: "U", d: "Cairan air segar" },
+            { i: "unadhi", k: "sagårå", s: "U", d: "Samudra luas tak bertepi" },
+            { i: "udaya", k: "palêtèkíng srêngéngé", s: "U", d: "Matahari terbit ufuk timur" },
+            { i: "udara", k: "pêtêng", s: "U", d: "Gelap berkabut" },
+            { i: "udãra", k: "linuwih", s: "U", d: "Sangat dermawan luhur budi" },
+            { i: "udarana", k: "têmbúng", s: "U", d: "Kata padanan perumpamaan" },
+            { i: "udgãtar", k: "juru nêmbang", s: "U", d: "Penyanyi lagu suci upacara candi" },
+            { i: "udyana", k: "patamanan", s: "U", d: "Taman bunga sari istana kencana" },
+            { i: "udhãni", k: "wêrúh, ngrêti, élíng", s: "U", d: "Sadar mengerti mengingat peristiwa lama" },
+            { i: "unêng", k: "sêngsêm, kagagas, tansah kagagas", s: "U", d: "Merindukan kekasih batin selalu terbayang" },
+            { i: "unī", k: "biyan", s: "U", d: "Zaman dahulu kala" },
+            { i: "udur", k: "gumun", s: "U", d: "Sangat terheran-heran heran" },
+            { i: "upaksama", k: "apurå", s: "U", d: "Pemberian maaf ketulusan dada" },
+            { i: "upajīwa", k: "pangan", s: "U", d: "Sumber mata pencaharian makan" },
+            { i: "upadrawa", k: "kasusahan, kasangsaran", s: "U", d: "Malapetaka hukuman para dewa" },
+            { i: "upawãda", k: "pisrêngên", s: "U", d: "Kemarahan caci maki noda" },
+            { i: "upawasã", k: "påså", s: "U", d: "Ritual puasa menahan lapar" },
+            { i: "upaçama", k: "sabar, têntrêm, jênjêm, lèrèn", s: "U", d: "Kedamaian ketenteraman batin hakiki" },
+            { i: "upãçraya", k: "pitulungan", s: "U", d: "Pertolongan perlindungan dewa" },
+            { i: "upãsaka", k: "calón pandhitå", s: "U", d: "Siswa calon pendeta buddha/syiwa" },
+            { i: "upasãstwa", k: "panglipúr", s: "U", d: "Penghibur duka lara batin" },
+            { i: "upahata", k: "kalah, kasóran, pinatènan", s: "U", d: "Tumbang di medan perang dibunuh musuh" },
+            { i: "upêk", k: "susah, angèl", s: "U", d: "Khawatir cemas luar biasa" },
+            { i: "upèksa", k: "wêrúh", s: "U", d: "Mengetahui secara jernih mawas diri" },
+            { i: "ubón", k: "pandhitå wadón", s: "U", d: "Pendeta wanita pengelana" },
+            { i: "umban", k: "bandhil", s: "U", d: "Ketapel pelontar batu" },
+            { i: "ūrnña", k: "srêban, makuthå", s: "U", d: "Serban mahkota raja penakluk" },
+            { i: "ulik", k: "nglari, nglarah", s: "U", d: "Meneliti melacak asal-usul" },
+            { i: "ulih", k: "olèh, mulih, menang, darbé, andarbèni, kalah, ngalahaké", s: "U", d: "Mendapatkan hasil; pulang perang; menang kalah" },
+            { i: "ulū", k: "mlolo, nyongat", s: "U", d: "Mata mendelik menengadah ke atas" },
+            { i: "uluya", k: "susah, gilå", s: "U", d: "Duka cita luar biasa gila" },
+            { i: "ulyar", k: "sumórót, gumêbyar", s: "U", d: "Sorotan kilatan cahaya" },
+            { i: "uwasa", k: "calathu, gunêm", s: "U", d: "Perkataan tutur wicara" },
+            { i: "uçwãsa", k: "kapas, ambêgan", s: "U", d: "Nafas hidup berhembus halus" },
+            { i: "ushña", k: "panas", s: "U", d: "Suhu udara panas membakar" },
+            { i: "ushñangçu", k: "srêngèngè", s: "U", d: "Matahari bersinar terik" },
+            { i: "ushñīsha", k: "ikêt, srêban", s: "U", d: "Ikat kepala mahkota pendeta" },
+            { i: "usên", k: "rikat, énggal", s: "U", d: "Sangat cepat cekatan" },
+            { i: "usī", k: "hoyak", s: "U", d: "Kejar memburu raga" },
+            { i: "usir", k: "hoyak, anggolèki", s: "U", d: "Mengejar mencari perlindungan" },
+            { i: "üha", k: "kirå", s: "U", d: "Dugaan perkiraan sementara" },
+            { i: "uhut", k: "alang, ngalang alangi, palang, malangi, pèpèt, mêpêti", s: "U", d: "Merintangi jalan menghadang musuh" },
+            { i: "uluh", k: "ngundang", s: "U", d: "Memanggil memohon kedatangan dewa" },
+
+            // W
+            { i: "wā", k: "padhang, sorót", s: "W", d: "Terang benderang penuh cahaya" },
+            { i: "wāk", k: "gunêm", s: "W", d: "Perkataan tutur wicara resmi" },
+            { i: "wākta", k: "gunêm", s: "W", d: "Perkataan yang tegas jernih" },
+            { i: "waktra", k: "rahi", s: "W", d: "Wajah rupa muka ksatria" },
+            { i: "wākbraja", k: "landhêp têmbungé, sasbdané dadi", s: "W", d: "Kata-kata tajam bersumpah sakti" },
+            { i: "wākÿa", k: "gunêm, micårå", s: "W", d: "Berbicara diplomatis merdu" },
+            { i: "wāgÿat", k: "prahårå", s: "W", d: "Badai prahara angin topan" },
+            { i: "wanguntur", k: "dhampar palungguhan", s: "W", d: "Singgasana kencana balairung agung" },
+            { i: "wangtaya", k: "bangké", s: "W", d: "Mayat jasad ksatria gugur" },
+            { i: "wangtawa", k: "kluwúng", s: "W", d: "Pelangi indah melengkung langit" },
+            { i: "wangling", k: "bangkèkan", s: "W", d: "Pinggang ramping elok dewi" },
+            { i: "wangña", k: "turún, bóngså, krabat", s: "W", d: "Silsilah keturunan darah bangsawan" },
+            { i: "wacana", k: "gunêm, têmbúng", s: "W", d: "Sabda amanat luhur" },
+            { i: "wāji", k: "jaran", s: "W", d: "Kuda perang tangkas perkasa" },
+            { i: "wañdhira", k: "waringín", s: "W", d: "Pohon beringin rindang peneduh kuil" },
+            { i: "wāta", k: "angín", s: "W", d: "Elemen udara bergerak" },
+            { i: "watik", k: "gógódhongan, para, batêk, tarík, watak", s: "W", d: "Karakter pembawaan diri; dedaunan rahasia" },
+            { i: "watup", k: "pedhet", s: "W", d: "Anak sapi muda" },
+            { i: "wāda", k: "calathu", s: "W", d: "Ucap wicara perdebatan" },
+            { i: "wadwa", k: "wadÿåbålå, prajurít", s: "W", d: "Bala tentara pertahanan kerajaan" },
+            { i: "wadhū", k: "wadón", s: "W", d: "Wanita berderajat mulia" },
+            { i: "wanua", k: "déså", s: "W", d: "Desa kediaman rukun petani" },
+            { i: "wanèh", k: "liyå", s: "W", d: "Orang asing di luar suku" },
+            { i: "wandhawa", k: "sanak sadulúr", s: "W", d: "Kerabat saudara sekandung" },
+            { i: "wandhÿa", k: "wurúng, kliru", s: "W", d: "Batal tidak terlaksana salah paham" },
+            { i: "wanwa", k: "déså, wóng déså", s: "W", d: "Penduduk dusun agraris" },
+            { i: "wāma", k: "kiwå", s: "W", d: "Bagian arah kiri tubuh" },
+            { i: "wara", k: "kang luhúr, kang gêdhé, kang éndah dhéwé", s: "W", d: "Terpilih terbaik terindah mulia tiada tara" },
+            { i: "warayang", k: "panah", s: "W", d: "Anak panah pusaka pembelah musuh" },
+            { i: "warāha", k: "cèlèng", s: "W", d: "Babi hutan purba penjelajah rimba" },
+            { i: "wāri", k: "banyu", s: "W", d: "Air dingin jernih pegunungan" },
+            { i: "wargga", k: "gólóngan", s: "W", d: "Kasta kelompok sosial abdi dalem" },
+            { i: "wattamana", k: "saiki", s: "W", d: "Kondisi masa kini saat ini" },
+            { i: "warsha", k: "udan, tahún", s: "W", d: "Hujan basah melimpah; siklus satu tahun" },
+            { i: "wāla", k: "bocah", s: "W", d: "Anak kecil suci polos" },
+            { i: "wālaka", k: "bocah", s: "W", d: "Anak balita suci" },
+            { i: "walātkāra", k: "peksa, sawênang wênang", s: "W", d: "Tindakan paksaan sewenang-wenang ksatria angkara" },
+            { i: "waling", k: "pangira, pangrasa", s: "W", d: "Dugaan prasangka batin mendalam" },
+            { i: "walija", k: "sudagar, kabúl", s: "W", d: "Pedagang kabul sukses" },
+            { i: "walu", k: "warondha", s: "W", d: "Tumbuhan merambat buah labu" },
+            { i: "waluya", k: "bali, manèh, malíh", s: "W", d: "Sembuh kembali pulih sehat walafiat" },
+            { i: "walkala", k: "klókópan kayu", s: "W", d: "Pakaian pertapa dari anyaman serat kulit kayu" },
+            { i: "wallabha", k: "éndah, ayu", s: "W", d: "Sangat elok anggun memikat" },
+            { i: "wawa", k: "gawg", s: "W", d: "Membawa barang kencana" },
+            { i: "wawang", k: "rikat", s: "W", d: "Sangat cepat kilat" },
+            { i: "wāsa", k: "manggón, dudunúng", s: "W", d: "Pertapaan kediaman menetap pendeta" },
+            { i: "wasanta", k: "basanta", s: "W", d: "Musim kuncup bunga semi" },
+            { i: "wasêh", k: "wasúh", s: "W", d: "Mencuci membersihkan noda kain" },
+            { i: "wāsita", k: "wawangi", s: "W", d: "Wewangian semerbak harum" },
+            { i: "wasita", k: "gunêm", s: "W", d: "Kata petuah bijaksana" },
+            { i: "wasundharī", k: "bumi", s: "W", d: "Ibu pertiwi tanah subur" },
+            { i: "wastu", k: "nyåtå, kahanan", s: "W", d: "Kondisi nyata berwujud materi" },
+            { i: "wastra", k: "sandhangan", s: "W", d: "Kain tenun penutup tubuh luhur" },
+            { i: "wāh", k: "banjúr", s: "W", d: "Segera kemudian" },
+            { i: "wāhana", k: "tunggangan", s: "W", d: "Kendaraan kereta kencana dewa" },
+            { i: "wahiri", k: "mèri", s: "W", d: "Dengki iri hati" },
+            { i: "wahíl", k: "póyók", s: "W", d: "Mengejek mencibir liyan" },
+            { i: "wêka", k: "anak", s: "W", d: "Putra keturunan pewaris klan" },
+            { i: "wêgil", k: "ngungsi", s: "W", d: "Melarikan diri mencari tempat aman" },
+
+            // Y
+            { i: "yaksa", k: "satengah déwå", s: "Y", d: "Makhluk penjaga harta karun khayangan bermuka seram" },
+            { i: "yadnya", k: "pandhitå, kúrban", s: "Y", d: "Pendeta penuntun upacara kurban suci" },
+            { i: "yati", k: "pandhitå", s: "Y", d: "Pertapa resi agung penggapai kedamaian" },
+            { i: "yatna", k: "ati ati, panjågå", s: "Y", d: "Sikap waspada penuh hati-hati" },
+            { i: "yathāyogÿa", k: "kåyå mêsthiné", s: "Y", d: "Sebagaimana mestinya secara adil" },
+            { i: "yāna", k: "krétå", s: "Y", d: "Kereta tunggangan perang dewa" },
+            { i: "yama", k: "kêmbar", s: "Y", d: "Lahir berpasangan kembar identik" },
+            { i: "yaña", k: "jasa, pakúrmatan, panggawé bêcíl, gêdhang", s: "Y", d: "Pemberian jasa kebajikan sejati" },
+            { i: "yuga", k: "anak, nganakaké, mêmujå, jaman", s: "Y", d: "Siklus zaman besar kosmik; memuja dewa" },
+            { i: "yuddha", k: "perang", s: "Y", d: "Perang baratayuda dahsyat ksatria" },
+            { i: "yuyut", k: "buyút", s: "Y", d: "Generasi keturunan cicit buyut" },
+            { i: "yoga", k: "samadi, wêktu, jaman", s: "Y", d: "Persatuan batin spiritual dengan pencipta semesta" },
+            { i: "yogī", k: "pandhitå", s: "Y", d: "Praktisi yoga agung pertapa" },
+            { i: "yojana", k: "kirang langkúng", s: "Y", d: "Ukuran jarak perbandingan jauh" },
+            { i: "yowana", k: "ênóm, rêkså", s: "Y", d: "Jiwa muda penuh energi kepemudaan" },
+            
+            // Z
+            { i: "zaman", k: "kāla; kalpa", s: "Z", d: "zaman akhirat: niskalajiwa" }
+        ];
+
+        // Hanacaraka Pedoman Grid
+        const carakanData = [
+            { char: "ꦲ", name: "ha", desc: "Suara napas / vokal pembuka" },
+            { char: "ꦦ", name: "na", desc: "Konsonan gigi nasal" },
+            { char: "ꦕ", name: "ca", desc: "Konsonan palatal tak bersuara" },
+            { char: "ꦫ", name: "ra", desc: "Konsonan getar alveolar" },
+            { char: "ꦏ", name: "ka", desc: "Konsonan langit-langit tak bersuara" },
+            { char: "ꦢ", name: "da", desc: "Konsonan letup gigi bersuara" },
+            { char: "ꦠ", name: "ta", desc: "Konsonan letup gigi tak bersuara" },
+            { char: "ꦱ", name: "sa", desc: "Konsonan geser sibilan" },
+            { char: "ꦮ", name: "wa", desc: "Konsonan hampiran langit-langit" },
+            { char: "ꦭ", name: "la", desc: "Konsonan lateral alveolar" },
+            { char: "ꦥ", name: "pa", desc: "Konsonan bilabial tak bersuara" },
+            { char: "ꦝ", name: "dha", desc: "Konsonan letup tarik bersuara" },
+            { char: "ꦗ", name: "ja", desc: "Konsonan letup geser palatal" },
+            { char: "ꦪ", name: "ya", desc: "Konsonan hampiran langit-langit" },
+            { char: "ꦚ", name: "nya", desc: "Konsonan nasal langit-langit" },
+            { char: "ꦩ", name: "ma", desc: "Konsonan nasal bilabial" },
+            { char: "ꦒ", name: "ga", desc: "Konsonan langit-langit bersuara" },
+            { char: "ꦧ", name: "ba", desc: "Konsonan bilabial letup bersuara" },
+            { char: "ꦛ", name: "tha", desc: "Konsonan letup tarik tak bersuara" },
+            { char: "ꦔ", name: "nga", desc: "Konsonan nasal langit-langit belakang" }
+        ];
+
+        // Global State & UI Variables
+        let unifiedDatabase = [];
+        let searchTimeout;
+        let currentLetterFilter = 'ALL';
+        let activeSearchMode = 'all'; // all, kawi, indo, jawa
+
+        // Algoritma Latin-to-Carakan Transliteration
+        function convertToCarakan(latinText) {
+            let text = latinText.toLowerCase().trim()
+                .replace(/ç/g, 'ś')
+                .replace(/ÿ/g, 'y')
+                .replace(/ñ/g, 'ny');
+
+            const rules = [
+                { regex: /ng$/g, replace: 'ꦁ' },
+                { regex: /r$/g, replace: 'ꦂ' },
+                { regex: /h$/g, replace: 'ꦃ' },
+                { regex: /ng/g, replace: 'ꦔ' },
+                { regex: /ny/g, replace: 'ꦚ' },
+                { regex: /th/g, replace: 'ꦛ' },
+                { regex: /dh/g, replace: 'ꦝ' },
+                { regex: /kh/g, replace: 'ꦜ' },
+                { regex: /bh/g, replace: 'ꦨ' },
+                { regex: /ph/g, replace: 'ꦘ' },
+                { regex: /gh/g, replace: 'ꦓ' },
+                { regex: /sh/g, replace: 'ꦰ' },
+                { regex: /ś/g, replace: 'ꦯ' },
+                { regex: /h/g, replace: 'ꦲ' },
+                { regex: /n/g, replace: 'ꦤ' },
+                { regex: /c/g, replace: 'ꦕ' },
+                { regex: /r/g, replace: 'ꦫ' },
+                { regex: /k/g, replace: 'ꦏ' },
+                { regex: /d/g, replace: 'ꦢ' },
+                { regex: /t/g, replace: 'ꦠ' },
+                { regex: /s/g, replace: 'ꦱ' },
+                { regex: /w/g, replace: 'ꦮ' },
+                { regex: /l/g, replace: 'ꦭ' },
+                { regex: /p/g, replace: 'ꦥ' },
+                { regex: /j/g, replace: 'ꦗ' },
+                { regex: /y/g, replace: 'ꦪ' },
+                { regex: /m/g, replace: 'ꦩ' },
+                { regex: /g/g, replace: 'ꦒ' },
+                { regex: /b/g, replace: 'ꦧ' }
+            ];
+
+            let output = "";
+            let i = 0;
+            while (i < text.length) {
+                let chunk = text.substr(i);
+                let matched = false;
+
+                const vowelDiacritics = [
+                    { char: 'ā', script: 'ꦴ' },
+                    { char: 'ī', script: 'ꦷ' },
+                    { char: 'ū', script: 'ꦹ' },
+                    { regex: /^[eéë]/, script: 'ꦺ' }, 
+                    { regex: /^ê/, script: 'ꦼ' },    
+                    { regex: /^[oö]/, script: 'ꦺꦴ' }, 
+                    { char: 'a', script: '' },
+                    { char: 'i', script: 'ꦶ' },
+                    { char: 'u', script: 'ꦸ' }
+                ];
+
+                for (let rule of rules) {
+                    let m = chunk.match(new RegExp('^' + rule.regex.source));
+                    if (m) {
+                        let consonant = rule.replace;
+                        i += m[0].length;
+                        chunk = text.substr(i);
+
+                        let vowelMatched = false;
+                        for (let v of vowelDiacritics) {
+                            if (v.regex) {
+                                let vm = chunk.match(v.regex);
+                                if (vm) {
+                                    if (v.script === 'ꦺ' || v.script === 'ꦺꦴ') {
+                                        output = output.substring(0, output.length - consonant.length) + (v.script === 'ꦺꦴ' ? 'ꦺ' + consonant + 'ꦴ' : 'ꦺ' + consonant);
+                                    } else {
+                                        output += consonant + v.script;
+                                    }
+                                    i += vm[0].length;
+                                    vowelMatched = true;
+                                    break;
+                                }
+                            } else if (chunk.startsWith(v.char)) {
+                                output += consonant + v.script;
+                                i += v.char.length;
+                                vowelMatched = true;
+                                break;
+                            }
+                        }
+
+                        if (!vowelMatched) {
+                            output += consonant + '꧀';
+                        }
+                        matched = true;
+                        break;
+                    }
+                }
+
+                if (!matched) {
+                    let initialVowels = [
+                        { char: 'ā', script: 'ꦲꦴ' },
+                        { char: 'ī', script: 'ꦲꦷ' },
+                        { char: 'ū', script: 'ꦲꦹ' },
+                        { char: 'a', script: 'ꦲ' },
+                        { char: 'i', script: 'ꦲꦶ' },
+                        { char: 'u', script: 'ꦲꦸ' },
+                        { char: 'ê', script: 'ꦲꦼ' },
+                        { char: 'é', script: 'ꦺꦲ' },
+                        { char: 'o', script: 'ꦺꦲꦴ' }
+                    ];
+
+                    let ivMatched = false;
+                    for (let iv of initialVowels) {
+                        if (chunk.startsWith(iv.char)) {
+                            output += iv.script;
+                            i += iv.char.length;
+                            ivMatched = true;
+                            break;
+                        }
+                    }
+
+                    if (!ivMatched) {
+                        output += chunk[0];
+                        i++;
+                    }
+                }
+            }
+
+            return output.replace(/꧀꧀/g, '꧀').replace(/꧀$/g, '');
+        }
+
+        // Merge databases dynamically at startup
+        function consolidateDatabases() {
+            unifiedDatabase = [];
+            
+            // Map Code 1 (Indonesia to Kawi)
+            dictionaryData1.forEach(item => {
+                unifiedDatabase.push({
+                    kawi: item.k,
+                    indo: item.i,
+                    jawa: item.k, // Default jawa value for Code 1
+                    letter: item.s,
+                    note: item.d || "",
+                    source: "Leksikon Indonesia-Kawi"
+                });
+            });
+
+            // Map Code 2 (Kawi to Jawa, enriched)
+            dictionaryData2.forEach(item => {
+                unifiedDatabase.push({
+                    kawi: item.i,
+                    jawa: item.k,
+                    indo: item.d || "",
+                    letter: item.s,
+                    note: item.d || "",
+                    source: "Bausastra Mardi Kawi"
+                });
+            });
+        }
+
+        // Initialize Index Alphabet Navigator
+        function initAlphabetNavigator() {
+            const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+            const container = document.getElementById("alphabetContainer");
+            
+            alphabets.forEach(letter => {
+                const btn = document.createElement("button");
+                btn.id = `btn-${letter}`;
+                btn.className = "px-3.5 py-1.5 text-xs font-extrabold rounded-xl bg-white border border-[#E0A96D]/40 text-[#5B1919] shadow-sm hover:bg-[#F6EEDD] transition-all shrink-0";
+                btn.innerText = letter;
+                btn.onclick = () => filterByLetter(letter);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterByLetter(letter) {
+            const prevActive = document.getElementById(`btn-${currentLetterFilter}`);
+            if (prevActive) {
+                prevActive.classList.replace('bg-[#5B1919]', 'bg-white');
+                prevActive.classList.replace('text-white', 'text-[#5B1919]');
+                prevActive.classList.add('border', 'border-[#E0A96D]/40');
+            }
+
+            currentLetterFilter = letter;
+            
+            const newActive = document.getElementById(`btn-${letter}`);
+            if (newActive) {
+                newActive.classList.replace('bg-white', 'bg-[#5B1919]');
+                newActive.classList.replace('text-[#5B1919]', 'text-white');
+                newActive.classList.remove('border', 'border-[#E0A96D]/40');
+            }
+
+            document.getElementById('activeFilterDisplay').innerText = letter === 'ALL' ? 'Seluruh Huruf' : `Abjad: ${letter}`;
+            performSearch();
+        }
+
+        // Change Search Mode Tab Control
+        function changeSearchMode(mode) {
+            const modes = ['all', 'kawi', 'indo', 'jawa'];
+            modes.forEach(m => {
+                const btn = document.getElementById(`mode-${m}`);
+                if (m === mode) {
+                    btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-[#5B1919] text-[#FAF6EE] shadow-sm transition-all";
+                } else {
+                    btn.className = "px-3 py-1.5 text-xs font-bold rounded-lg bg-white border border-[#E0A96D]/40 text-[#5B1919] shadow-sm transition-all";
+                }
+            });
+            activeSearchMode = mode;
+            performSearch();
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 200);
+        }
+
+        // Main Search Engine
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const countDisplay = document.getElementById('countDisplay');
+
+            const filtered = unifiedDatabase.filter(item => {
+                const matchesLetter = currentLetterFilter === 'ALL' || item.letter === currentLetterFilter;
+                
+                if (!matchesLetter) return false;
+                if (query === "") return true;
+
+                if (activeSearchMode === 'all') {
+                    return item.kawi.toLowerCase().includes(query) || 
+                           item.indo.toLowerCase().includes(query) || 
+                           item.jawa.toLowerCase().includes(query) ||
+                           item.note.toLowerCase().includes(query);
+                } else if (activeSearchMode === 'kawi') {
+                    return item.kawi.toLowerCase().includes(query);
+                } else if (activeSearchMode === 'indo') {
+                    return item.indo.toLowerCase().includes(query);
+                } else if (activeSearchMode === 'jawa') {
+                    return item.jawa.toLowerCase().includes(query);
+                }
+                return false;
+            });
+
+            // Sort results alphabetically by Kawi headword
+            filtered.sort((a, b) => a.kawi.localeCompare(b.kawi));
+
+            renderResults(filtered, query);
+            countDisplay.innerHTML = `<i class="fas fa-feather"></i> Ditemukan ${filtered.length} lema kata`;
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const re = new RegExp(`(${query})`, 'gi');
+            return text.replace(re, `<mark class="bg-yellow-100 text-amber-950 font-semibold px-0.5 rounded">$1</mark>`);
+        }
+
+        // Render Results into DOM
+        function renderResults(data, query) {
+            const container = document.getElementById('results');
+            
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 opacity-60">
+                        <i class="fas fa-scroll text-5xl mb-4 text-[#5B1919]/40"></i>
+                        <p class="text-lg font-bold text-[#5B1919] traditional-font">Naskah Klasik Luput</p>
+                        <p class="text-xs text-slate-500 mt-1">Kosakata tidak ditemukan dengan filter atau pencarian saat ini.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = data.map(item => {
+                // Extract first word of Kawi headword for transliterating to Carakan
+                const cleanKawiWord = item.kawi.split(';')[0].split(',')[0].replace(/[()]/g, '').trim();
+                const javaneseScript = convertToCarakan(cleanKawiWord);
+                const highlightedKawi = highlightMatch(item.kawi, query);
+                const highlightedIndo = highlightMatch(item.indo, query);
+                const highlightedJawa = highlightMatch(item.jawa, query);
+                
+                const contextualNote = item.note ? `
+                    <div class="mt-2.5 text-xs text-[#8B5A2B] bg-[#FAF6EE]/90 p-3 rounded-xl italic border border-[#E0A96D]/20 flex items-start gap-2">
+                        <i class="fas fa-bookmark text-[#E0A96D] mt-0.5"></i>
+                        <div>${item.note}</div>
+                    </div>` : '';
+
+                return `
+                <div class="card-entry bg-white p-5 rounded-2xl shadow-sm border border-[#E0A96D]/35 cursor-pointer relative" 
+                    onclick="copyText('${item.kawi} (${javaneseScript}) ➔ Jawa: ${item.jawa} | Indo: ${item.indo}')">
+                    <div class="flex justify-between items-start gap-4">
+                        <div class="flex-grow">
+                            <div class="javanese-script text-2xl md:text-3xl text-[#8B5A2B] mb-2 font-medium tracking-wide">
+                                ${javaneseScript}
+                            </div>
+                            <div class="flex items-center gap-2.5 mb-2">
+                                <span class="text-[10px] font-extrabold text-[#5B1919] bg-[#5B1919]/10 px-2.5 py-0.5 rounded-md border border-[#5B1919]/20 uppercase tracking-wider">${item.letter}</span>
+                                <h3 class="traditional-font text-xl md:text-2xl font-extrabold text-[#5B1919] capitalize leading-none tracking-wide">${highlightedKawi}</h3>
+                                <span class="text-[9px] font-bold text-slate-400 border border-slate-200 px-1.5 py-0.5 rounded-md ml-auto shrink-0">${item.source}</span>
+                            </div>
+                            <div class="space-y-1 pl-1">
+                                <p class="text-slate-700 font-semibold text-sm md:text-base leading-snug">
+                                    <strong class="text-xs text-[#E0A96D] uppercase mr-1">Jawa Baru:</strong> ${highlightedJawa}
+                                </p>
+                                <p class="text-slate-600 font-medium text-sm md:text-base leading-snug">
+                                    <strong class="text-xs text-[#8B5A2B] uppercase mr-1">Indonesia:</strong> ${highlightedIndo}
+                                </p>
+                            </div>
+                            ${contextualNote}
+                        </div>
+                        <button class="text-[#E0A96D] hover:text-[#5B1919] p-2.5 transition-all focus:outline-none" title="Salin kosakata">
+                            <i class="far fa-copy text-lg"></i>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // Live Transliteration Tab Logic
+        function liveTransliterate() {
+            const input = document.getElementById('latinInput').value;
+            const output = document.getElementById('carakanOutput');
+            if (input.trim() === "") {
+                output.innerText = "ꦲꦤꦕꦫꦏ";
+                return;
+            }
+            output.innerText = convertToCarakan(input);
+        }
+
+        function clearTransliteration() {
+            document.getElementById('latinInput').value = "";
+            document.getElementById('carakanOutput').innerText = "ꦲꦤꦕꦫꦏ";
+        }
+
+        function useExampleLatin() {
+            document.getElementById('latinInput').value = "rahayu slamet widada";
+            liveTransliterate();
+        }
+
+        function copyTransliteratedResult() {
+            const text = document.getElementById('carakanOutput').innerText;
+            copyText(text);
+        }
+
+        // Render Carakan Pedoman Table
+        function renderCarakanGrid() {
+            const grid = document.getElementById("aksaraGrid");
+            grid.innerHTML = carakanData.map(item => `
+                <div class="bg-[#FAF6EE] border border-[#E0A96D]/30 rounded-2xl p-4 text-center hover:shadow-md transition-all cursor-pointer" onclick="copyText('${item.char} (${item.name})')">
+                    <div class="javanese-script text-3xl font-bold text-[#5B1919] mb-1.5">${item.char}</div>
+                    <div class="font-bold text-sm text-amber-950 traditional-font mb-1">${item.name}</div>
+                    <div class="text-[10px] text-slate-500 leading-tight">${item.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        // Copy Text using Legacy/New browser-safe approaches
+        function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            showToast(`Berhasil disalin: "${text.substring(0, 30)}..."`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 2500);
+        }
+
+        // Application Navigation System
+        function switchTab(tabId) {
+            const tabs = ['kamus', 'transliterasi', 'pedoman', 'tentang'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`content-${t}`);
+                const tabBtn = document.getElementById(`tab-${t}`);
+                
+                if (t === tabId) {
+                    content.classList.remove('hidden');
+                    tabBtn.className = "px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap bg-[#5B1919] text-[#FAF6EE] shadow-md";
+                } else {
+                    content.classList.add('hidden');
+                    tabBtn.className = "px-5 py-3 text-sm font-bold rounded-xl transition-all flex items-center gap-2 whitespace-nowrap text-[#5B1919] hover:bg-[#5B1919]/5";
+                }
+            });
+            
+            if (tabId === 'pedoman') {
+                renderCarakanGrid();
+            }
+        }
+
+        // Global Bootloader Sequence
+        window.onload = function() {
+            consolidateDatabases();
+            initAlphabetNavigator();
+            performSearch();
+        };
+    </script>
+</body>
+</html>
