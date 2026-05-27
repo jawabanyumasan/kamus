@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kamus Jawa Banyumasan - Portal Sastra & Budaya Blakasuta</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -17,106 +19,1131 @@
                         serif: ['Fraunces', 'serif'],
                     },
                     colors: {
-                        heritage: { 50: '#fbf8f3', 100: '#f5efe0', 200: '#e9dac1', 300: '#d7bc95', 400: '#c29b6b', 500: '#ad7c48', 600: '#915f33', 700: '#754625', 800: '#5a311b', 900: '#432113', 950: '#271009' },
-                        sage: { 50: '#f4f7f5', 100: '#e5ebe6', 200: '#ccd8cf', 300: '#a7bcaa', 400: '#7d9b81', 500: '#5d7e61', 600: '#48644c', 700: '#3c5240', 800: '#324235', 900: '#2b382d' }
+                        heritage: {
+                            50: '#fbf8f3',
+                            100: '#f5efe0',
+                            200: '#e9dac1',
+                            300: '#d7bc95',
+                            400: '#c29b6b',
+                            500: '#ad7c48',
+                            600: '#915f33',
+                            700: '#754625',
+                            800: '#5a311b',
+                            900: '#432113',
+                            950: '#271009',
+                        },
+                        sage: {
+                            50: '#f4f7f5',
+                            100: '#e5ebe6',
+                            200: '#ccd8cf',
+                            300: '#a7bcaa',
+                            400: '#7d9b81',
+                            500: '#5d7e61',
+                            600: '#48644c',
+                            700: '#3c5240',
+                            800: '#324235',
+                            900: '#2b382d',
+                        }
                     }
                 }
             }
         }
     </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f5efe0;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #c29b6b;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #915f33;
+        }
+    </style>
 </head>
-<body class="bg-heritage-50 text-heritage-950 font-sans min-h-screen flex flex-col">
+<body class="bg-heritage-50 text-heritage-950 font-sans min-h-screen flex flex-col selection:bg-heritage-200 selection:text-heritage-900">
 
+    <!-- HEADER / NAVIGATION -->
     <header class="bg-heritage-950 text-heritage-100 border-b border-heritage-800 sticky top-0 z-40 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
+                <!-- Brand / Logo -->
                 <div class="flex items-center gap-3">
-                    <div class="bg-heritage-800 p-2.5 rounded-xl border border-heritage-700 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-heritage-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 22h20L12 2z" /><path d="M12 5l-7 14h14l-7-14z" /><path d="M12 2v20M7 16h10M9 12h6M11 8h2" /></svg>
+                    <div class="bg-heritage-800 p-2.5 rounded-xl border border-heritage-700 shadow-inner flex items-center justify-center">
+                        <!-- Custom SVG Gunungan Wayang / Batik Heritage Logo -->
+                        <svg class="w-8 h-8 text-heritage-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 22h20L12 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 5l-7 14h14l-7-14z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M7 16h10M9 12h6M11 8h2" />
+                        </svg>
                     </div>
                     <div>
-                        <h1 class="font-serif text-lg sm:text-2xl font-bold text-heritage-200">Banyumasan</h1>
-                        <p class="text-[10px] sm:text-xs text-heritage-400 tracking-widest uppercase">- Created By Wahyudi</p>
+                        <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-wide text-heritage-200">Banyumasan</h1>
+                        <p class="text-xs text-heritage-400 font-medium tracking-widest uppercase">Portal Kamus & Budaya Ngapak - Created By Wahyudi</p>
                     </div>
                 </div>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden lg:flex space-x-1">
-                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold bg-heritage-900 text-heritage-200 border border-heritage-800">Beranda</button>
-                    <button onclick="switchTab('kamus')" id="nav-kamus" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Kamus Utama</button>
-                    <button onclick="handleHeroAiTranslation()" id="nav-penerjemah" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Penerjemah AI</button>
-                    <button onclick="switchTab('sinau')" id="nav-sinau" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-heritage-400">Sinau</button>
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-1">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-200 bg-heritage-900 border border-heritage-800">Beranda</button>
+                    <button onclick="switchTab('kamus')" id="nav-kamus" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Kamus Utama</button>
+                    <button onclick="switchTab('penerjemah')" id="nav-penerjemah" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Penerjemah Luring</button>
+                    <button onclick="switchTab('sinau')" id="nav-sinau" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Sinau & Game</button>
+                    <button onclick="switchTab('budaya')" id="nav-budaya" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-heritage-900 text-heritage-400">Sastra & Budaya</button>
                 </nav>
 
-                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg border border-heritage-800 bg-heritage-900 text-heritage-200">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                </button>
+                <!-- Status Badge (Luring) -->
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-sage-800 text-sage-100 px-3.5 py-2 rounded-lg text-xs font-semibold border border-sage-700">
+                        <span class="relative flex h-2 w-2">
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+                        </span>
+                        <span>Mode Offline</span>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Mobile Navigation bar -->
+        <div class="md:hidden bg-heritage-900 border-t border-heritage-800 px-4 py-2 overflow-x-auto whitespace-nowrap scrollbar-none flex gap-1">
+            <button onclick="switchTab('beranda')" id="mob-nav-beranda" class="mob-nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-heritage-800 text-heritage-200 border border-heritage-700">Beranda</button>
+            <button onclick="switchTab('kamus')" id="mob-nav-kamus" class="mob-nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-heritage-400">Kamus Utama</button>
+            <button onclick="switchTab('penerjemah')" id="mob-nav-penerjemah" class="mob-nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-heritage-400">Penerjemah Luring</button>
+            <button onclick="switchTab('sinau')" id="mob-nav-sinau" class="mob-nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-heritage-400">Sinau & Game</button>
+            <button onclick="switchTab('budaya')" id="mob-nav-budaya" class="mob-nav-btn px-3.5 py-1.5 rounded-full text-xs font-medium text-heritage-400">Sastra & Budaya</button>
         </div>
     </header>
 
-    <div id="mobile-drawer" class="fixed inset-0 z-50 bg-heritage-950/90 backdrop-blur-md hidden">
-        <div class="bg-heritage-950 w-72 h-full p-6 shadow-2xl flex flex-col justify-between border-l border-heritage-800">
-            <div class="space-y-6">
-                <div class="flex items-center justify-between border-b border-heritage-800 pb-4">
-                    <span class="font-serif font-bold text-heritage-200">Menu Navigasi</span>
-                    <button onclick="toggleMobileMenu()" class="text-heritage-400">Tutup</button>
+    <!-- MAIN BODY -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- TAB: BERANDA (DASHBOARD) -->
+        <section id="tab-beranda" class="tab-content block space-y-8 animate-fadeIn">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-br from-heritage-900 via-heritage-950 to-sage-950 rounded-3xl p-6 sm:p-10 border border-heritage-800 text-heritage-100 relative overflow-hidden shadow-2xl">
+                <!-- Decorative Elements -->
+                <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-12 translate-y-12 scale-150">
+                    <svg class="w-96 h-96" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
                 </div>
-                <div class="flex flex-col gap-2">
-                    <button onclick="switchTab('beranda'); toggleMobileMenu();" id="mob-nav-beranda" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-heritage-900 text-heritage-200">Beranda</button>
-                    <button onclick="switchTab('kamus'); toggleMobileMenu();" id="mob-nav-kamus" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Kamus Utama</button>
-                    <button onclick="handleHeroAiTranslation(); toggleMobileMenu();" id="mob-nav-penerjemah" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Penerjemah AI</button>
-                    <button onclick="switchTab('sinau'); toggleMobileMenu();" id="mob-nav-sinau" class="mob-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-heritage-400">Sinau</button>
+
+                <div class="max-w-2xl relative z-10 space-y-4">
+                    <div class="inline-flex items-center gap-2 bg-heritage-800/80 backdrop-blur border border-heritage-700/50 px-3.5 py-1 rounded-full text-xs font-medium text-heritage-300">
+                        <span>✨ Kamus Digital Terlengkap & Terintegrasi AI</span>
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-heritage-100 leading-tight">
+                        Ora Ngapak, <br class="sm:hidden"><span class="text-heritage-300 italic font-normal">Ora Kepenak!</span>
+                    </h2>
+                    <p class="text-heritage-300 text-sm sm:text-base leading-relaxed">
+                        Jelajahi keunikan kosakata dialek Banyumasan (Ngapak) yang terkenal lugas, egaliter, dan apa adanya (*blakasuta*). Bersumber dari naskah Kamus Bahasa Jawa Banyumasan-Indonesia (2014) yang disunting oleh sastrawan legendaris <strong>Ahmad Tohari</strong>.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('kamus')" class="bg-heritage-500 hover:bg-heritage-400 text-heritage-950 px-6 py-3 rounded-xl font-bold text-sm shadow-lg shadow-heritage-950/20 transition-all duration-200">Mulai Cari Kosakata</button>
+                        <button onclick="window.open('https://jawabanyumasan.github.io/kamus/ngapak/ai.html', '_blank')" class="bg-heritage-900/60 hover:bg-heritage-900 border border-heritage-700/60 text-heritage-200 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200">Coba Terjemahkan AI</button>
+                    </div>
                 </div>
             </div>
-            <div class="border-t border-heritage-800 pt-6">
-                <div class="flex items-center justify-between bg-heritage-900 px-4 py-3 rounded-xl">
-                    <span class="text-xs font-bold text-heritage-400">Mode AI</span>
-                    <input type="checkbox" onchange="toggleOnlineMode(this.checked)" class="toggle w-10 h-6 bg-heritage-800 appearance-none rounded-full cursor-pointer relative checked:bg-emerald-600 checked:after:translate-x-4 after:absolute after:top-1 after:left-1 after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-all">
+
+            <!-- Stats & Dialect Regions grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Word of the Day -->
+                <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200 shadow-sm flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-heritage-600">Kosakata Hari Ini</span>
+                            <span class="bg-heritage-200 text-heritage-800 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">Eksklusif</span>
+                        </div>
+                        <h3 class="font-serif text-3xl font-extrabold text-heritage-900 mb-1" id="wotd-word">Blakasuta</h3>
+                        <p class="text-xs text-heritage-500 italic font-medium mb-3">Sifat • Ajaran Hidup</p>
+                        <p class="text-heritage-800 text-sm leading-relaxed" id="wotd-definition">Berbicara sejujurnya, apa adanya, transparan, dan tanpa menyembunyikan maksud buruk apa pun.</p>
+                        <div class="mt-4 bg-heritage-50 p-3.5 rounded-xl border border-heritage-200">
+                            <p class="text-xs font-semibold text-heritage-700 mb-1">Contoh Penggunaan:</p>
+                            <p class="text-xs italic text-heritage-800" id="wotd-example">"Inyong luwih seneng wong sing blakasuta tinimbang meneng-meneng nusuk saking mburi."</p>
+                            <p class="text-[10px] text-heritage-500 mt-1" id="wotd-example-id">Artinya: "Saya lebih suka orang yang bicara jujur apa adanya daripada diam-diam menusuk dari belakang."</p>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('kamus'); showWordDetails('Blakasuta')" class="mt-4 text-xs font-bold text-heritage-700 hover:text-heritage-900 flex items-center gap-1.5 self-start group transition duration-150">
+                        Selengkapnya tentang kata ini 
+                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
+
+                <!-- Dialect Map / Origin Card -->
+                <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200 shadow-sm flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-heritage-600">Geografi Dialek</span>
+                            <span class="bg-sage-200 text-sage-800 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">Sejarah</span>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-heritage-900 mb-2">Banyumas Raya & Sekitarnya</h3>
+                        <p class="text-heritage-700 text-xs sm:text-sm leading-relaxed mb-4">
+                            Bahasa Jawa Banyumasan atau dialek *Ngapak* digunakan secara luas oleh penduduk di Kabupaten Banyumas, Purbalingga, Banjarnegara, Cilacap, Kebumen, serta Brebes dan Tegal di Provinsi Jawa Tengah.
+                        </p>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2.5 text-xs text-heritage-800 bg-heritage-50 p-2 rounded-lg border border-heritage-200">
+                                <span class="w-2.5 h-2.5 rounded-full bg-heritage-500"></span>
+                                <span><strong>Sub-Dialek Utara:</strong> Brebes, Tegal, Pemalang.</span>
+                            </div>
+                            <div class="flex items-center gap-2.5 text-xs text-heritage-800 bg-heritage-50 p-2 rounded-lg border border-heritage-200">
+                                <span class="w-2.5 h-2.5 rounded-full bg-sage-500"></span>
+                                <span><strong>Sub-Dialek Selatan:</strong> Banyumas, Cilacap, Purbalingga.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-2 border-t border-heritage-200 flex justify-between text-[11px] text-heritage-500">
+                        <span>Penutur: ~12 Juta Jiwa</span>
+                        <span>Dialek Tertua Jawa</span>
+                    </div>
+                </div>
+
+                <!-- Karakteristik Ngapak (Offline) -->
+                <div class="bg-sage-900 rounded-2xl p-6 border border-sage-800 text-sage-100 shadow-sm flex flex-col justify-between h-full">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-sage-300">Karakter Cablaka</span>
+                            <span class="bg-sage-800 text-emerald-400 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase">Egaliter</span>
+                        </div>
+                        <p class="text-xs text-sage-200 mb-4 leading-relaxed">
+                            Dialek Banyumasan menjunjung tinggi prinsip keterbukaan (*cablaka* atau *blakasuta*). Bahasa ini tidak mengenal tingkatan feodal yang rumit, melambangkan kebersamaan dan keakraban penuturnya yang jujur serta egaliter.
+                        </p>
+                        <div class="space-y-2 bg-sage-950/50 p-3 rounded-xl border border-sage-800 text-[11px] text-sage-300">
+                            <strong>Trivia:</strong> Kata "Ngapak" berasal dari cara pengucapan akhiran huruf 'k' yang mantap dan tegas di akhir kata, berbeda dengan dialek Mataraman (Yogyakarta/Solo).
+                        </div>
+                    </div>
+                    <button onclick="switchTab('budaya')" class="mt-4 w-full bg-heritage-500 hover:bg-heritage-400 text-heritage-950 py-2.5 rounded-xl font-bold text-xs shadow-md transition duration-150">
+                        Pelajari Karakter & Sastra
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preloaded Words Carousel Highlight -->
+            <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h3 class="font-serif text-xl font-bold text-heritage-900">Kosakata Populer Ngapak</h3>
+                        <p class="text-xs text-heritage-500">Ketuk kata untuk melihat detail, contoh kalimat, dan audio.</p>
+                    </div>
+                    <button onclick="switchTab('kamus')" class="text-xs font-bold text-heritage-700 hover:text-heritage-900 flex items-center gap-1">
+                        Buka Semua
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="popular-words-grid">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB: KAMUS UTAMA -->
+        <section id="tab-kamus" class="tab-content hidden space-y-6 animate-fadeIn">
+            <!-- Search & Filter Bar -->
+            <div class="bg-heritage-100 p-4 sm:p-6 rounded-2xl border border-heritage-200 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-heritage-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </span>
+                        <input id="search-input" oninput="filterDictionary()" type="text" placeholder="Cari kosakata Jawa Banyumasan atau arti dalam Bahasa Indonesia..." class="w-full bg-heritage-50 border border-heritage-300 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-heritage-400">
+                    </div>
+                    <select id="filter-type" onchange="filterDictionary()" class="bg-heritage-50 border border-heritage-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-heritage-400 text-heritage-800 font-semibold">
+                        <option value="all">Semua Kelas Kata</option>
+                        <option value="Verba">Verba (Kata Kerja)</option>
+                        <option value="Adjektiva">Adjektiva (Kata Sifat)</option>
+                        <option value="Nomina">Nomina (Kata Benda)</option>
+                        <option value="Adverbia">Adverbia (Keterangan)</option>
+                        <option value="Pronoun">Pronoun (Kata Ganti)</option>
+                        <option value="Budaya">Budaya & Kuliner</option>
+                    </select>
+                </div>
+
+                <!-- Alphabetical Shortcuts -->
+                <div class="border-t border-heritage-200 pt-3 flex flex-wrap gap-1 items-center justify-start">
+                    <span class="text-xs font-bold text-heritage-500 mr-2 uppercase tracking-wide">Abjad:</span>
+                    <button onclick="filterByAlphabet('all')" class="alphabet-btn px-2.5 py-1 text-xs font-bold rounded-md bg-heritage-900 text-heritage-100">Semua</button>
+                    <!-- JavaScript will generate A to Z buttons -->
+                    <div id="alphabet-buttons" class="flex flex-wrap gap-1"></div>
+                </div>
+            </div>
+
+            <!-- Dictionary Grid & Details Split Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Word list -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center justify-between px-2">
+                        <p class="text-xs font-bold text-heritage-500 uppercase tracking-wider" id="results-count">Menampilkan 0 Kata</p>
+                        <span class="text-[11px] text-heritage-400 italic">Penyunting: Ahmad Tohari</span>
+                    </div>
+
+                    <!-- List Container -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="dictionary-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Details Panel (Sticky) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200 shadow-sm sticky top-28 space-y-6" id="details-panel">
+                        <!-- Will display instruction or detail content -->
+                        <div class="text-center py-12 text-heritage-400">
+                            <svg class="w-12 h-12 mx-auto mb-3 opacity-60" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+                            <p class="text-sm font-semibold">Pilih kosakata di samping</p>
+                            <p class="text-xs mt-1">Ketuk kartu kosakata untuk melihat analisis mendalam, file suara pelafalan, serta detail linguistik lainnya.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB: AI PENERJEMAH -->
+        <section id="tab-penerjemah" class="tab-content hidden space-y-6 animate-fadeIn">
+            <!-- Translator Core Grid -->
+            <div class="bg-heritage-100 rounded-2xl border border-heritage-200 shadow-sm overflow-hidden">
+                <div class="bg-heritage-900 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-heritage-100 border-b border-heritage-800">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-heritage-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 5c-.918-2.328-2.434-4.57-4.5-6.505M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <h3 class="font-serif font-bold text-base">Penerjemah Bahasa Luring (Offline)</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-heritage-200 bg-heritage-50">
+                    <!-- Input Box -->
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-heritage-600 uppercase tracking-wider" id="src-lang-label">Bahasa Indonesia</span>
+                            <button onclick="swapLanguages()" class="p-1.5 bg-heritage-100 hover:bg-heritage-200 rounded-lg border border-heritage-300 transition duration-150">
+                                <svg class="w-4 h-4 text-heritage-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                            </button>
+                        </div>
+                        <textarea id="translate-input" placeholder="Ketik kata atau kalimat di sini..." class="w-full bg-transparent border-0 resize-none h-44 text-sm focus:outline-none focus:ring-0 text-heritage-900 placeholder:text-heritage-400 font-medium"></textarea>
+                        <div class="flex items-center justify-between pt-4 border-t border-heritage-200/60">
+                            <span class="text-xs text-heritage-400" id="translate-word-count">0 karakter</span>
+                            <button onclick="runAiTranslation()" class="bg-heritage-900 hover:bg-heritage-800 text-heritage-100 px-5 py-2.5 rounded-xl text-xs font-bold shadow transition duration-150 flex items-center gap-2">
+                                <span>Terjemahkan</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Output Box -->
+                    <div class="p-6 bg-heritage-100/40 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-heritage-600 uppercase tracking-wider" id="dest-lang-label">Bahasa Jawa Banyumasan (Ngapak)</span>
+                                <button onclick="copyTranslation()" class="p-1.5 bg-heritage-100 hover:bg-heritage-200 rounded-lg border border-heritage-300 transition duration-150 relative group" title="Salin Terjemahan">
+                                    <svg class="w-4 h-4 text-heritage-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                                    <span class="absolute hidden group-hover:block bottom-full mb-1 left-1/2 -translate-x-1/2 bg-heritage-900 text-heritage-100 text-[10px] px-2 py-0.5 rounded shadow">Salin</span>
+                                </button>
+                            </div>
+                            <div id="translate-output-container" class="h-44 overflow-y-auto mt-4 text-sm font-semibold text-heritage-900 leading-relaxed custom-scrollbar">
+                                <span class="text-heritage-400 font-normal italic">Hasil terjemahan luring Anda akan muncul di sini secara instan berdasarkan data kamus.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB: SINAU & GAME (FLASHCARDS AND QUIZ) -->
+        <section id="tab-sinau" class="tab-content hidden space-y-8 animate-fadeIn">
+            <!-- Selector Header -->
+            <div class="flex border-b border-heritage-300">
+                <button onclick="switchSinauSubtab('flashcard')" id="subtab-flashcard-btn" class="px-6 py-3 border-b-2 border-heritage-800 font-bold text-sm text-heritage-900 bg-heritage-100 rounded-t-xl transition">Kartu Sinau (Flashcards)</button>
+                <button onclick="switchSinauSubtab('quiz')" id="subtab-quiz-btn" class="px-6 py-3 border-b-2 border-transparent font-medium text-sm text-heritage-600 hover:text-heritage-900 transition">Game Kuis Ngapak</button>
+            </div>
+
+            <!-- SUB-TAB: FLASHCARDS -->
+            <div id="subtab-flashcard" class="space-y-6">
+                <div class="max-w-xl mx-auto text-center space-y-2">
+                    <h3 class="font-serif text-2xl font-bold text-heritage-900">Uji Daya Ingat Kosakata Ngapak</h3>
+                    <p class="text-xs text-heritage-500">Gunakan kartu luring ini untuk menghafal kata-kata paling populer dalam dialek Banyumasan.</p>
+                </div>
+
+                <!-- Flashcard Widget -->
+                <div class="max-w-md mx-auto relative perspective" style="perspective: 1000px;">
+                    <div id="flashcard-box" onclick="flipFlashcard()" class="w-full h-80 bg-gradient-to-br from-heritage-100 to-heritage-200 border-2 border-heritage-300 rounded-3xl shadow-xl cursor-pointer transform duration-500 relative flex items-center justify-center p-8 text-center" style="transform-style: preserve-3d;">
+                        <!-- Front Face -->
+                        <div id="flashcard-front" class="absolute inset-0 flex flex-col justify-between p-8" style="backface-visibility: hidden;">
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-heritage-500">Bahasa Jawa Banyumasan</span>
+                            <div class="space-y-2">
+                                <h4 class="font-serif text-4xl font-extrabold text-heritage-900" id="card-ngapak-word">Loading...</h4>
+                                <p class="text-xs text-heritage-500 italic" id="card-word-type">...</p>
+                            </div>
+                            <span class="text-[10px] font-bold text-heritage-400">Ketuk untuk membalik kartu 🔄</span>
+                        </div>
+
+                        <!-- Back Face -->
+                        <div id="flashcard-back" class="absolute inset-0 flex flex-col justify-between p-8 bg-sage-100 border border-sage-300 rounded-3xl transform rotateY-180" style="backface-visibility: hidden; transform: rotateY(180deg);">
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-sage-600">Artinya dalam Bahasa Indonesia</span>
+                            <div class="space-y-4">
+                                <h4 class="font-serif text-2xl font-extrabold text-sage-900" id="card-indo-meaning">Loading...</h4>
+                                <div class="bg-sage-50 p-3 rounded-xl border border-sage-200 text-left">
+                                    <p class="text-[11px] font-semibold text-sage-700">Contoh:</p>
+                                    <p class="text-xs italic text-sage-900" id="card-example-sentence">...</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] font-bold text-sage-500">Ketuk untuk membalik kembali 🔄</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="flex items-center justify-center gap-4">
+                    <button onclick="prevFlashcard()" class="p-3 bg-heritage-200 hover:bg-heritage-300 text-heritage-900 rounded-full border border-heritage-300 transition shadow">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <span id="flashcard-counter" class="text-xs font-bold text-heritage-700">1 dari 10</span>
+                    <button onclick="nextFlashcard()" class="p-3 bg-heritage-200 hover:bg-heritage-300 text-heritage-900 rounded-full border border-heritage-300 transition shadow">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUB-TAB: QUIZ GAME -->
+            <div id="subtab-quiz" class="hidden space-y-6">
+                <!-- Welcome/Setup Screen -->
+                <div id="quiz-setup-screen" class="max-w-xl mx-auto bg-heritage-100 p-8 rounded-2xl border border-heritage-200 shadow-sm text-center space-y-6">
+                    <div class="bg-heritage-900 w-16 h-16 rounded-2xl border border-heritage-700 flex items-center justify-center text-heritage-200 mx-auto">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 21l8.904-4.452L21 9l-3-3m-8.187 9.904L9 12l8.904-4.452M12 21a9.01 9.01 0 01-6.187-2.396C4.806 17.756 4.3 16.93 4.3 16.05V13.5H3V12h1.3V9.45c0-.88.507-1.704 1.354-1.938a9.019 9.019 0 014.792 0C11.294 7.746 11.8 8.57 11.8 9.45V12h1.3v1.5h-1.3v2.55a.75.75 0 01-.187.45h-.187v2.55z"/></svg>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-serif text-3xl font-extrabold text-heritage-900">Uji Keahlian Basa Ngapak!</h3>
+                        <p class="text-sm text-heritage-600 leading-relaxed">
+                            Buktikan sejauh mana kamu memahami kosakata, idiom, dan peribahasa Jawa Banyumasan melalui kuis luring interaktif.
+                        </p>
+                    </div>
+
+                    <div class="pt-4 flex justify-center">
+                        <button onclick="startQuiz('classic')" class="bg-heritage-900 hover:bg-heritage-800 text-heritage-100 p-6 rounded-2xl border border-heritage-800 text-center transition duration-150 shadow max-w-sm w-full space-y-2">
+                            <span class="font-bold text-base block">Mulai Kuis Klasik Ngapak</span>
+                            <span class="text-xs text-heritage-400 block">Kuis 5 pertanyaan acak seputar kosakata dasar yang terdaftar di Kamus.</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Interface (Active) -->
+                <div id="quiz-active-screen" class="max-w-xl mx-auto bg-heritage-100 p-6 sm:p-8 rounded-2xl border border-heritage-200 shadow-sm hidden space-y-6">
+                    <div class="flex items-center justify-between pb-4 border-b border-heritage-200">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-heritage-500 uppercase tracking-widest" id="quiz-mode-label">KUIS KLASIK</span>
+                            <h4 class="font-bold text-xs text-heritage-800" id="quiz-progress">Pertanyaan 1 dari 5</h4>
+                        </div>
+                        <div class="bg-heritage-200 text-heritage-900 px-3 py-1.5 rounded-xl font-bold text-sm" id="quiz-score-badge">Skor: 0</div>
+                    </div>
+
+                    <!-- Question text -->
+                    <div class="space-y-2">
+                        <p class="text-xs text-heritage-500 uppercase font-bold tracking-wider">Pertanyaan:</p>
+                        <h3 class="font-serif text-xl sm:text-2xl font-bold text-heritage-900 leading-snug" id="quiz-question-text">Loading...</h3>
+                    </div>
+
+                    <!-- Option list -->
+                    <div class="space-y-3" id="quiz-options-container">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Answer feedback / AI explanations -->
+                    <div id="quiz-feedback-box" class="p-4 rounded-xl border hidden flex flex-col space-y-2">
+                        <p class="text-xs font-bold" id="quiz-feedback-title"></p>
+                        <p class="text-xs" id="quiz-feedback-desc"></p>
+                        <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="bg-heritage-900 hover:bg-heritage-800 text-heritage-100 px-4 py-2 rounded-xl text-xs font-bold shadow self-end">Pertanyaan Selanjutnya &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Quiz Results Screen -->
+                <div id="quiz-results-screen" class="max-w-xl mx-auto bg-heritage-100 p-8 rounded-2xl border border-heritage-200 shadow-sm text-center hidden space-y-6 animate-fadeIn">
+                    <div class="w-20 h-20 rounded-full bg-emerald-100 border-2 border-emerald-500 flex items-center justify-center mx-auto text-emerald-600">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="font-serif text-3xl font-extrabold text-heritage-900">Permainan Selesai!</h3>
+                        <p class="text-sm text-heritage-600">Selamat! Kamu telah menyelesaikan petualangan kuis bahasa Jawa Banyumasan.</p>
+                    </div>
+
+                    <div class="bg-heritage-50 p-6 rounded-2xl border border-heritage-200 inline-block px-10">
+                        <p class="text-xs font-bold text-heritage-500 uppercase tracking-widest">Skor Akhir Anda</p>
+                        <h4 class="font-serif text-5xl font-extrabold text-heritage-900 mt-1" id="final-score-text">100</h4>
+                        <p class="text-xs text-heritage-400 mt-2" id="quiz-evaluation-comment">Luar biasa! Kamu adalah penutur Ngapak sejati!</p>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="resetQuiz()" class="bg-heritage-900 hover:bg-heritage-800 text-heritage-100 px-6 py-3 rounded-xl text-xs font-bold shadow">Main Lagi</button>
+                        <button onclick="switchTab('kamus')" class="bg-heritage-200 hover:bg-heritage-300 text-heritage-800 px-6 py-3 rounded-xl text-xs font-bold border border-heritage-300">Buka Kamus</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- TAB: SASTRA & BUDAYA -->
+        <section id="tab-budaya" class="tab-content hidden space-y-8 animate-fadeIn">
+            <!-- Ahmad Tohari Profile -->
+            <div class="bg-gradient-to-r from-heritage-100 to-heritage-200 rounded-2xl p-6 sm:p-8 border border-heritage-300 shadow-sm flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-heritage-300 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl border border-heritage-400 overflow-hidden flex-shrink-0 flex items-center justify-center text-heritage-700 shadow-inner">
+                    <!-- Icon representation of a writer/scholar -->
+                    <svg class="w-16 h-16 opacity-80" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 01-7.5 0M4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                </div>
+                <div class="space-y-3 text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 bg-heritage-900 text-heritage-200 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Penyunting & Tokoh Budaya</div>
+                    <h3 class="font-serif text-2xl font-bold text-heritage-900">Ahmad Tohari</h3>
+                    <p class="text-xs sm:text-sm text-heritage-700 leading-relaxed max-w-2xl">
+                        Ahmad Tohari lahir di Tinggarjaya, Jatilawang, Banyumas. Sastrawan terkemuka Indonesia penulis novel legendaris <em>Ronggeng Dukuh Paruk</em>. Melalui keterlibatannya dalam penyusunan Kamus Bahasa Jawa Banyumasan ini, beliau memastikan kosakata asli bernilai luhur dapat terus dilestarikan demi kelangsungan identitas kultural masyarakat Jawa Barat bagian selatan dan tengah.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dialect / Literature Info Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Bebasan & Saloka (Proverbs) -->
+                <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200 space-y-4">
+                    <h4 class="font-serif text-xl font-bold text-heritage-900 border-b border-heritage-200 pb-2">Bebasan & Saloka Banyumasan</h4>
+                    <p class="text-xs text-heritage-500">Peribahasa tradisional bermuatan nilai moral tinggi dalam masyarakat Banyumas.</p>
+                    <div class="space-y-3">
+                        <div class="bg-heritage-50 p-4 rounded-xl border border-heritage-200 space-y-1">
+                            <p class="text-xs font-bold text-heritage-900">"Ana remboge, ana rembuge."</p>
+                            <p class="text-xs text-heritage-700">Artinya: "Ada tawar-menawar, ada pembicaraan mufakat. Segala perselisihan selalu memiliki jalan keluar jika dimusyawarahkan secara transparan."</p>
+                        </div>
+                        <div class="bg-heritage-50 p-4 rounded-xl border border-heritage-200 space-y-1">
+                            <p class="text-xs font-bold text-heritage-900">"Sapa temen, tinemu."</p>
+                            <p class="text-xs text-heritage-700">Artinya: "Siapa yang bersungguh-sungguh dan bertekad kuat dalam berikhtiar pasti akan mendapatkan hasil yang dicita-citakan."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unique Cultural Elements -->
+                <div class="bg-heritage-100 rounded-2xl p-6 border border-heritage-200 space-y-4">
+                    <h4 class="font-serif text-xl font-bold text-heritage-900 border-b border-heritage-200 pb-2">Khasanah Seni & Kulinari</h4>
+                    <p class="text-xs text-heritage-500">Beberapa ikon budaya yang tak terpisahkan dari karakter blakasuta masyarakat Ngapak.</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-heritage-50 p-3.5 rounded-xl border border-heritage-200 text-center">
+                            <span class="text-xl">🍢</span>
+                            <h5 class="font-bold text-xs text-heritage-900 mt-1">Tempe Mendoan</h5>
+                            <p class="text-[10px] text-heritage-500 mt-0.5">Kuliner tempe goreng tepung tipis setengah matang yang lezat disantap hangat.</p>
+                        </div>
+                        <div class="bg-heritage-50 p-3.5 rounded-xl border border-heritage-200 text-center">
+                            <span class="text-xl">💃</span>
+                            <h5 class="font-bold text-xs text-heritage-900 mt-1">Tari Lengger</h5>
+                            <p class="text-[10px] text-heritage-500 mt-0.5">Seni tari rakyat berpasangan yang lincah dan berakar kuat di pedesaan Banyumas.</p>
+                        </div>
+                        <div class="bg-heritage-50 p-3.5 rounded-xl border border-heritage-200 text-center">
+                            <span class="text-xl">🎭</span>
+                            <h5 class="font-bold text-xs text-heritage-900 mt-1">Wayang Jemblung</h5>
+                            <p class="text-[10px] text-heritage-500 mt-0.5">Pertunjukan drama-tutur pewayangan unik yang dimainkan hanya dengan iringan vokal manusia.</p>
+                        </div>
+                        <div class="bg-heritage-50 p-3.5 rounded-xl border border-heritage-200 text-center">
+                            <span class="text-xl">🥥</span>
+                            <h5 class="font-bold text-xs text-heritage-900 mt-1">Nderes</h5>
+                            <p class="text-[10px] text-heritage-500 mt-0.5">Tradisi menyadap nira dari pohon kelapa untuk diolah menjadi gula merah.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-heritage-950 text-heritage-300 border-t border-heritage-800 py-10 mt-12 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 space-y-4">
+            <div class="flex justify-center gap-2 text-heritage-200 font-serif font-bold text-lg">
+                <span>Balai Bahasa Provinsi Jawa Tengah</span>
+            </div>
+            <p class="max-w-md mx-auto leading-relaxed text-heritage-400">
+                Penyusunan naskah asli diterbitkan oleh Kementerian Pendidikan dan Kebudayaan Republik Indonesia pada tahun 2014. Adaptasi interaktif ini dikembangkan untuk tujuan pendidikan pelestarian budaya daerah Indonesia.
+            </p>
+            <div class="pt-4 border-t border-heritage-900 text-[10px] text-heritage-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <span>&copy; 2026 Balai Bahasa Jawa Tengah • All Rights Reserved.</span>
+                <span>Dikembangkan secara kolaboratif menggunakan teknologi Gemini AI.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- DIALOG: API CONFIGURATION MODAL -->
+    <div id="api-config-modal" class="fixed inset-0 bg-heritage-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-heritage-100 max-w-md w-full rounded-2xl border border-heritage-300 shadow-2xl overflow-hidden p-6 space-y-6 animate-scaleUp">
+            <div class="flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold text-heritage-900 flex items-center gap-2">
+                    <span class="flex h-2.5 w-2.5 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    Pengaturan Gemini AI
+                </h3>
+                <button onclick="toggleApiSettings()" class="text-heritage-500 hover:text-heritage-800">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <p class="text-xs text-heritage-600 leading-relaxed">
+                    Aplikasi ini menggunakan model kecerdasan buatan <strong>Gemini 2.5 Flash</strong> untuk fitur Terjemahan Instan, Penjelasan Sastra, serta Suara Narasi Dialek Ngapak (TTS).
+                </p>
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-800 flex gap-2">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    <span><strong>Konfigurasi Otomatis:</strong> API Key runtime telah terdeteksi secara bawaan di platform sandboxing Anda. Anda tidak perlu memasukkan kunci apa pun untuk mengoperasikannya secara lokal.</span>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-heritage-700">Kunci API Gemini Kustom (Opsional):</label>
+                    <input id="api-key-input" type="password" placeholder="Masukkan API Key (AIzaSy...)" class="w-full bg-heritage-50 border border-heritage-300 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-heritage-400">
+                    <p class="text-[10px] text-heritage-400">Dapat dikosongkan jika kunci runtime platform sedang aktif.</p>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button onclick="toggleApiSettings()" class="bg-heritage-200 hover:bg-heritage-300 text-heritage-800 px-4 py-2 rounded-xl text-xs font-bold">Tutup</button>
+                <button onclick="saveApiKey()" class="bg-heritage-900 hover:bg-heritage-800 text-heritage-100 px-4 py-2 rounded-xl text-xs font-bold">Simpan Perubahan</button>
             </div>
         </div>
     </div>
 
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
-        <section id="tab-beranda" class="tab-content block animate-fadeIn">
-            <div class="bg-heritage-900 rounded-3xl p-10 border border-heritage-800 text-heritage-100 shadow-xl">
-                <h2 class="font-serif text-5xl font-bold mb-4">Ora Ngapak, <span class="text-heritage-300 italic">Ora Kepenak!</span></h2>
-                <p class="text-heritage-400 max-w-xl">Portal kamus digital untuk melestarikan dialek Banyumasan dengan sentuhan teknologi modern.</p>
-                <button onclick="handleHeroAiTranslation()" class="bg-heritage-500 hover:bg-heritage-400 text-heritage-950 px-6 py-3 rounded-xl font-bold text-sm mt-6 transition duration-200">Coba Terjemahkan AI ➔</button>
-            </div>
-        </section>
-        <section id="tab-kamus" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Kamus Utama</h2></section>
-        <section id="tab-penerjemah" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Penerjemah AI</h2></section>
-        <section id="tab-sinau" class="tab-content hidden animate-fadeIn"><h2 class="text-2xl font-bold p-6">Sinau</h2></section>
-    </main>
+    <!-- DIALOG: TOAST/NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
 
+
+    <!-- CORE DATABASE & APPLICATION LOGIC -->
     <script>
-        function toggleMobileMenu() { document.getElementById('mobile-drawer').classList.toggle('hidden'); }
-        
+        // Vocabulary Database (50+ curated high-fidelity items based on Kamus Jawa Banyumasan 2014)
+        const banyumasVocabulary = [
+            { word: "Inyong", type: "Pronoun", indo: "Saya / Aku", sentence: "Inyong arep lunga maring pasar.", sentenceIndo: "Saya mau pergi ke pasar.", note: "Ciri khas paling menonjol dari dialek Ngapak. Terkadang disingkat menjadi 'nyong'." },
+            { word: "Rika", type: "Pronoun", indo: "Anda / Kamu", sentence: "Rika arep madang karo apa?", sentenceIndo: "Kamu mau makan sama apa?", note: "Digunakan sebagai sapaan santun dan akrab kepada lawan bicara sebaya atau lebih tua." },
+            { word: "Kencot", type: "Adjektiva", indo: "Lapar", sentence: "Wetenge inyong wis kencot banget, mayuh golet mendoan.", sentenceIndo: "Perutku sudah lapar sekali, ayo cari mendoan.", note: "Sangat khas Banyumasan. Bahasa Jawa standar (Yogyakarta/Solo) umumnya memakai kata 'luwe'." },
+            { word: "Madang", type: "Verba", indo: "Makan", sentence: "Aja lali madang dhisit mbok gering.", sentenceIndo: "Jangan lupa makan dulu biar tidak sakit.", note: "Bersifat lugas tanpa tingkatan krama halus, mengekspresikan kesetaraan sosial." },
+            { word: "Kepriwe", type: "Adverbia", indo: "Bagaimana", sentence: "Kepriwe kabare rika, sehat mbok?", sentenceIndo: "Bagaimana kabarmu, sehat kan?", note: "Di daerah Tegal/Brebes lebih sering bergeser menjadi 'kepriben'." },
+            { word: "Gutul", type: "Verba", indo: "Sampai / Tiba", sentence: "Inyong nembe gutul Purwokerto jam sepuluh bengi.", sentenceIndo: "Saya baru sampai Purwokerto jam sepuluh malam.", note: "Menggantikan kata 'tekan' yang umum di dalam bahasa Jawa standar." },
+            { word: "Teyeng", type: "Verba", indo: "Bisa / Sanggup", sentence: "Rika teyeng ngomong Ngapak apa ora?", sentenceIndo: "Kamu bisa bicara Ngapak atau tidak?", note: "Padanan kata dari 'bisa'. Kata yang sangat sering terdengar dalam percakapan sehari-hari." },
+            { word: "Langka", type: "Adjektiva", indo: "Tidak ada", sentence: "Langka wong sing teyeng nolak mendoan anget.", sentenceIndo: "Tidak ada orang yang bisa menolak mendoan hangat.", note: "Berasal dari singkatan kata 'ora ana' yang mengalami proses kontraksi linguistik lokal." },
+            { word: "Gari", type: "Verba", indo: "Tinggal / Tersisa", sentence: "Duwite inyong gari limangewu rupiah.", sentenceIndo: "Uangku tinggal lima ribu rupiah.", note: "Berfungsi menunjuk sisa jumlah atau kondisi waktu." },
+            { word: "Dopokan", type: "Verba", indo: "Mengobrol / Berbincang santai", sentence: "Mayuh dopokan karo nginum teh anget nang plataran.", sentenceIndo: "Ayo mengobrol sambil minum teh hangat di halaman.", note: "Menunjukkan budaya sosialisasi masyarakat Banyumas yang guyub dan santai." },
+            { word: "Kemulan", type: "Verba", indo: "Berselimut", sentence: "Adem-adem enake kemulan karo turu.", sentenceIndo: "Dingin-dingin enaknya berselimut sambil tidur.", note: "Berasal dari kata dasar 'kemul' yang berarti selimut." },
+            { word: "Bodadin", type: "Verba", indo: "Biarkan saja", sentence: "Bodadin lah, wong pancen sifate kaya kuwe.", sentenceIndo: "Biarkan saja lah, orang memang sifatnya seperti itu.", note: "Ekspresi toleransi sekaligus masa bodoh terhadap kelakuan orang lain." },
+            { word: "Gagiyan", type: "Adverbia", indo: "Cepat-cepat / Lekas", sentence: "Gagiyan mangkat, selak udan mbok!", sentenceIndo: "Cepat berangkat, keburu hujan loh!", note: "Digunakan sebagai kata seru untuk mendesak tindakan." },
+            { word: "Maring", type: "Preposisi", indo: "Ke (arah)", sentence: "Inyong pan lunga maring Cilacap.", sentenceIndo: "Saya mau pergi ke Cilacap.", note: "Bentuk ringkasnya adalah 'mring'. Sama maknanya dengan 'menyang' dalam Jawa standar." },
+            { word: "Sega", type: "Nomina", indo: "Nasi", sentence: "Sega goreng nang kene rasane mantep pisan.", sentenceIndo: "Nasi goreng di sini rasanya mantap sekali.", note: "Vokal akhir berbunyi 'a' mantap (lugas), berbeda dengan Solo/Yogya yang berbunyi 'o' ('sego')." },
+            { word: "Banger", type: "Adjektiva", indo: "Bau busuk / Bau sekali", sentence: "Ambune banger pisan, ana bathang tikus mbok?", sentenceIndo: "Baunya busuk sekali, ada bangkai tikus ya?", note: "Mengacu pada aroma menyengat yang mengganggu indra penciuman." },
+            { word: "Blethok", type: "Nomina", indo: "Lumpur", sentence: "Aja dolanan nang kana, akeh blethok.", sentenceIndo: "Jangan bermain di sana, banyak lumpur.", note: "Mendeskripsikan jalan becek tanah basah setelah diguyur hujan." },
+            { word: "Brug", type: "Nomina", indo: "Jembatan", sentence: "Ati-ati angger liwat brug sing wis tua kuwe.", sentenceIndo: "Hati-hati kalau lewat jembatan yang sudah tua itu.", note: "Diduga kuat merupakan kata serapan dari bahasa Belanda 'brug'." },
+            { word: "Kambel", type: "Nomina", indo: "Kelapa", sentence: "Inyong arep nuku kambel nggo nggawe santen.", sentenceIndo: "Saya mau beli kelapa untuk membuat santan.", note: "Padanan kata dari 'kambil' atau 'klapa'." },
+            { word: "Gandhul", type: "Nomina", indo: "Pepaya", sentence: "Gandhul nang kebon wis pada mateng.", sentenceIndo: "Pepaya di kebun sudah pada matang.", note: "Khas Banyumasan. Memiliki arti harfiah 'sesuatu yang menggantung'." },
+            { word: "Clemongan", type: "Verba", indo: "Berkelakar / Asal bicara", sentence: "Aja clemongan bae angger ngomong karo wong tua.", sentenceIndo: "Jangan asal bicara saja kalau berbicara dengan orang tua.", note: "Sering kali merujuk pada gaya gurauan spontan yang ceplas-ceplos." },
+            { word: "Jebule", type: "Adverbia", indo: "Ternyata", sentence: "Jebule rika wonge apikan pisan ya.", sentenceIndo: "Ternyata kamu orangnya baik sekali ya.", note: "Menyatakan keterkejutan atas kebenaran fakta yang baru terungkap." },
+            { word: "Ndobos", type: "Verba", indo: "Berbohong / Membual", sentence: "Ah rika aja ndobos bae lah, inyong ora percaya.", sentenceIndo: "Ah kamu jangan membual terus lah, saya tidak percaya.", note: "Bentuk ekspresi percakapan santai yang menyatakan ketidakpercayaan." },
+            { word: "Mendoan", type: "Budaya", indo: "Tempe setengah matang khas Banyumas", sentence: "Mayuh jajan mendoan anget nang alun-alun.", sentenceIndo: "Ayo jajan mendoan hangat di alun-alun.", note: "Kata dasar 'mendo' berarti setengah matang. Makanan wajib yang menjadi lambang kekeluargaan warga Ngapak." },
+            { word: "Kemproh", type: "Adjektiva", indo: "Jorok / Tidak bersih", sentence: "Dadi wong aja kemproh, kamare gari diresiki.", sentenceIndo: "Jadi orang jangan jorok, kamarnya tinggal dibersihkan.", note: "Sifat jorok yang dikritik oleh sesama anggota keluarga." },
+            { word: "Ngorong", type: "Adjektiva", indo: "Haus", sentence: "Inyong ngorong pisan, jaluk banyune mbok.", sentenceIndo: "Saya haus sekali, minta airnya dong.", note: "Menggantikan kata 'ngelak' dalam dialek Jawa timur atau tengah standar." },
+            { word: "Lengger", type: "Budaya", indo: "Tari tradisional berpasangan khas Banyumas", sentence: "Bengi kiye ana tontonan lengger nang lapangan desa.", sentenceIndo: "Malam ini ada tontonan lengger di lapangan desa.", note: "Tarian bernapaskan kerakyatan yang mengekspresikan kelincahan dan kegembiraan pedesaan." },
+            { word: "Plonco", type: "Adjektiva", indo: "Polos / Baru", sentence: "Wonge gari plonco, urung ngerti cara kerjane.", sentenceIndo: "Orangnya masih polos, belum mengerti cara kerjanya.", note: "Bisa juga merujuk pada kepala gundul." },
+            { word: "Gembredeg", type: "Adjektiva", indo: "Berisik / Gaduh", sentence: "Suarane gembredeg pisan, inyong ora teyeng turu.", sentenceIndo: "Suaranya berisik sekali, saya tidak bisa tidur.", note: "Menggambarkan kebisingan mesin atau keramaian orang." },
+            { word: "Mbok", type: "Adverbia", indo: "Kan? / Ya kan?", sentence: "Rika wonge Purwokerto, mbok?", sentenceIndo: "Kamu orang Purwokerto, kan?", note: "Partikel penegas interogatif yang wajib ada di hampir setiap ujung kalimat percakapan Ngapak." },
+            { word: "Kepriben", type: "Adverbia", indo: "Bagaimana", sentence: "Keseharian rika kepriben siki?", sentenceIndo: "Keseharianmu bagaimana sekarang?", note: "Variasi dari 'kepriwe' yang dominan dipakai oleh penutur sub-dialek Tegal dan Brebes." },
+            { word: "Mayuh", type: "Verba", indo: "Ayo", sentence: "Mayuh mangkat siki selak awan.", sentenceIndo: "Ayo berangkat sekarang keburu siang.", note: "Kata ajakan khas yang setara dengan 'ayo' atau 'mari'." },
+            { word: "Plataran", type: "Nomina", indo: "Halaman rumah", sentence: "Bocah-bocah pada dolanan bal-balan nang plataran.", sentenceIndo: "Anak-anak bermain sepak bola di halaman rumah.", note: "Berasal dari kata dasar 'latar'." },
+            { word: "Cokan", type: "Adverbia", indo: "Suka / Sering", sentence: "Inyong cokan kangen karo mendoan gaweane biung.", sentenceIndo: "Saya sering kangen sama mendoan buatan ibu.", note: "Menyatakan kebiasaan berulang-ulang." },
+            { word: "Nderes", type: "Budaya", indo: "Menyadap nira kelapa", sentence: "Saben esuk ramane inyong mangkat nderes maring kebon.", sentenceIndo: "Setiap pagi bapak saya pergi menyadap nira kelapa ke kebun.", note: "Mata pencaharian penting penghasil bahan baku gula jawa merah di wilayah Banyumas." },
+            { word: "Semaur", type: "Verba", indo: "Menjawab / Menyahut", sentence: "Angger ditakoni kuwe semaur sing apik.", sentenceIndo: "Kalau ditanya itu menjawablah dengan baik.", note: "Menjawab panggilan atau pertanyaan secara spontan." },
+            { word: "Biung", type: "Nomina", indo: "Ibu / Mama", sentence: "Biung nembe kondur saking pasar.", sentenceIndo: "Ibu baru pulang dari pasar.", note: "Panggilan tradisional untuk Ibu di wilayah pedesaan Banyumas." },
+            { word: "Rama", type: "Nomina", indo: "Ayah / Bapak", sentence: "Ramane rika kerjane apa?", sentenceIndo: "Ayahmu pekerjaannya apa?", note: "Panggilan tradisional untuk Ayah di wilayah Banyumas." },
+            { word: "Kondangan", type: "Verba", indo: "Pergi menghadiri hajatan", sentence: "Dina Minggu arep lunga kondangan maring omahe kanca.", sentenceIndo: "Hari Minggu mau pergi menghadiri hajatan ke rumah teman.", note: "Juga populer dalam dialek Melayu Jakarta." },
+            { word: "Gering", type: "Adjektiva", indo: "Sakit / Kurus", sentence: "Kucing nang mburi katon gering pisan.", sentenceIndo: "Kucing di belakang terlihat kurus sekali.", note: "Dalam konteks manusia sering bermakna 'sakit' atau 'kurus kering'." }
+        ];
+
+        // Active State Tracking
+        let currentTab = 'beranda';
+        let currentSinauSubtab = 'flashcard';
+        let currentFlashcardIndex = 0;
+        let selectedWordForDetails = null;
+        let quizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        // Initialize Application
+        window.onload = function() {
+            generateAlphabetButtons();
+            populatePopularWords();
+            filterDictionary();
+            updateFlashcardUI();
+            console.log("Kamus Jawa Banyumasan Digital Luring is fully initialized.");
+        };
+
+        // UI Tabs Navigator
         function switchTab(tabId) {
+            currentTab = tabId;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            
-            document.querySelectorAll('.nav-btn, .mob-nav-btn').forEach(btn => {
-                btn.classList.remove('bg-heritage-900', 'bg-heritage-800', 'text-heritage-200', 'border');
+            const activeTab = document.getElementById('tab-' + tabId);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            // Update Nav Classes (Desktop)
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-heritage-900', 'text-heritage-200', 'border', 'border-heritage-800');
                 btn.classList.add('text-heritage-400');
             });
             const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-heritage-900', 'text-heritage-200', 'border', 'border-heritage-800');
+                activeBtn.classList.remove('text-heritage-400');
+            }
+
+            // Update Nav Classes (Mobile)
+            document.querySelectorAll('.mob-nav-btn').forEach(btn => {
+                btn.classList.remove('bg-heritage-800', 'text-heritage-200', 'border', 'border-heritage-700');
+                btn.classList.add('text-heritage-400');
+            });
             const activeMobBtn = document.getElementById('mob-nav-' + tabId);
-            if(activeBtn) { activeBtn.classList.add('bg-heritage-900', 'text-heritage-200', 'border'); activeBtn.classList.remove('text-heritage-400'); }
-            if(activeMobBtn) { activeMobBtn.classList.add('bg-heritage-800', 'text-heritage-200'); activeMobBtn.classList.remove('text-heritage-400'); }
+            if (activeMobBtn) {
+                activeMobBtn.classList.add('bg-heritage-800', 'text-heritage-200', 'border', 'border-heritage-700');
+                activeMobBtn.classList.remove('text-heritage-400');
+            }
         }
 
-        let isOnlineMode = false;
-        function toggleOnlineMode(checked) { isOnlineMode = checked; }
-        
-        function handleHeroAiTranslation() { 
-            if(isOnlineMode) {
-                switchTab('penerjemah');
+        // Subtabs for "Sinau & Game"
+        function switchSinauSubtab(subtabId) {
+            currentSinauSubtab = subtabId;
+            document.getElementById('subtab-flashcard').classList.add('hidden');
+            document.getElementById('subtab-quiz').classList.add('hidden');
+            
+            document.getElementById('subtab-flashcard-btn').className = "px-6 py-3 border-b-2 border-transparent font-medium text-sm text-heritage-600 hover:text-heritage-900 transition";
+            document.getElementById('subtab-quiz-btn').className = "px-6 py-3 border-b-2 border-transparent font-medium text-sm text-heritage-600 hover:text-heritage-900 transition";
+
+            if (subtabId === 'flashcard') {
+                document.getElementById('subtab-flashcard').classList.remove('hidden');
+                document.getElementById('subtab-flashcard-btn').className = "px-6 py-3 border-b-2 border-heritage-800 font-bold text-sm text-heritage-900 bg-heritage-100 rounded-t-xl transition";
             } else {
-                alert("Aktifkan Terlebih Dahulu AI Mode!");
+                document.getElementById('subtab-quiz').classList.remove('hidden');
+                document.getElementById('subtab-quiz-btn').className = "px-6 py-3 border-b-2 border-heritage-800 font-bold text-sm text-heritage-900 bg-heritage-100 rounded-t-xl transition";
             }
+        }
+
+        // Toast Notification Helper
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = "bg-heritage-900 text-heritage-100 border-heritage-700";
+            if (type === "success") bgClass = "bg-emerald-900 text-emerald-100 border-emerald-700";
+            if (type === "error") bgClass = "bg-rose-900 text-rose-100 border-rose-700";
+            
+            toast.className = `p-4 rounded-xl border shadow-lg flex items-center gap-3 transition-all duration-300 transform translate-y-2 opacity-0 text-xs font-semibold ${bgClass}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Generate A-Z Buttons for Alphabetical filter
+        function generateAlphabetButtons() {
+            const alphabet = "ABCDEFGHIJKLMNOPRSTUVWZ".split("");
+            const container = document.getElementById('alphabet-buttons');
+            container.innerHTML = "";
+            
+            alphabet.forEach(letter => {
+                const btn = document.createElement('button');
+                btn.className = "alphabet-btn px-2.5 py-1 text-xs font-bold rounded-md bg-heritage-200 hover:bg-heritage-300 text-heritage-800 transition";
+                btn.innerText = letter;
+                btn.onclick = () => filterByAlphabet(letter);
+                container.appendChild(btn);
+            });
+        }
+
+        // Populate Popular words grid in Beranda
+        function populatePopularWords() {
+            const grid = document.getElementById('popular-words-grid');
+            grid.innerHTML = "";
+            
+            const populars = banyumasVocabulary.slice(0, 5);
+            populars.forEach(item => {
+                const card = document.createElement('button');
+                card.onclick = () => {
+                    switchTab('kamus');
+                    showWordDetails(item.word);
+                };
+                card.className = "bg-heritage-50 hover:bg-heritage-200 p-4 rounded-xl border border-heritage-300 shadow-sm transition duration-150 text-left space-y-2 group";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-heritage-500 uppercase">${item.type}</span>
+                        <span class="text-xs group-hover:translate-x-0.5 transition-transform">➔</span>
+                    </div>
+                    <h4 class="font-serif font-bold text-lg text-heritage-900">${item.word}</h4>
+                    <p class="text-xs text-heritage-600 line-clamp-1">${item.indo}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Dictionary items based on Search box & select category & alphabetical buttons
+        let activeAlphabet = "all";
+        function filterByAlphabet(letter) {
+            activeAlphabet = letter;
+            document.querySelectorAll('.alphabet-btn').forEach(btn => {
+                btn.className = "alphabet-btn px-2.5 py-1 text-xs font-bold rounded-md bg-heritage-200 hover:bg-heritage-300 text-heritage-800 transition";
+            });
+            event.target.className = "alphabet-btn px-2.5 py-1 text-xs font-bold rounded-md bg-heritage-900 text-heritage-100 transition";
+            filterDictionary();
+        }
+
+        function filterDictionary() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const classFilter = document.getElementById('filter-type').value;
+            const container = document.getElementById('dictionary-list');
+            container.innerHTML = "";
+
+            let filtered = banyumasVocabulary;
+
+            if (query) {
+                filtered = filtered.filter(item => 
+                    item.word.toLowerCase().includes(query) || 
+                    item.indo.toLowerCase().includes(query)
+                );
+            }
+
+            if (classFilter !== 'all') {
+                filtered = filtered.filter(item => item.type === classFilter);
+            }
+
+            if (activeAlphabet !== 'all') {
+                filtered = filtered.filter(item => item.word.toLowerCase().startsWith(activeAlphabet.toLowerCase()));
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.onclick = () => showWordDetails(item.word);
+                card.className = "bg-heritage-100 hover:bg-heritage-200/80 p-5 rounded-2xl border border-heritage-300 shadow-sm cursor-pointer transition duration-150 text-left flex flex-col justify-between space-y-3";
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[9px] font-extrabold uppercase bg-heritage-300 text-heritage-800 px-2 py-0.5 rounded-md">${item.type}</span>
+                        </div>
+                        <h4 class="font-serif text-2xl font-extrabold text-heritage-900">${item.word}</h4>
+                        <p class="text-xs text-heritage-700 font-semibold">${item.indo}</p>
+                    </div>
+                    <div class="text-[10px] text-heritage-500 italic border-t border-heritage-200 pt-2 line-clamp-1">
+                        "${item.sentence}"
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            document.getElementById('results-count').innerText = `Menampilkan ${filtered.length} Kata`;
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-heritage-400">
+                        <p class="text-sm font-semibold">Kosakata tidak ditemukan</p>
+                        <p class="text-xs mt-1">Coba sesuaikan filter pencarian atau ketik kata alternatif.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Show Word Detail Panel (Luring)
+        function showWordDetails(wordName) {
+            const item = banyumasVocabulary.find(v => v.word.toLowerCase() === wordName.toLowerCase());
+            if (!item) return;
+
+            selectedWordForDetails = item;
+            const panel = document.getElementById('details-panel');
+            
+            panel.innerHTML = `
+                <div class="space-y-4 animate-fadeIn">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-extrabold uppercase bg-heritage-900 text-heritage-100 px-2.5 py-1 rounded-md">${item.type}</span>
+                        <button onclick="bookmarkWord('${item.word}')" class="text-heritage-500 hover:text-heritage-800 p-1 rounded-lg border border-heritage-300 hover:bg-heritage-200 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h3 class="font-serif text-3xl font-extrabold text-heritage-900">${item.word}</h3>
+                        <p class="text-sm font-semibold text-heritage-700">${item.indo}</p>
+                    </div>
+
+                    <div class="bg-heritage-50 p-4 rounded-xl border border-heritage-200 space-y-2">
+                        <p class="text-xs font-bold text-heritage-600 uppercase tracking-wide">Contoh Kalimat & Terjemahan:</p>
+                        <p class="text-sm italic font-semibold text-heritage-900">"${item.sentence}"</p>
+                        <p class="text-xs text-heritage-700">Artinya: "${item.sentenceIndo}"</p>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <p class="text-xs font-bold text-heritage-600 uppercase tracking-wide">Catatan Kultural:</p>
+                        <p class="text-xs text-heritage-700 leading-relaxed">${item.note}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Bookmark word helper
+        function bookmarkWord(wordName) {
+            showToast(`Kata "${wordName}" berhasil ditambahkan ke daftar favorit!`, "success");
+        }
+
+        // BI-DIRECTIONAL OFFLINE TRANSLATION LOGIC
+        let isIndoToBanyumas = true;
+
+        function swapLanguages() {
+            isIndoToBanyumas = !isIndoToBanyumas;
+            const srcLabel = document.getElementById('src-lang-label');
+            const destLabel = document.getElementById('dest-lang-label');
+
+            if (isIndoToBanyumas) {
+                srcLabel.innerText = "Bahasa Indonesia";
+                destLabel.innerText = "Bahasa Jawa Banyumasan (Ngapak)";
+                document.getElementById('translate-input').placeholder = "Ketik kata atau kalimat di sini...";
+            } else {
+                srcLabel.innerText = "Bahasa Jawa Banyumasan (Ngapak)";
+                destLabel.innerText = "Bahasa Indonesia";
+                document.getElementById('translate-input').placeholder = "Ketik ukara utawa kalimat Ngapak nang kene...";
+            }
+        }
+
+        function runAiTranslation() {
+            const text = document.getElementById('translate-input').value.trim();
+            if (!text) {
+                showToast("Ketik kalimat yang ingin diterjemahkan!", "error");
+                return;
+            }
+
+            const outputContainer = document.getElementById('translate-output-container');
+            
+            // Perform clean offline word-by-word/phrase translation
+            let words = text.split(/\s+/);
+            let translatedWords = [];
+
+            for (let word of words) {
+                // Remove punctuation for lookup
+                let cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").toLowerCase();
+                let foundMatch = null;
+
+                if (isIndoToBanyumas) {
+                    // Match Indo -> Banyumasan
+                    foundMatch = banyumasVocabulary.find(v => {
+                        let indos = v.indo.toLowerCase().split(/[\/,]/).map(s => s.trim());
+                        return indos.includes(cleanWord);
+                    });
+                    if (foundMatch) {
+                        let translated = foundMatch.word;
+                        if (word[0] === word[0].toUpperCase()) {
+                            translated = translated[0].toUpperCase() + translated.slice(1);
+                        }
+                        translatedWords.push(translated);
+                    } else {
+                        translatedWords.push(word);
+                    }
+                } else {
+                    // Match Banyumasan -> Indo
+                    foundMatch = banyumasVocabulary.find(v => v.word.toLowerCase() === cleanWord);
+                    if (foundMatch) {
+                        let translated = foundMatch.indo.split(/[\/,]/)[0].trim();
+                        if (word[0] === word[0].toUpperCase()) {
+                            translated = translated[0].toUpperCase() + translated.slice(1);
+                        }
+                        translatedWords.push(translated);
+                    } else {
+                        translatedWords.push(word);
+                    }
+                }
+            }
+
+            let result = translatedWords.join(" ");
+            outputContainer.innerHTML = `<p class="text-heritage-900 font-semibold">${result}</p>
+            <p class="text-[11px] text-heritage-500 mt-4 italic border-t border-heritage-200 pt-2">*Penerjemah berjalan dalam mode luring (offline) dengan mencocokkan kosakata dasar yang tersedia pada pangkalan data kamus.</p>`;
+        }
+
+        // Copy Translated Text to Clipboard
+        function copyTranslation() {
+            const out = document.getElementById('translate-output-container').innerText;
+            if (out && !out.includes("Hasil terjemahan luring")) {
+                const dummy = document.createElement("textarea");
+                document.body.appendChild(dummy);
+                dummy.value = out;
+                dummy.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummy);
+                showToast("Terjemahan disalin ke papan klip!", "success");
+            } else {
+                showToast("Tidak ada hasil terjemahan yang dapat disalin.", "error");
+            }
+        }
+
+        // FLASHCARD FUNCTIONALITY
+        function updateFlashcardUI() {
+            const item = banyumasVocabulary[currentFlashcardIndex];
+            if (!item) return;
+
+            const cardBox = document.getElementById('flashcard-box');
+            cardBox.style.transform = "rotateY(0deg)";
+
+            document.getElementById('card-ngapak-word').innerText = item.word;
+            document.getElementById('card-word-type').innerText = item.type;
+            document.getElementById('card-indo-meaning').innerText = item.indo;
+            document.getElementById('card-example-sentence').innerText = `"${item.sentence}" \n→ Artinya: ${item.sentenceIndo}`;
+            document.getElementById('flashcard-counter').innerText = `${currentFlashcardIndex + 1} dari ${banyumasVocabulary.length}`;
+        }
+
+        function flipFlashcard() {
+            const cardBox = document.getElementById('flashcard-box');
+            if (cardBox.style.transform === "rotateY(180deg)") {
+                cardBox.style.transform = "rotateY(0deg)";
+            } else {
+                cardBox.style.transform = "rotateY(180deg)";
+            }
+        }
+
+        function nextFlashcard() {
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % banyumasVocabulary.length;
+            updateFlashcardUI();
+        }
+
+        function prevFlashcard() {
+            currentFlashcardIndex = (currentFlashcardIndex - 1 + banyumasVocabulary.length) % banyumasVocabulary.length;
+            updateFlashcardUI();
+        }
+
+        // INTERACTIVE QUIZ ENGINE
+        function startQuiz(mode) {
+            document.getElementById('quiz-setup-screen').classList.add('hidden');
+            document.getElementById('quiz-active-screen').classList.remove('hidden');
+            document.getElementById('quiz-results-screen').classList.add('hidden');
+            
+            quizScore = 0;
+            currentQuizIndex = 0;
+            document.getElementById('quiz-score-badge').innerText = `Skor: 0`;
+
+            if (mode === 'classic') {
+                document.getElementById('quiz-mode-label').innerText = "KUIS KLASIK NGAPAK";
+                generateClassicQuestions();
+                showQuizQuestion();
+            }
+        }
+
+        // Generate 5 random questions from our offline high fidelity list
+        function generateClassicQuestions() {
+            quizQuestions = [];
+            const tempVocab = [...banyumasVocabulary];
+            
+            for (let i = 0; i < 5; i++) {
+                if (tempVocab.length === 0) break;
+                const randomIndex = Math.floor(Math.random() * tempVocab.length);
+                const wordItem = tempVocab.splice(randomIndex, 1)[0];
+                
+                const otherAnswers = banyumasVocabulary
+                    .filter(v => v.word !== wordItem.word)
+                    .map(v => v.indo);
+                const shuffledFalses = otherAnswers.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                const options = [wordItem.indo, ...shuffledFalses].sort(() => 0.5 - Math.random());
+                
+                quizQuestions.push({
+                    question: `Apakah arti dari kata "${wordItem.word}" dalam Bahasa Indonesia?`,
+                    correct: wordItem.indo,
+                    options: options,
+                    explanation: `Kata "${wordItem.word}" artinya adalah "${wordItem.indo}". Contoh kalimat: "${wordItem.sentence}"`
+                });
+            }
+        }
+
+        function showQuizQuestion() {
+            const currentQ = quizQuestions[currentQuizIndex];
+            if (!currentQ) return;
+
+            document.getElementById('quiz-progress').innerText = `Pertanyaan ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-question-text').innerText = currentQ.question;
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = "";
+
+            currentQ.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.onclick = () => submitQuizAnswer(opt);
+                btn.className = "quiz-option-btn w-full text-left bg-heritage-50 hover:bg-heritage-200 border border-heritage-300 p-4 rounded-xl text-xs font-semibold text-heritage-800 transition duration-150 flex items-center justify-between";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="opacity-0">✓</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function submitQuizAnswer(selectedOption) {
+            const currentQ = quizQuestions[currentQuizIndex];
+            if (!currentQ) return;
+
+            const buttons = document.querySelectorAll('.quiz-option-btn');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                const spanText = btn.querySelector('span').innerText;
+                
+                if (spanText === currentQ.correct) {
+                    btn.className = "quiz-option-btn w-full text-left bg-emerald-100 border border-emerald-400 p-4 rounded-xl text-xs font-extrabold text-emerald-800 flex items-center justify-between";
+                    btn.innerHTML += `<span class="text-emerald-600">✓ Benar</span>`;
+                } else if (spanText === selectedOption) {
+                    btn.className = "quiz-option-btn w-full text-left bg-rose-100 border border-rose-400 p-4 rounded-xl text-xs font-extrabold text-rose-800 flex items-center justify-between";
+                    btn.innerHTML += `<span class="text-rose-600">✗ Salah</span>`;
+                }
+            });
+
+            const isCorrect = (selectedOption === currentQ.correct);
+            if (isCorrect) {
+                quizScore += 20;
+                document.getElementById('quiz-score-badge').innerText = `Skor: ${quizScore}`;
+            }
+
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            const feedbackTitle = document.getElementById('quiz-feedback-title');
+            const feedbackDesc = document.getElementById('quiz-feedback-desc');
+
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-xl border bg-emerald-50 border-emerald-200 flex flex-col space-y-2 text-emerald-900";
+                feedbackTitle.innerText = "🎉 Jawaban Anda Benar!";
+            } else {
+                feedbackBox.className = "p-4 rounded-xl border bg-rose-50 border-rose-200 flex flex-col space-y-2 text-rose-900";
+                feedbackTitle.innerText = `😔 Kurang Tepat! (Jawaban Benar: ${currentQ.correct})`;
+            }
+            feedbackDesc.innerText = currentQ.explanation;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                showQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-active-screen').classList.add('hidden');
+            document.getElementById('quiz-results-screen').classList.remove('hidden');
+
+            document.getElementById('final-score-text').innerText = quizScore;
+            
+            let evalComment = "Coba lagi ya! Sering-seringlah membuka kamus luring ini.";
+            if (quizScore === 100) {
+                evalComment = "Luar biasa, Blakasuta sejati! Kamu menguasai dialek Banyumasan dengan sangat fasih!";
+            } else if (quizScore >= 60) {
+                evalComment = "Kerja bagus! Kamu memahami banyak kosakata Ngapak dengan cukup baik.";
+            }
+
+            document.getElementById('quiz-evaluation-comment').innerText = evalComment;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-results-screen').classList.add('hidden');
+            document.getElementById('quiz-setup-screen').classList.remove('hidden');
         }
     </script>
 </body>
